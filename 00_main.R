@@ -30,7 +30,7 @@ data.unemp <- read.csv2(file = "input/unemp.csv", sep = ",", check.names = F)
 data.euribor <- Quandl("BOF/QS_D_IEUTIO3M")
 
 # electronic payments
-data.electronic.payments <- read.csv2(file = "input/electronic_payments.csv", sep = ";", check.names = F)
+data.payments <- read.csv2(file = "input/payments.csv", sep = ";", check.names = F)
 
 # alcohol consumption
 data.alcohol.consumption <- read.csv2(file = "input/alcohol_consumption.csv", sep = ",", check.names = F)
@@ -94,6 +94,44 @@ data.cpi <- dcast(data.cpi, date ~ variable)
 names(data.cpi)[names(data.cpi) == 'VARTOJIMO PREKĖS IR PASLAUGOS'] <- 'cpi'
 names(data.cpi)[names(data.cpi) == 'ALKOHOLINIAI GĖRIMAI, TABAKAS IR NARKOTIKAI'] <- 'cpi.alcohol'
 
+payments_out_number <- 'MSS.Q.F020.I00A.Z00Z.NT.10.200.000.Z.A0000.SR'
+payments_out_value <- 'MSS.Q.F020.I00A.Z00Z.VT.10.200.000.E.A0000.SR'
+payments_in_number <- 'MSS.Q.F030.I00A.Z00Z.NT.90.200.000.Z.A0000.SR'
+payments_in_value <- 'MSS.Q.F030.I00A.Z00Z.VT.90.200.000.E.A0000.SR'
+cash_out_atm_number <- 'MSS.Q.F120.I10.I111.NT.10.200.000.Z.A0000.SR'
+cash_out_atm_value <- 'MSS.Q.F120.I10.I111.VT.10.200.000.E.A0000.SR'
+cash_in_atm_number <- 'MSS.Q.F120.I10.I110.NT.10.200.000.Z.A0000.SR'
+cash_in_atm_value <- 'MSS.Q.F120.I10.I110.VT.10.200.000.E.A0000.SR'
+cash_out_branch_number <- 'MSS.Q.F102.IOT.Y000.NT.X0.200.000.Z.A0000.SR'
+cash_out_branch_value <- 'MSS.Q.F102.IOT.Y000.VT.X0.200.000.E.A0000.SR'
+cash_in_branch_number <- 'MSS.Q.F103.IOT.Y000.NT.X0.200.000.Z.A0000.SR'
+cash_in_branch_value <- 'MSS.Q.F103.IOT.Y000.VT.X0.200.000.E.A0000.SR'
+all.payments.list <- c(payments_out_number, payments_out_value, payments_in_number, payments_in_value, cash_out_atm_number, cash_out_atm_value, cash_in_atm_number, cash_in_atm_value, cash_out_branch_number, cash_out_branch_value, cash_in_branch_number, cash_in_branch_value)
+data.payments <- data.payments[data.payments$code %in% c(all.payments.list),]
+data.payments[data.payments$code == payments_out_number,'variable'] <- 'payments_out_number'
+data.payments[data.payments$code == payments_out_value,'variable'] <- 'payments_out_value'
+data.payments[data.payments$code == payments_in_number,'variable'] <- 'payments_in_number'
+data.payments[data.payments$code == payments_in_value,'variable'] <- 'payments_in_value'
+data.payments[data.payments$code == cash_out_atm_number,'variable'] <- 'cash_out_atm_number'
+data.payments[data.payments$code == cash_out_atm_value,'variable'] <- 'cash_out_atm_value'
+data.payments[data.payments$code == cash_in_atm_number,'variable'] <- 'cash_in_atm_number'
+data.payments[data.payments$code == cash_in_atm_value,'variable'] <- 'cash_in_atm_value'
+data.payments[data.payments$code == cash_out_branch_number,'variable'] <- 'cash_out_branch_number'
+data.payments[data.payments$code == cash_out_branch_value,'variable'] <- 'cash_out_branch_value'
+data.payments[data.payments$code == cash_in_branch_number,'variable'] <- 'cash_in_branch_number'
+data.payments[data.payments$code == cash_in_branch_value,'variable'] <- 'cash_in_branch_value'
+data.payments <- arrange(data.payments[,names(data.payments) %in% c('date', 'value', 'variable')], date)
+data.payments <- dcast(data.payments, date ~ variable)
+
+names(data.emigrants)[names(data.emigrants) %in% c('Laikotarpis', 'Rodiklis', 'Reikšmė')] <- c('date', 'variable', 'value')
+data.emigrants <- arrange(data.emigrants[,names(data.emigrants) %in% c('date', 'variable', 'value')], date)
+data.emigrants <- dcast(data.emigrants, date ~ variable)
+names(data.emigrants)[names(data.emigrants) == 'Mėnesinis emigrantų skaičius'] <- 'emigrants'
+
+names(data.euribor)[names(data.euribor) == 'Value'] <- 'euribor'
+
+
+
 
 
 
@@ -102,7 +140,6 @@ names(data.cpi)[names(data.cpi) == 'ALKOHOLINIAI GĖRIMAI, TABAKAS IR NARKOTIKAI
 # PLOTS---------------------------------------------------------------------
 
 # OUTPUT -----------------------------------------------------------------------
-
 
 
 
