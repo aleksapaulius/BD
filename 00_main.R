@@ -5,62 +5,63 @@ library("Quandl")
 library("readxl")
 library("dplyr")
 library("reshape2")
+library("tempdisagg")
 
 # INPUT ------------------------------------------------------------------------
 
-options(stringsAsFactors = F)
+options(stringsAsFactors = F, check.names = F)
 
 # pinigu statistika (grynieji pinigai, indeliai)
-data.pinigu.statistika <- read_excel("input/pinigu_statistika.xlsx")
+data.money <- read_excel("input/pinigu_statistika.xlsx")
 
 # tax
-data.tax <- read.csv2(file = "input/tax.csv", sep = ",", check.names = F)
+data.tax <- read.csv2(file = "input/tax.csv", sep = ",")
 
 # cpi
-data.cpi <- read.csv2(file = "input/cpi.csv", sep = ",", check.names = F)
+data.cpi <- read.csv2(file = "input/cpi.csv", sep = ",")
 
 # economic regulation
-data.regulation1 <- read.csv2(file = "input/vt_istaigu_vadovai.csv", sep = ",", check.names = F)
-data.regulation2 <- read.csv2(file = "input/instituciju_skaicius.csv", sep = ",", check.names = F)
+data.regulation1 <- read.csv2(file = "input/vt_istaigu_vadovai.csv", sep = ",")
+data.regulation2 <- read.csv2(file = "input/instituciju_skaicius.csv", sep = ",")
 
 # unemployment
-data.unemp <- read.csv2(file = "input/unemp.csv", sep = ",", check.names = F)
+data.unemp <- read.csv2(file = "input/unemp.csv", sep = ",")
 
 # interest rate | euribor 3M rates: https://www.quandl.com/data/BOF/QS_D_IEUTIO3M-EURIBOR-3-Months-Daily
 data.euribor <- Quandl("BOF/QS_D_IEUTIO3M")
 
 # electronic payments
-data.payments <- read.csv2(file = "input/payments.csv", sep = ";", check.names = F)
+data.payments <- read.csv2(file = "input/payments.csv", sep = ";")
 
 # alcohol consumption
-data.alcohol.consumption <- read.csv2(file = "input/alcohol_consumption.csv", sep = ",", check.names = F)
+data.alcohol.consumption <- read.csv2(file = "input/alcohol_consumption.csv", sep = ",")
 
 # alcohol price
-data.alcohol.price <- read.csv2(file = "input/alcohol_price.csv", sep = ",", check.names = F)
+data.alcohol.price <- read.csv2(file = "input/alcohol_price.csv", sep = ",")
 
 # bankrupts
-data.bankrupts <- read.csv2(file = "input/bankruptcy.csv", sep = ",", check.names = F)
+data.bankrupts <- read.csv2(file = "input/bankruptcy.csv", sep = ",")
 
 # cards
-data.cards <- read.csv2(file = "input/cards.csv", sep = ";", check.names = F)
+data.cards <- read.csv2(file = "input/cards.csv", sep = ";")
 
 # emigrants
-data.emigrants <- read.csv2(file = "input/emigrants.csv", sep = ",", check.names = F)
+data.emigrants <- read.csv2(file = "input/emigrants.csv", sep = ",")
 
 # loan interest
-data.loan.interest <- read.csv2(file = "input/interest.csv", sep = ";", check.names = F)
+data.loan.interest <- read.csv2(file = "input/interest.csv", sep = ";")
 
 # retail
-data.retail <- read.csv2(file = "input/mazmenine_prekyba.csv", sep = ",", check.names = F)
+data.retail <- read.csv2(file = "input/mazmenine_prekyba.csv", sep = ",")
 
 # minimum wage
-data.wage <- read.csv2(file = "input/minimum_wage.csv", sep = ",", check.names = F)
+data.wage <- read.csv2(file = "input/minimum_wage.csv", sep = ",")
 
 # tourists
-data.tourists <- read.csv2(file = "input/tourists.csv", sep = ",", check.names = F)
+data.tourists <- read.csv2(file = "input/tourists.csv", sep = ",")
 
 # travel_agencies
-data.travel.agencies <- read.csv2(file = "input/travel_agencies.csv", sep = ";", check.names = F)
+data.travel.agencies <- read.csv2(file = "input/travel_agencies.csv", sep = ";")
 
 
 # USER SELECTIONS --------------------------------------------------------------
@@ -122,6 +123,11 @@ data.payments[data.payments$code == cash_in_branch_number,'variable'] <- 'cash_i
 data.payments[data.payments$code == cash_in_branch_value,'variable'] <- 'cash_in_branch_value'
 data.payments <- arrange(data.payments[,names(data.payments) %in% c('date', 'value', 'variable')], date)
 data.payments <- dcast(data.payments, date ~ variable)
+data.payments["cash_in_number"] <- data.payments$cash_in_atm_number + data.payments$cash_in_branch_number
+data.payments["cash_in_value"] <- data.payments$cash_in_atm_value + data.payments$cash_in_branch_value
+data.payments["cash_out_number"] <- data.payments$cash_out_atm_number + data.payments$cash_out_branch_number
+data.payments["cash_out_value"] <- data.payments$cash_out_atm_value + data.payments$cash_out_branch_value
+data.payments <- data.payments[,c("date", "payments_in_number", "payments_in_value", "payments_out_number", "payments_out_value", "cash_in_number", "cash_in_value", "cash_out_number", "cash_out_value")]
 
 names(data.emigrants)[names(data.emigrants) %in% c('Laikotarpis', 'Rodiklis', 'Reikšmė')] <- c('date', 'variable', 'value')
 data.emigrants <- arrange(data.emigrants[,names(data.emigrants) %in% c('date', 'variable', 'value')], date)
@@ -130,7 +136,18 @@ names(data.emigrants)[names(data.emigrants) == 'Mėnesinis emigrantų skaičius'
 
 names(data.euribor)[names(data.euribor) == 'Value'] <- 'euribor'
 
+# data.loan.interest
 
+data.money <- data.money[,c(1,2,3,6,9)]
+names(data.money) <- c("date", "cash", "deposits_1d", "deposits_2m", "deposits_3m")
+data.money <- data.money[8:260,]
+data.money$deposits_3m[data.money$deposits_3m == "…"] <- NA
+data.money$cash <- as.numeric(data.money$cash)
+data.money$deposits_1d <- as.numeric(data.money$deposits_1d)
+data.money$deposits_2m <- as.numeric(data.money$deposits_2m)
+data.money$deposits_3m <- as.numeric(data.money$deposits_3m)
+data.money$deposits_3m[is.na(data.money$deposits_3m)] <- 0
+data.money["deposits"] <- data.money$deposits_1d + data.money$deposits_2m + data.money$deposits_3m
 
 
 
