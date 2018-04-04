@@ -17,7 +17,7 @@ source('00_functions.R')
 options(stringsAsFactors = F, check.names = F)
 
 # pinigu statistika (grynieji pinigai, indeliai)
-data.money <- read_excel("input/pinigu_statistika.xlsx")
+data.money <- read.csv2(file = "input/money.csv", sep = ",", dec = '.')
 
 # tax
 data.tax <- read.csv2(file = "input/tax.csv", sep = ",")
@@ -51,11 +51,11 @@ data.cards <- read.csv2(file = "input/cards.csv", sep = ";")
 data.emigrants <- read.csv2(file = "input/emigrants.csv", sep = ",")
 
 # loans and deposits
-data.loans.deposits2015 <- read.csv2(file = "input/loans_deposits_2015_2017.csv", sep = ";")
-data.deposits1999 <- read.csv2(file = "input/deposits_1999_2004.csv", sep = ",")
-data.deposits2004 <- read.csv2(file = "input/deposits_2004_2014.csv", sep = ",")
-data.loans1999 <- read.csv2(file = "input/loans_1999_2004.csv", sep = ",")
-data.loans2004 <- read.csv2(file = "input/loans_2004_2014.csv", sep = ",")
+data.loans.deposits2015 <- read.csv2(file = "input/loans_deposits_2015_2017.csv", sep = ";", dec = '.')
+data.deposits1999 <- read.csv2(file = "input/deposits_1999_2004.csv", sep = ",", dec = '.')
+data.deposits2005 <- read.csv2(file = "input/deposits_2005_2014.csv", sep = ",", dec = '.')
+data.loans1999 <- read.csv2(file = "input/loans_1999_2004.csv", sep = ",", dec = '.')
+data.loans2005 <- read.csv2(file = "input/loans_2005_2014.csv", sep = ",", dec = '.')
 
 # retail
 data.retail <- read.csv2(file = "input/mazmenine_prekyba.csv", sep = ",")
@@ -72,34 +72,30 @@ data.travel.agencies <- read.csv2(file = "input/travel_agencies.csv", sep = ",")
 
 # USER SELECTIONS --------------------------------------------------------------
 
-all.data.list <- list(
-  data.alcohol.consumption,
-  data.alcohol.price,
-  data.bankrupts,
-  data.cards,
-  data.cpi,
-  data.payments,
-  data.emigrants,
-  data.loans.deposits2015,
-  data.deposits1999,
-  data.deposits2004,
-  data.loans1999,
-  data.loans2004,
-  data.money,
-  data.regulation,
-  data.retail,
-  data.tax,
-  data.tourists,
-  data.travel.agencies,
-  data.unemp,
-  data.wage
-)
-
 
 # DATA MANIPULATION ------------------------------------------------------------
 
 ### cleaning imported data
 source('01_data_cleaning.R')
+
+# combine all data tables into a list
+all.data.list <- list(
+  data.money,
+  data.tax,
+  data.cpi,
+  data.regulation,
+  data.unemp,
+  data.payments,
+  data.alcohol.consumption,
+  data.alcohol.price,
+  data.bankrupts,
+  data.cards,
+  data.emigrants,
+  data.loans.deposits,
+  data.retail,
+  data.wage,
+  data.travel
+)
 
 ### checking date scales
 all.variables.desc <- frequency.desc(all.data.list)
@@ -107,10 +103,8 @@ table(all.variables.desc$frequency_name)
 
 # unify date format
 
-today <- Sys.Date()
-format(today, format="%Y %m")
 
-format(all.variables.desc$min_date[11], format="%Y %m")
+all.variables.desc$min_date[11]
 
 
 # MODEL ------------------------------------------------------------------------
