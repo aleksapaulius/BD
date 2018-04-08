@@ -6,7 +6,7 @@
 frequency.desc <- function(xlist){
   xlist <<- xlist
   
-  freq.temp <- data.frame(freq=c(1,2,4,12,52), frequency_name=c('yearly', 'seasonal', 'quarterly', 'monthly', 'weekly'), stringsAsFactors=FALSE)
+  freq.temp <- data.frame(freq=c(1,2,4,12,52), frequency_name=c('yearly', 'semiannual', 'quarterly', 'monthly', 'weekly'), stringsAsFactors=FALSE)
   
   all.variables.desc <- data.frame(variable=character(),
                                    min_date=character(),

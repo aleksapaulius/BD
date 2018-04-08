@@ -2,12 +2,14 @@
 
 # Loading Packages -------------------------------------------------------------
 
-library("Quandl")
-library("readxl")
-library("dplyr")
-library("reshape2")
-library("tempdisagg")
+library('Quandl')
+library('readxl')
+library('dplyr')
+library('reshape2')
+library('tempdisagg')
 library('zoo')
+library('ggplot2')
+library('forcats')
 
 source('00_functions.R')
 
@@ -97,14 +99,50 @@ all.data.list <- list(
   data.travel
 )
 
-### checking date scales
+# checking date scales
 all.variables.desc <- frequency.desc(all.data.list)
 table(all.variables.desc$frequency_name)
 
-# unify date format
+# kokius duomenis turim?
+all.variables.dates <- all.variables.desc[,c("variable", "min_date", "max_date", "frequency_name")]
+all.variables.dates$min_date <- substr(all.variables.dates$min_date, 1, 4)
+all.variables.dates$max_date <- substr(all.variables.dates$max_date, 1, 4)
+all.variables.dates <- melt(all.variables.dates, id=c("variable","frequency_name"))
+
+pdf(file="plots/Turimi duomenys.pdf",width = 14, height = 8)
+ggplot(all.variables.dates, aes(x = value, y = variable, group = variable)) +
+  geom_point(aes(colour = frequency_name)) + geom_line(aes(colour = frequency_name)) +
+  ggtitle("Turimi duomenys") +
+  labs(x = 'Metai', y = 'Duomuo', color = "")
+dev.off()
 
 
-all.variables.desc$min_date[11]
+# DESCRIPTIVE STATISTICS
+
+
+
+# DATA DISAGGREGATION
+
+# quarterly -> monthly
+"payments_out_number"
+"payments_out_value"
+"payments_in_number"
+"payments_in_value"
+"cash_out_number"    
+"cash_out_value"
+"cash_in_number"
+"cash_in_value"
+"credit_cards"
+"debit_cards"
+
+
+
+
+# semiannual -> monthly
+
+# yearly -> monthly
+
+
 
 
 # MODEL ------------------------------------------------------------------------
