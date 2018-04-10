@@ -4,6 +4,24 @@
 # data.money
 data.money["deposits"] <- data.money$deposits_1d + data.money$deposits_2m + data.money$deposits_3m
 data.money <- data.money[,c('date', 'cash', 'deposits')] %>% arrange(date)
+data.money$cash <- data.money$cash / 3.4528
+data.money$deposits <- data.money$deposits / 3.4528
+cash <- 'BPS.M.L10.X.1.10.300.000.LT.N.PA___.E.SR'
+deposits_1d	<- 'BPS.M.L21.A.1.U2.300.000.LT.N.P____.E.SR'
+deposits_2m	<- 'BPS.M.L22.K.1.U2.300.000.LT.N.P____.E.SR'
+deposits_3m <- 'BPS.M.L23.G.1.U2.300.000.LT.N.P____.E.SR'
+data.money2015 <- data.money2015[data.money2015$code %in% c(cash, deposits_1d, deposits_2m, deposits_3m),]
+data.money2015[data.money2015$code == cash,'variable'] <- 'cash'
+data.money2015[data.money2015$code == deposits_1d,'variable'] <- 'deposits_1d'
+data.money2015[data.money2015$code == deposits_2m,'variable'] <- 'deposits_2m'
+data.money2015[data.money2015$code == deposits_3m,'variable'] <- 'deposits_3m'
+data.money2015 <- data.money2015[,names(data.money2015) %in% c('date', 'value', 'variable')] %>% arrange(date)
+data.money2015 <- dcast(data.money2015, date ~ variable)
+data.money2015$date <- gsub('-', ' ', data.money2015$date)
+data.money2015["deposits"] <- data.money2015$deposits_1d + data.money2015$deposits_2m + data.money2015$deposits_3m
+data.money2015 <- data.money2015[,c('date', 'cash', 'deposits')] %>% arrange(date)
+data.money <- rbind(data.money, data.money2015) %>% arrange(date)
+data.money <- rbind(data.money, data.money2015) %>% arrange(date)
 
 # tax
 data.tax <- dcast(data.tax, Laikotarpis ~ Mokėtojai + Mokesčiai, value.var = 'Reikšmė')
@@ -160,7 +178,6 @@ data.tourists <- data.tourists[,names(data.tourists) %in% c('date', 'outgoing_to
 names(data.travel.agencies)[names(data.travel.agencies) == "Laikotarpis"] <- "date"
 names(data.travel.agencies)[names(data.travel.agencies) == "Reikšmė"] <- "travel_agencies"
 data.travel.agencies <- data.travel.agencies[,names(data.travel.agencies) %in% c('date', 'travel_agencies')] %>% arrange(date)
-
 data.travel <- merge(data.tourists, data.travel.agencies)
 
 

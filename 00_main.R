@@ -20,6 +20,7 @@ options(stringsAsFactors = F, check.names = F)
 
 # pinigu statistika (grynieji pinigai, indeliai)
 data.money <- read.csv2(file = "input/money.csv", sep = ",", dec = '.')
+data.money2015 <- read.csv2(file = "input/money_2015.csv", sep = ";", dec = '.')
 
 # tax
 data.tax <- read.csv2(file = "input/tax.csv", sep = ",")
@@ -124,17 +125,22 @@ dev.off()
 # DATA DISAGGREGATION
 
 # quarterly -> monthly
-"payments_out_number"
-"payments_out_value"
-"payments_in_number"
-"payments_in_value"
-"cash_out_number"    
-"cash_out_value"
-"cash_in_number"
-"cash_in_value"
-"credit_cards"
-"debit_cards"
+# "payments_out_number"
+# "payments_out_value"
+# "payments_in_number"
+# "payments_in_value"
+# "cash_out_number"    
+# "cash_out_value"
+# "cash_in_number"
+# "cash_in_value"
+# "credit_cards"
+# "debit_cards"
 
+# no indicator (Denton-Cholette) 
+payments_in_number.q <- ts(data.payments$payments_in_number, start = c(2006, 1), frequency = 4)
+mod1 <- td(payments_in_number.q ~ 1, to = "monthly", method = "denton-cholette")
+plot(mod1)
+plot(predict(mod1))  
 
 
 
