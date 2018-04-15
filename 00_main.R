@@ -2,7 +2,6 @@
 
 # Loading Packages -------------------------------------------------------------
 
-library('Quandl')
 library('readxl')
 library('dplyr')
 library('reshape2')
@@ -18,70 +17,72 @@ source('00_functions.R')
 
 options(stringsAsFactors = F, check.names = F)
 
-# pinigu statistika (grynieji pinigai, indeliai)
+## pinigu statistika (grynieji pinigai, indeliai)
 data.money <- read.csv2(file = "input/money.csv", sep = ",", dec = '.')
 data.money2015 <- read.csv2(file = "input/money_2015.csv", sep = ";", dec = '.')
 
-# tax
+## tax
 data.tax <- read.csv2(file = "input/tax.csv", sep = ",")
 
-# cpi
+## cpi
 data.cpi <- read.csv2(file = "input/cpi.csv", sep = ",")
 
-# economic regulation
+## economic regulation
 data.regulation1 <- read.csv2(file = "input/vt_istaigu_vadovai.csv", sep = ",")
 data.regulation2 <- read.csv2(file = "input/instituciju_skaicius.csv", sep = ",")
 
-# unemployment
+## unemployment
 data.unemp <- read.csv2(file = "input/unemp.csv", sep = ",")
 
-# electronic payments
+## electronic payments
 data.payments <- read.csv2(file = "input/payments.csv", sep = ";")
 
-# alcohol consumption
+## alcohol consumption
 data.alcohol.consumption <- read.csv2(file = "input/alcohol_consumption.csv", sep = ",")
 
-# alcohol price
+## alcohol price
 data.alcohol.price <- read.csv2(file = "input/alcohol_price.csv", sep = ",")
 
-# bankrupts
+## bankrupts
 data.bankrupts <- read.csv2(file = "input/bankruptcy.csv", sep = ",")
 
-# cards
+## cards
 data.cards <- read.csv2(file = "input/cards.csv", sep = ";")
 
-# emigrants
+## emigrants
 data.emigrants <- read.csv2(file = "input/emigrants.csv", sep = ",")
 
-# loans and deposits
+## loans and deposits
 data.loans.deposits2015 <- read.csv2(file = "input/loans_deposits_2015_2017.csv", sep = ";", dec = '.')
 data.deposits1999 <- read.csv2(file = "input/deposits_1999_2004.csv", sep = ",", dec = '.')
 data.deposits2005 <- read.csv2(file = "input/deposits_2005_2014.csv", sep = ",", dec = '.')
 data.loans1999 <- read.csv2(file = "input/loans_1999_2004.csv", sep = ",", dec = '.')
 data.loans2005 <- read.csv2(file = "input/loans_2005_2014.csv", sep = ",", dec = '.')
 
-# retail
+## retail
 data.retail <- read.csv2(file = "input/mazmenine_prekyba.csv", sep = ",")
 
-# minimum wage
+## minimum wage
 data.wage <- read.csv2(file = "input/minimum_wage.csv", sep = ",")
 
-# tourists
+## tourists
 data.tourists <- read.csv2(file = "input/tourists.csv", sep = ",")
 
-# travel_agencies
+## travel_agencies
 data.travel.agencies <- read.csv2(file = "input/travel_agencies.csv", sep = ",")
 
 
 # USER SELECTIONS --------------------------------------------------------------
 
+modeling.period <- 2006:2018
 
-# DATA MANIPULATION ------------------------------------------------------------
 
-### cleaning imported data
+# DESCRIPTIVE STATISTICS -------------------------------------------------------
+
+## cleaning imported data
 source('01_data_cleaning.R')
 
-# combine all data tables into a list
+## combine all data tables into a list
 all.data.list <- list(
   data.money,
   data.tax,
@@ -100,11 +101,11 @@ all.data.list <- list(
   data.travel
 )
 
-# checking date scales
+## checking date scales
 all.variables.desc <- frequency.desc(all.data.list)
 table(all.variables.desc$frequency_name)
 
-# kokius duomenis turim?
+## kokius duomenis turim?
 all.variables.dates <- all.variables.desc[,c("variable", "min_date", "max_date", "frequency_name")]
 all.variables.dates$min_date <- substr(all.variables.dates$min_date, 1, 4)
 all.variables.dates$max_date <- substr(all.variables.dates$max_date, 1, 4)
@@ -115,14 +116,67 @@ ggplot(all.variables.dates, aes(x = value, y = variable, group = variable)) +
   geom_point(aes(colour = frequency_name)) + geom_line(aes(colour = frequency_name)) +
   ggtitle("Turimi duomenys") +
   labs(x = 'Metai', y = 'Duomuo', color = "")
-dev.off()
+dev.off()P
 
 
-# DESCRIPTIVE STATISTICS
+## Duomenu aprasomoji statistika
+
+cash.ts <- ts(data.money$cash, start = c(1993, 12), frequency = 12)
+plot.ts(cash.ts)
+
+
+library(ggplot2)
+theme_set(theme_classic())
+
+# Allow Default X Axis Labels
+ggplot(data.money, aes(x=date)) + 
+  geom_line(aes(y=cash)) + 
+  labs(title="Title", 
+       subtitle="Subtitle", 
+       caption="Caption", 
+       y="cash")
+
+
+ggplot(economics, aes(x=date)) + 
+  geom_line(aes(y=returns_perc)) + 
+  labs(title="Time Series Chart", 
+       subtitle="Returns Percentage from 'Economics' Dataset", 
+       caption="Source: Economics", 
+       y="Returns %")
 
 
 
-# DATA DISAGGREGATION
+## From Timeseries object (ts)
+library(ggfortify)
+# Plot 
+autoplot(cash.ts) + 
+  labs(title="cash.ts") + 
+  theme(plot.title = element_text(hjust=0.5))
+
+
+
+
+# DATA MANIPULATION ------------------------------------------------------------
+
+## Paliekam duomenis tik nuo 2006
+data.money                <- data.money[substr(data.money$date, 1, 4) %in% modeling.period,]
+data.tax                  <- data.tax[substr(data.tax$date, 1, 4) %in% modeling.period,]
+data.cpi                  <- data.cpi[substr(data.cpi$date, 1, 4) %in% modeling.period,]
+data.regulation           <- data.regulation[substr(data.regulation$date, 1, 4) %in% modeling.period,]
+data.unemp                <- data.unemp[substr(data.unemp$date, 1, 4) %in% modeling.period,]
+data.payments             <- data.payments[substr(data.payments$date, 1, 4) %in% modeling.period,]
+data.alcohol.consumption  <- data.alcohol.consumption[substr(data.alcohol.consumption$date, 1, 4) %in% modeling.period,]
+data.alcohol.price        <- data.alcohol.price[substr(data.alcohol.price$date, 1, 4) %in% modeling.period,]
+data.bankrupts            <- data.bankrupts[substr(data.bankrupts$date, 1, 4) %in% modeling.period,]
+data.cards                <- data.cards[substr(data.cards$date, 1, 4) %in% modeling.period,]
+data.emigrants            <- data.emigrants[substr(data.emigrants$date, 1, 4) %in% modeling.period,]
+data.loans.deposits       <- data.loans.deposits[substr(data.loans.deposits$date, 1, 4) %in% modeling.period,]
+data.retail               <- data.retail[substr(data.retail$date, 1, 4) %in% modeling.period,]
+data.wage                 <- data.wage[substr(data.wage$date, 1, 4) %in% modeling.period,]
+data.travel               <- data.travel[substr(data.travel$date, 1, 4) %in% modeling.period,]
+
+
+# DATA DISAGGREGATION ----------------------------------------------------------
 
 # quarterly -> monthly
 # "payments_out_number"
@@ -136,17 +190,22 @@ dev.off()
 # "credit_cards"
 # "debit_cards"
 
-# no indicator (Denton-Cholette) 
+## no indicator (Denton-Cholette) 
 payments_in_number.q <- ts(data.payments$payments_in_number, start = c(2006, 1), frequency = 4)
-mod1 <- td(payments_in_number.q ~ 1, to = "monthly", method = "denton-cholette")
-plot(mod1)
-plot(predict(mod1))  
+
+
+m1 <- td(payments_in_number.q ~ 1, to = "monthly", method = "denton-cholette")
+m2 <- td(payments_in_number.q ~ 1, to = "monthly", method = "chow-lin-maxlog")
+
+
+plot(predict(m1))
+lines(predict(m2), col = 'red')  
 
 
 
-# semiannual -> monthly
+## semiannual -> monthly
 
-# yearly -> monthly
+## yearly -> monthly
 
 
 
