@@ -168,6 +168,7 @@ data.retail$date <- gsub('M', ' ', data.retail$date)
 data.wage <- data.wage[,c('TIME', 'Value')]
 names(data.wage)[names(data.wage) == 'TIME'] <- "date"
 names(data.wage)[names(data.wage) == 'Value'] <- "minimum_wage"
+data.wage$minimum_wage <- as.numeric(data.wage$minimum_wage)
 
 # tourists
 names(data.tourists)[names(data.tourists) == "Laikotarpis"] <- "date"

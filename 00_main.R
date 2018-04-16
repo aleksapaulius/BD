@@ -9,6 +9,9 @@ library('tempdisagg')
 library('zoo')
 library('ggplot2')
 library('forcats')
+library('magrittr')
+library('ggfortify')
+
 
 source('00_functions.R')
 
@@ -102,11 +105,11 @@ all.data.list <- list(
 )
 
 ## checking date scales
-all.variables.desc <- frequency.desc(all.data.list)
-table(all.variables.desc$frequency_name)
+all.variables.stat <- statistics(all.data.list)
+table(all.variables.stat$frequency_name)
 
-## kokius duomenis turim?
-all.variables.dates <- all.variables.desc[,c("variable", "min_date", "max_date", "frequency_name")]
+## kokio laikotarpio duomenis turim?
+all.variables.dates <- all.variables.stat[,c("variable", "min_date", "max_date", "frequency_name")]
 all.variables.dates$min_date <- substr(all.variables.dates$min_date, 1, 4)
 all.variables.dates$max_date <- substr(all.variables.dates$max_date, 1, 4)
 all.variables.dates <- melt(all.variables.dates, id=c("variable","frequency_name"))
@@ -116,42 +119,75 @@ ggplot(all.variables.dates, aes(x = value, y = variable, group = variable)) +
   geom_point(aes(colour = frequency_name)) + geom_line(aes(colour = frequency_name)) +
   ggtitle("Turimi duomenys") +
   labs(x = 'Metai', y = 'Duomuo', color = "")
-dev.off()P
+dev.off()
 
 
 ## Duomenu aprasomoji statistika
 
-cash.ts <- ts(data.money$cash, start = c(1993, 12), frequency = 12)
-plot.ts(cash.ts)
+## pinigu statistika (grynieji pinigai, indeliai)
+autoplot(ts(data.money$cash, start = c(1993, 12), frequency = 12)) + 
+  labs(title="Grynieji pinigai esantys apyvartoje", 
+       subtitle="Likučiai laikotarpio pabaigoje", 
+       caption="Šaltinis: Lietuvos bankas", 
+       y="mln. Eur") +
+  theme(plot.title = element_text(hjust=0.5)) +
+  theme_gray()
+all.variables.stat[all.variables.stat$variable == 'cash',]
+
+autoplot(ts(data.money$deposits, start = c(1993, 12), frequency = 12)) + 
+  labs(title="Indėliai", 
+       subtitle="Likučiai laikotarpio pabaigoje", 
+       caption="Šaltinis: Lietuvos bankas", 
+       y="mln. Eur") +
+  theme(plot.title = element_text(hjust=0.5)) +
+  theme_gray()
+all.variables.stat[all.variables.stat$variable == 'deposits',]
+
+## tax
+autoplot(ts(data.tax$tax_gpm, start = 2007, frequency = 1)) + 
+  labs(title="Grynieji pinigai esantys apyvartoje", 
+       subtitle="Likučiai laikotarpio pabaigoje", 
+       caption="Šaltinis: Lietuvos bankas", 
+       y="mln. Eur") +
+  theme(plot.title = element_text(hjust=0.5)) +
+  theme_gray()
+all.variables.stat[all.variables.stat$variable == 'cash',]
+
+## cpi
+
+## economic regulation
+
+## unemployment
+
+## electronic payments
+
+## alcohol consumption
+
+## alcohol price
+
+## bankrupts
+
+## cards
+
+## emigrants
+
+## loans and deposits
+
+## retail
+
+## minimum wage
+
+## tourists
+
+## travel_agencies
 
 
-library(ggplot2)
-theme_set(theme_classic())
-
-# Allow Default X Axis Labels
-ggplot(data.money, aes(x=date)) + 
-  geom_line(aes(y=cash)) + 
-  labs(title="Title", 
-       subtitle="Subtitle", 
-       caption="Caption", 
-       y="cash")
-
-
-ggplot(economics, aes(x=date)) + 
-  geom_line(aes(y=returns_perc)) + 
-  labs(title="Time Series Chart", 
-       subtitle="Returns Percentage from 'Economics' Dataset", 
-       caption="Source: Economics", 
-       y="Returns %")
 
 
 
-## From Timeseries object (ts)
-library(ggfortify)
-# Plot 
-autoplot(cash.ts) + 
-  labs(title="cash.ts") + 
-  theme(plot.title = element_text(hjust=0.5))
+
+
+
 
 
 
