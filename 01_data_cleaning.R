@@ -21,7 +21,6 @@ data.money2015$date <- gsub('-', ' ', data.money2015$date)
 data.money2015["deposits"] <- data.money2015$deposits_1d + data.money2015$deposits_2m + data.money2015$deposits_3m
 data.money2015 <- data.money2015[,c('date', 'cash', 'deposits')] %>% arrange(date)
 data.money <- rbind(data.money, data.money2015) %>% arrange(date)
-data.money <- rbind(data.money, data.money2015) %>% arrange(date)
 
 # tax
 data.tax <- dcast(data.tax, Laikotarpis ~ Mokėtojai + Mokesčiai, value.var = 'Reikšmė')

@@ -11,6 +11,8 @@ library('ggplot2')
 library('forcats')
 library('magrittr')
 library('ggfortify')
+library('forecast')
+
 
 
 source('00_functions.R')
@@ -136,7 +138,7 @@ all.variables.stat[all.variables.stat$variable == 'cash',]
 
 autoplot(ts(data.money$deposits, start = c(1993, 12), frequency = 12)) + 
   labs(title="Indėliai", 
-       subtitle="Likučiai laikotarpio pabaigoje", 
+       subtitle="Vienadieniai, sutarto iki 2 m. termino ir įspėjamojo iki 3 mėn. laikotarpio indėliai ", 
        caption="Šaltinis: Lietuvos bankas", 
        y="mln. Eur") +
   theme(plot.title = element_text(hjust=0.5)) +
@@ -144,20 +146,83 @@ autoplot(ts(data.money$deposits, start = c(1993, 12), frequency = 12)) +
 all.variables.stat[all.variables.stat$variable == 'deposits',]
 
 ## tax
-autoplot(ts(data.tax$tax_gpm, start = 2007, frequency = 1)) + 
-  labs(title="Grynieji pinigai esantys apyvartoje", 
-       subtitle="Likučiai laikotarpio pabaigoje", 
-       caption="Šaltinis: Lietuvos bankas", 
-       y="mln. Eur") +
-  theme(plot.title = element_text(hjust=0.5)) +
-  theme_gray()
-all.variables.stat[all.variables.stat$variable == 'cash',]
+df <- melt(data.tax, id='date')
+as.Date(as.yearmon(df$date))
+format(as.yearmon(df$date), "%Y %m")
+df$date <- as.Date(as.yearmon(df$date))
+df$value <- df$value / 1000
+brks <- df$date[seq(1, length(df$date), 1)]
+lbls <- lubridate::year(brks)
+ggplot(df, aes(x=date)) + 
+  geom_line(aes(y=value, col=variable)) + 
+  labs(title="Įmonių ir gyventojų sumokėti mokesčiai", 
+       subtitle="Metiniai duomenys", 
+       caption="Šaltinis: Lietuvos statistikos departamentas", 
+       y="mln. Eur",
+       x = 'Metai',
+       color=NULL) +  # title and caption
+  scale_x_date(labels = lbls, breaks = brks) +
+  scale_color_manual(breaks = unique(as.character(df$variable)), 
+                     labels = c("Gyventojų pajamų mokestis", "Akcizai", 'Pelno mokestis', 'Pridėtinės vertės mokestis'),
+                     values = c("tax_gpm" = "#F8766D", "tax_excise" = "#00BFC4", "tax_pelno" = "#7CAE00", "tax_vat" = "#C77CFF")) +
+  theme_grey()
+
 
 ## cpi
+df <- melt(data.cpi, id='date')
+df$date <- as.Date(as.yearmon(df$date, "%Y %m"))
+ggplot(df, aes(x=date)) + 
+  geom_line(aes(y=value, col=variable)) + 
+  labs(title="Suderinti vartotojų kainų indeksai (2015 m. – 100)", 
+       subtitle="Mėnesiniai duomenys", 
+       caption="Šaltinis: Lietuvos statistikos departamentas",
+       x = 'Metai',
+       y = 'Indeksas',
+       color=NULL) +  # title and caption
+  scale_color_manual(breaks = unique(as.character(df$variable)), 
+                     labels = c("ALKOHOLINIAI GĖRIMAI, TABAKAS IR NARKOTIKAI", "VARTOJIMO PREKĖS IR PASLAUGOS"),
+                     values = c("cpi_alcohol" = "#F8766D", "cpi" = "#00BFC4")) +
+  theme_grey()
+
 
 ## economic regulation
+df <- melt(data.regulation, id='date')
+as.Date(as.yearmon(df$date))
+format(as.yearmon(df$date), "%Y %m")
+df$date <- as.Date(as.yearmon(df$date))
+brks <- df$date[seq(1, length(df$date), 1)]
+lbls <- lubridate::year(brks)
+ggplot(df, aes(x=date)) + 
+  geom_line(aes(y=value, col=variable)) + 
+  labs(title="Ekonominis reguliavimas", 
+       subtitle="Metiniai duomenys", 
+       caption="Šaltinis: Valstybės tarnybos departamentas", 
+       y="Vienetai",
+       x = 'Metai',
+       color=NULL) +  # title and caption
+  scale_x_date(labels = lbls, breaks = brks) +
+  scale_color_manual(breaks = unique(as.character(df$variable)), 
+                     labels = c("Užimtų vadovaujamų pareigybių skaičius, sk.", "Valstybės ir savivaldybių institucijų ir įstaigų skaičius, sk."),
+                     values = c("regulation_employees" = "#F8766D", "regulation_institutions" = "#00BFC4")) +
+  theme_grey()
+
 
 ## unemployment
+df <- melt(data.unemp, id='date')
+df$date <- as.Date(as.yearmon(df$date, "%Y %m"))
+ggplot(df, aes(x=date)) + 
+  geom_line(aes(y=value, col=variable)) + 
+  labs(title="Nedarbo lygis, pašalinus sezono įtaką", 
+       subtitle="Mėnesiniai duomenys", 
+       caption="Šaltinis: Lietuvos statistikos departamentas",
+       x = 'Metai',
+       y = 'Proc.',
+       color=NULL) +  # title and caption
+  scale_color_manual(breaks = unique(as.character(df$variable)), 
+                     labels = c("Moterys", "Vyrai"),
+                     values = c("unemp_female" = "#F8766D", "unemp_male" = "#00BFC4")) +
+  theme_grey()
+
 
 ## electronic payments
 
@@ -192,6 +257,10 @@ all.variables.stat[all.variables.stat$variable == 'cash',]
 
 
 
+
+
+
+
 # DATA MANIPULATION ------------------------------------------------------------
 
 ## Paliekam duomenis tik nuo 2006
@@ -210,6 +279,8 @@ data.loans.deposits       <- data.loans.deposits[substr(data.loans.deposits$date
 data.retail               <- data.retail[substr(data.retail$date, 1, 4) %in% modeling.period,]
 data.wage                 <- data.wage[substr(data.wage$date, 1, 4) %in% modeling.period,]
 data.travel               <- data.travel[substr(data.travel$date, 1, 4) %in% modeling.period,]
+
+# CORRELATION ------------------------------------------------------------------
 
 
 # DATA DISAGGREGATION ----------------------------------------------------------
