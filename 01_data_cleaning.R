@@ -52,18 +52,18 @@ names(data.unemp)[names(data.unemp) == "Nedarbo lygis, pašalinus sezono įtaką
 data.unemp$date <- gsub('M', ' ', data.unemp$date)
 
 # data.payments
-payments_out_number <- 'MSS.Q.F020.I00A.Z00Z.NT.10.200.000.Z.A0000.SR'
-payments_out_value <- 'MSS.Q.F020.I00A.Z00Z.VT.10.200.000.E.A0000.SR'
-payments_in_number <- 'MSS.Q.F030.I00A.Z00Z.NT.90.200.000.Z.A0000.SR'
-payments_in_value <- 'MSS.Q.F030.I00A.Z00Z.VT.90.200.000.E.A0000.SR'
-cash_out_atm_number <- 'MSS.Q.F120.I10.I111.NT.10.200.000.Z.A0000.SR'
-cash_out_atm_value <- 'MSS.Q.F120.I10.I111.VT.10.200.000.E.A0000.SR'
-cash_in_atm_number <- 'MSS.Q.F120.I10.I110.NT.10.200.000.Z.A0000.SR'
-cash_in_atm_value <- 'MSS.Q.F120.I10.I110.VT.10.200.000.E.A0000.SR'
-cash_out_branch_number <- 'MSS.Q.F102.IOT.Y000.NT.X0.200.000.Z.A0000.SR'
-cash_out_branch_value <- 'MSS.Q.F102.IOT.Y000.VT.X0.200.000.E.A0000.SR'
-cash_in_branch_number <- 'MSS.Q.F103.IOT.Y000.NT.X0.200.000.Z.A0000.SR'
-cash_in_branch_value <- 'MSS.Q.F103.IOT.Y000.VT.X0.200.000.E.A0000.SR'
+payments_out_number <- 'MSS.Q.F020.I00A.Z00Z.NT.10.200.000.Z.A0000.SR'  # Visų mokėjimų negrynaisiais pinigais (išskyrus mokėjimus el. pinigais) Lietuvoje skaičius
+payments_out_value <- 'MSS.Q.F020.I00A.Z00Z.VT.10.200.000.E.A0000.SR'   # Visų mokėjimų negrynaisiais pinigais (išskyrus mokėjimus el. pinigais) Lietuvoje vertė
+payments_in_number <- 'MSS.Q.F030.I00A.Z00Z.NT.90.200.000.Z.A0000.SR'   # Visų Lietuvos mokėjimo paslaugų teikėjų klientų gautų mokėjimų iš užsienio negrynaisiais pinigais skaičius
+payments_in_value <- 'MSS.Q.F030.I00A.Z00Z.VT.90.200.000.E.A0000.SR'    # Visų Lietuvos mokėjimo paslaugų teikėjų klientų gautų mokėjimų iš užsienio negrynaisiais pinigais vertė
+cash_out_atm_number <- 'MSS.Q.F120.I10.I111.NT.10.200.000.Z.A0000.SR'   # Grynųjų pinigų išdavimo operacijų skaičius Lietuvos mokėjimo paslaugų teikėjų aptarnaujamuose bankomatuose Lietuvoje Lietuvos mokėjimo paslaugų teikėjų išleistomis mokėjimo kortelėmis
+cash_out_atm_value <- 'MSS.Q.F120.I10.I111.VT.10.200.000.E.A0000.SR'    # Grynųjų pinigų išdavimo operacijų vertė Lietuvos mokėjimo paslaugų teikėjų aptarnaujamuose bankomatuose Lietuvoje Lietuvos mokėjimo paslaugų teikėjų išleistomis mokėjimo kortelėmis
+cash_in_atm_number <- 'MSS.Q.F120.I10.I110.NT.10.200.000.Z.A0000.SR'    # Grynųjų pinigų priėmimo operacijų skaičius Lietuvos mokėjimo paslaugų teikėjų aptarnaujamuose bankomatuose Lietuvoje Lietuvos mokėjimo paslaugų teikėjų išleistomis mokėjimo kortelėmis
+cash_in_atm_value <- 'MSS.Q.F120.I10.I110.VT.10.200.000.E.A0000.SR'     # Grynųjų pinigų priėmimo operacijų vertė Lietuvos mokėjimo paslaugų teikėjų aptarnaujamuose bankomatuose Lietuvoje Lietuvos mokėjimo paslaugų teikėjų išleistomis mokėjimo kortelėmis
+cash_out_branch_number <- 'MSS.Q.F102.IOT.Y000.NT.X0.200.000.Z.A0000.SR'# Visų Lietuvos mokėjimo paslaugų teikėjų klientų aptarnavimo vietose grynųjų pinigų išdavimo operacijų skaičius
+cash_out_branch_value <- 'MSS.Q.F102.IOT.Y000.VT.X0.200.000.E.A0000.SR' # Visų Lietuvos mokėjimo paslaugų teikėjų klientų aptarnavimo vietose grynųjų pinigų išdavimo operacijų vertė
+cash_in_branch_number <- 'MSS.Q.F103.IOT.Y000.NT.X0.200.000.Z.A0000.SR' # Visų Lietuvos mokėjimo paslaugų teikėjų klientų aptarnavimo vietose grynųjų pinigų priėmimo operacijų skaičius
+cash_in_branch_value <- 'MSS.Q.F103.IOT.Y000.VT.X0.200.000.E.A0000.SR'  # Visų Lietuvos mokėjimo paslaugų teikėjų klientų aptarnavimo vietose grynųjų pinigų priėmimo operacijų vertė
 all.payments.list <- c(payments_out_number, payments_out_value, payments_in_number, payments_in_value, cash_out_atm_number, cash_out_atm_value, cash_in_atm_number, cash_in_atm_value, cash_out_branch_number, cash_out_branch_value, cash_in_branch_number, cash_in_branch_value)
 data.payments <- data.payments[data.payments$code %in% all.payments.list,]
 data.payments[data.payments$code == payments_out_number,'variable'] <- 'payments_out_number'

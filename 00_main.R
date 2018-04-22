@@ -202,9 +202,8 @@ ggplot(df, aes(x=date)) +
        color=NULL) +  # title and caption
   scale_x_date(labels = lbls, breaks = brks) +
   scale_color_manual(breaks = unique(as.character(df$variable)), 
-                     labels = c("Užimtų vadovaujamų pareigybių skaičius, sk.", "Valstybės ir savivaldybių institucijų ir įstaigų skaičius, sk."),
-                     values = c("regulation_employees" = "#F8766D", "regulation_institutions" = "#00BFC4")) +
-  theme_grey()
+                     labels = c("Užimtų vadovaujamų pareigybių skaičius", "Valstybės ir savivaldybių institucijų ir įstaigų skaičius"),
+                     values = c("regulation_employees" = "#F8766D", "regulation_institutions" = "#00BFC4"))
 
 
 ## unemployment
@@ -225,8 +224,56 @@ ggplot(df, aes(x=date)) +
 
 
 ## electronic payments
+df <- data.payments
+df$date <- gsub('-Q1', '-03-31', df$date)
+df$date <- gsub('-Q2', '-06-30 ', df$date)
+df$date <- gsub('-Q3', '-09-30 ', df$date)
+df$date <- gsub('-Q4', '-12-31 ', df$date)
+df$date <- as.Date(df$date)
+
+df1 <- df[,c('date', 'payments_in_number', 'payments_in_value')]
+df1 <- melt(df1, id='date')
+brks <- df1$date[seq(1, length(df1$date), 4)]
+lbls <- lubridate::year(brks)
+ggplot(df1, aes(date, value)) +
+  geom_line() +
+  facet_grid(variable ~ ., scales = "free", labeller = as_labeller(c(`payments_in_number` = "Skaičius", `payments_in_value` = "Vertė"))) +
+  scale_x_date(labels = lbls, breaks = brks) +
+  labs(title="Gauti mokėjimai iš užsienio negrynaisiais pinigais", 
+       subtitle="Ketvirtiniai duomenys", 
+       caption="Šaltinis: Lietuvos bankas", x = 'Metai', y = 'Tūkst.', color=NULL) +
+  theme(strip.background = element_blank())
+
+df1 <- df[,c('date', 'payments_out_number', 'payments_out_value')]
+df1 <- melt(df1, id='date')
+brks <- df1$date[seq(1, length(df1$date), 4)]
+lbls <- lubridate::year(brks)
+ggplot(df1, aes(date, value)) +
+  geom_line() +
+  facet_grid(variable ~ ., scales = "free", labeller = as_labeller(c(`payments_out_number` = "Skaičius", `payments_out_value` = "Vertė"))) +
+  scale_x_date(labels = lbls, breaks = brks) +
+  labs(title="Visi mokėjimai negrynaisiais pinigais (išskyrus mokėjimus el. pinigais) Lietuvoje", 
+       subtitle="Ketvirtiniai duomenys", 
+       caption="Šaltinis: Lietuvos bankas", x = 'Metai', y = 'Tūkst.', color=NULL) +
+  theme(strip.background = element_blank())
+
+df1 <- df[,c('date', 'cash_in_number', 'cash_in_value', 'cash_out_number', 'cash_out_value')]
+df1 <- melt(df1, id='date')
+brks <- df1$date[seq(1, length(df1$date), 4)]
+lbls <- lubridate::year(brks)
+ggplot(df1, aes(date, value)) +
+  geom_line() +
+  facet_grid(variable ~ ., scales = "free", 
+             labeller = as_labeller(c(`cash_in_number` = "priėmimo operacijų skaičius", `cash_in_value` = "priėmimo operacijų vertė", `cash_out_number` = "išdavimo operacijų skaičius", `cash_out_value` = "išdavimo operacijų vertė"))) +
+  scale_x_date(labels = lbls, breaks = brks) +
+  labs(title="Grynųjų pinigų operacijos", 
+       subtitle="Ketvirtiniai duomenys", 
+       caption="Šaltinis: Lietuvos bankas", x = 'Metai', y = 'Tūkst.', color=NULL) +
+  theme(strip.background = element_blank())
 
 ## alcohol consumption
+
+
 
 ## alcohol price
 
@@ -245,10 +292,6 @@ ggplot(df, aes(x=date)) +
 ## tourists
 
 ## travel_agencies
-
-
-
-
 
 
 

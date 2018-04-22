@@ -102,7 +102,7 @@ ggseasonplot(ts(data.money$deposits, start = c(1993, 12), frequency = 12))
 
 library(ggplot2)
 library(lubridate)
-theme_set(theme_bw())
+theme_set(theme_grey())
 df <- economics_long[economics_long$variable %in% c("psavert", "uempmed"), ]
 df <- df[lubridate::year(df$date) %in% c(1967:1981), ]
 # labels and breaks for X axis text
