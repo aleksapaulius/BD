@@ -156,6 +156,9 @@ data.deposits19992005 <- merge(data.deposits1999, data.deposits2005, all = T)
 data.loans.deposits1999 <- merge(data.loans19992005, data.deposits19992005, all = T)
 
 data.loans.deposits <- merge(data.loans.deposits1999, data.loans.deposits2015, all = T)
+# remove data up to 2006
+data.loans.deposits <- data.loans.deposits[ , !(colnames(data.loans.deposits) %in% c("loan_interest_not_LTL", "deposit_interest_not_LTL"))] 
+
 
 # retail
 names(data.retail)[names(data.retail) == "Laikotarpis"] <- "date"
