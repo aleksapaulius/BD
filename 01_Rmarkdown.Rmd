@@ -1,0 +1,54 @@
+---
+title: "Lietuvos šešėlinė ekonomika"
+output: 
+  pdf_document:
+    latex_engine: xelatex
+    number_sections: yes
+    toc: yes
+    toc_depth: 2
+---
+
+```{r include = FALSE}
+library(viridis)
+
+library('readxl')
+library('dplyr')
+library('reshape2')
+library('tempdisagg')
+library('zoo')
+library('ggplot2')
+library('forcats')
+library('magrittr')
+library('ggfortify')
+library('forecast')
+
+source('00_functions.R')
+source('00_input.R')
+source('01_data_cleaning.R')
+```
+
+Tekstas tekstas. 
+
+# Aprašomoji statistika
+
+Laba diena.
+
+```{r fig.width=7, fig.height=4, echo=FALSE}
+## pinigu statistika (grynieji pinigai, indėliai)
+df <- data.money
+df <- melt(df, id='date')
+df$date <- as.Date(as.yearmon(df$date, "%Y %m"))
+ggplot(df, aes(date, value)) +
+  geom_line() +
+  facet_grid(variable ~ ., scales = "free", 
+             labeller = as_labeller(c(`cash` = "Grynieji pinigai esantys apyvartoje", `deposits` = "Indėliai"))) +
+  labs(title="Grynieji pinigai ir indeliai", 
+       subtitle="Menėsiniai duomenys", 
+       caption="Šaltinis: Lietuvos bankas", x = 'Metai', y = 'mln. Eur', color=NULL) +
+  theme(strip.background = element_blank())
+
+all.variables.stat[all.variables.stat$variable %in% c('cash', 'deposits'),]
+```
+
+
+

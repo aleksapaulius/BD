@@ -1,4 +1,4 @@
-### 
+### MAIN
 
 # Loading Packages -------------------------------------------------------------
 
@@ -13,101 +13,21 @@ library('magrittr')
 library('ggfortify')
 library('forecast')
 
-
-
 source('00_functions.R')
 
 
 # INPUT ------------------------------------------------------------------------
 
-options(stringsAsFactors = F, check.names = F)
-
-## pinigu statistika (grynieji pinigai, indeliai)
-data.money <- read.csv2(file = "input/money.csv", sep = ",", dec = '.')
-data.money2015 <- read.csv2(file = "input/money_2015.csv", sep = ";", dec = '.')
-
-## tax
-data.tax <- read.csv2(file = "input/tax.csv", sep = ",")
-
-## cpi
-data.cpi <- read.csv2(file = "input/cpi.csv", sep = ",")
-
-## economic regulation
-data.regulation1 <- read.csv2(file = "input/vt_istaigu_vadovai.csv", sep = ",")
-data.regulation2 <- read.csv2(file = "input/instituciju_skaicius.csv", sep = ",")
-
-## unemployment
-data.unemp <- read.csv2(file = "input/unemp.csv", sep = ",")
-
-## electronic payments
-data.payments <- read.csv2(file = "input/payments.csv", sep = ";")
-
-## alcohol consumption
-data.alcohol.consumption <- read.csv2(file = "input/alcohol_consumption.csv", sep = ",")
-
-## alcohol price
-data.alcohol.price <- read.csv2(file = "input/alcohol_price.csv", sep = ",")
-
-## bankrupts
-data.bankrupts <- read.csv2(file = "input/bankruptcy.csv", sep = ",")
-
-## cards
-data.cards <- read.csv2(file = "input/cards.csv", sep = ";")
-
-## emigrants
-data.emigrants <- read.csv2(file = "input/emigrants.csv", sep = ",")
-
-## loans and deposits
-data.loans.deposits2015 <- read.csv2(file = "input/loans_deposits_2015_2017.csv", sep = ";", dec = '.')
-data.deposits1999 <- read.csv2(file = "input/deposits_1999_2004.csv", sep = ",", dec = '.')
-data.deposits2005 <- read.csv2(file = "input/deposits_2005_2014.csv", sep = ",", dec = '.')
-data.loans1999 <- read.csv2(file = "input/loans_1999_2004.csv", sep = ",", dec = '.')
-data.loans2005 <- read.csv2(file = "input/loans_2005_2014.csv", sep = ",", dec = '.')
-
-## retail
-data.retail <- read.csv2(file = "input/mazmenine_prekyba.csv", sep = ",")
-
-## minimum wage
-data.wage <- read.csv2(file = "input/minimum_wage.csv", sep = ",")
-
-## tourists
-data.tourists <- read.csv2(file = "input/tourists.csv", sep = ",")
-
-## travel_agencies
-data.travel.agencies <- read.csv2(file = "input/travel_agencies.csv", sep = ",")
-
-
-# USER SELECTIONS --------------------------------------------------------------
-
-modeling.period <- 2006:2018
-
-
-# DESCRIPTIVE STATISTICS -------------------------------------------------------
+## importing data
+source('00_input.R')
 
 ## cleaning imported data
 source('01_data_cleaning.R')
 
-## combine all data tables into a list
-all.data.list <- list(
-  data.money,
-  data.tax,
-  data.cpi,
-  data.regulation,
-  data.unemp,
-  data.payments,
-  data.alcohol.consumption,
-  data.alcohol.price,
-  data.bankrupts,
-  data.cards,
-  data.emigrants,
-  data.loans.deposits,
-  data.retail,
-  data.wage,
-  data.travel
-)
+
+# DESCRIPTIVE STATISTICS -------------------------------------------------------
 
 ## checking date scales
-all.variables.stat <- statistics(all.data.list)
 table(all.variables.stat$frequency_name)
 
 ## kokio laikotarpio duomenis turim?
@@ -124,11 +44,12 @@ ggplot(all.variables.dates, aes(x = value, y = variable, group = variable)) +
 dev.off()
 
 
-## Duomenu aprasomoji statistika, grafikai
+# PLOTS ------------------------------------------------------------------------
 
 ## pinigu statistika (grynieji pinigai, indeliai)
 df <- data.money
 df <- melt(df, id='date')
+df <- df[!is.na(df$value),]
 df$date <- as.Date(as.yearmon(df$date, "%Y %m"))
 ggplot(df, aes(date, value)) +
   geom_line() +
@@ -342,20 +263,59 @@ ggplot(df, aes(x=date)) +
 all.variables.stat[all.variables.stat$variable %in% c('emigrants'),]
 
 ## loans and deposits
-df <- melt(data.loans.deposits, id='date')
+df <- data.loans.deposits[,c('date', 'loan_value_EUR', 'loan_value_LTL')]
+df <- melt(df, id='date')
+df <- df[!is.na(df$value),]
 df$date <- as.Date(as.yearmon(df$date, "%Y %m"))
 ggplot(df, aes(x=date)) + 
   geom_line(aes(y=value, col=variable)) + 
-  facet_grid(variable ~ ., scales = "free", 
-             labeller = as_labeller(c(`loan_interest_EUR` = "Paskolų palūkanų norma, EUR", `loan_value_EUR` = "Paskolų vertė, EUR", `deposit_interest_EUR` = "Paskolų palūkanų norma, EUR", `loan_interest_LTL` = "Paskolų palūkanų norma, LTL", `loan_value_LTL` = "Paskolų vertė, LTL", `deposit_interest_LTL` = "Paskolų palūkanų norma, LTL"))) +
-  labs(title="Palūkanos", 
-       subtitle="M4nesiniai duomenys", 
+  labs(title="Suteiktų paskolų vertės", 
+       subtitle="Mėnesiniai duomenys", 
        caption="Šaltinis: Lietuvos bankas", 
-       y="Proc.",
+       y="mln. Eur",
        x = 'Metai',
-       color=NULL)
+       color=NULL) +  # title and caption
+  scale_color_manual(breaks = unique(as.character(df$variable)), 
+                     labels = c("Paskolos eurais", "Paskolos litais"),
+                     values = c("loan_value_EUR" = "#F8766D", "loan_value_LTL" = "#00BFC4"))
 
-all.variables.stat[all.variables.stat$variable %in% c('tax_gpm', 'tax_excise', 'tax_pelno', 'tax_vat'),]
+all.variables.stat[all.variables.stat$variable %in% c('loan_value_EUR', 'loan_value_LTL'),]
+
+df <- data.loans.deposits[,c('date', 'loan_interest_EUR', 'loan_interest_LTL')]
+df <- melt(df, id='date')
+df <- df[!is.na(df$value),]
+df$date <- as.Date(as.yearmon(df$date, "%Y %m"))
+ggplot(df, aes(x=date)) + 
+  geom_line(aes(y=value, col=variable)) + 
+  labs(title="Paskolos namų ūkių vartojimui (palūkanų normos)", 
+       subtitle="Mėnesiniai duomenys", 
+       caption="Šaltinis: Lietuvos bankas", 
+       y="proc.",
+       x = 'Metai',
+       color=NULL) +  # title and caption
+  scale_color_manual(breaks = unique(as.character(df$variable)), 
+                     labels = c("Paskolos eurais", "Paskolos litais"),
+                     values = c("loan_interest_EUR" = "#F8766D", "loan_interest_LTL" = "#00BFC4"))
+
+all.variables.stat[all.variables.stat$variable %in% c('loan_interest_EUR', 'loan_interest_LTL'),]
+
+df <- data.loans.deposits[,c('date', 'deposit_interest_EUR', 'deposit_interest_LTL')]
+df <- melt(df, id='date')
+df <- df[!is.na(df$value),]
+df$date <- as.Date(as.yearmon(df$date, "%Y %m"))
+ggplot(df, aes(x=date)) + 
+  geom_line(aes(y=value, col=variable)) + 
+  labs(title="Indėliai pinigų finansų įstaigose (palūkanų normos)", 
+       subtitle="Mėnesiniai duomenys", 
+       caption="Šaltinis: Lietuvos bankas", 
+       y="proc.",
+       x = 'Metai',
+       color=NULL) +  # title and caption
+  scale_color_manual(breaks = unique(as.character(df$variable)), 
+                     labels = c("Indėliai eurais", "Indėliai litais"),
+                     values = c("deposit_interest_EUR" = "#F8766D", "deposit_interest_LTL" = "#00BFC4"))
+
+all.variables.stat[all.variables.stat$variable %in% c('deposit_interest_EUR', 'deposit_interest_LTL'),]
 
 ## retail
 df <- melt(data.retail, id='date')
@@ -401,13 +361,9 @@ ggplot(df, aes(date, value)) +
 all.variables.stat[all.variables.stat$variable %in% c('outgoing_tourists', 'travel_agencies'),]
 
 
-
-
-
-
-
-
 # DATA MANIPULATION ------------------------------------------------------------
+
+modeling.period <- 2006:2018
 
 ## Paliekam duomenis tik nuo 2006
 data.money                <- data.money[substr(data.money$date, 1, 4) %in% modeling.period,]

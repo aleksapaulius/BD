@@ -2,9 +2,10 @@
 title: "Viridis Demo"
 output: 
   pdf_document:
-    toc: true
+    latex_engine: xelatex
+    number_sections: yes
+    toc: yes
     toc_depth: 2
-    number_sections: true
 ---
 
 ```{r include = FALSE}
@@ -21,6 +22,7 @@ image(volcano, col = viridis(200))
 
 ## Magma colors
 
-```{r}
-image(volcano, col = viridis(200, option = "A"))
+```{r fig.width=7, fig.height=4, echo=FALSE}
+library(ggplot2)
+qplot(mpg, wt, data=mtcars)
 ```

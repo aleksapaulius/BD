@@ -114,9 +114,9 @@ names(data.emigrants)[names(data.emigrants) == 'Mėnesinis emigrantų skaičius'
 data.emigrants$date <- gsub('M', ' ', data.emigrants$date)
 
 # data.loans.deposits
-deposit_interest_EUR <- 'PNS.M.L22.A.C.A.U2.250.200.N.LT.PC___.E.SR'
-loan_interest_EUR <- 'PNS.M.A2U.A.C.A.U2.250.200.P.LT.PC___.E.SR'
-loan_value_EUR <- 'PNS.M.A2U.A.B.A.U2.250.200.N.LT.PC___.E.SR'
+deposit_interest_EUR <- 'PNS.M.L22.A.C.A.U2.250.200.N.LT.PC___.E.SR'  # Euro zonos namų ūkių sutarto termino indėliai pinigų finansų įstaigose – naujų susitarimų palūkanų normos
+loan_interest_EUR <- 'PNS.M.A2U.A.C.A.U2.250.200.P.LT.PC___.E.SR'     # Pinigų finansų įstaigų paskolos euro zonos namų ūkiams vartojimui – tikrųjų naujų paskolų palūkanų normos
+loan_value_EUR <- 'PNS.M.A2U.A.B.A.U2.250.200.N.LT.PC___.E.SR'        # Pinigų finansų įstaigų paskolos euro zonos namų ūkiams vartojimui – naujų susitarimų sumos
 data.loans.deposits2015 <- data.loans.deposits2015[data.loans.deposits2015$code %in% c(deposit_interest_EUR, loan_interest_EUR, loan_value_EUR),]
 data.loans.deposits2015[data.loans.deposits2015$code == deposit_interest_EUR,'variable'] <- 'deposit_interest_EUR'
 data.loans.deposits2015[data.loans.deposits2015$code == loan_interest_EUR,'variable'] <- 'loan_interest_EUR'
@@ -125,37 +125,12 @@ data.loans.deposits2015 <- data.loans.deposits2015[,names(data.loans.deposits201
 data.loans.deposits2015 <- dcast(data.loans.deposits2015, date ~ variable)
 data.loans.deposits2015$date <- gsub('-', ' ', data.loans.deposits2015$date)
 
-data.deposits1999$date <- gsub('m. sausis', '01', data.deposits1999$date)
-data.deposits1999$date <- gsub('m. vasaris', '02', data.deposits1999$date)
-data.deposits1999$date <- gsub('m. kovas', '03', data.deposits1999$date)
-data.deposits1999$date <- gsub('m. balandis', '04', data.deposits1999$date)
-data.deposits1999$date <- gsub('m. gegužė', '05', data.deposits1999$date)
-data.deposits1999$date <- gsub('m. birželis', '06', data.deposits1999$date)
-data.deposits1999$date <- gsub('m. liepa', '07', data.deposits1999$date)
-data.deposits1999$date <- gsub('m. rugpjūtis', '08', data.deposits1999$date)
-data.deposits1999$date <- gsub('m. rugsėjis', '09', data.deposits1999$date)
-data.deposits1999$date <- gsub('m. spalis', '10', data.deposits1999$date)
-data.deposits1999$date <- gsub('m. lapkritis', '11', data.deposits1999$date)
-data.deposits1999$date <- gsub('m. gruodis', '12', data.deposits1999$date)
+# loan_value_EUR = Vartojimo paskolos eurais fiksuojant pradinę normą (eurais)
+# loan_value_LTL = Vartojimo paskolos litais fiksuojant pradinę normą (eurais)
 
-data.loans1999$date <- gsub('m. sausis', '01', data.loans1999$date)
-data.loans1999$date <- gsub('m. vasaris', '02', data.loans1999$date)
-data.loans1999$date <- gsub('m. kovas', '03', data.loans1999$date)
-data.loans1999$date <- gsub('m. balandis', '04', data.loans1999$date)
-data.loans1999$date <- gsub('m. gegužė', '05', data.loans1999$date)
-data.loans1999$date <- gsub('m. birželis', '06', data.loans1999$date)
-data.loans1999$date <- gsub('m. liepa', '07', data.loans1999$date)
-data.loans1999$date <- gsub('m. rugpjūtis', '08', data.loans1999$date)
-data.loans1999$date <- gsub('m. rugsėjis', '09', data.loans1999$date)
-data.loans1999$date <- gsub('m. spalis', '10', data.loans1999$date)
-data.loans1999$date <- gsub('m. lapkritis', '11', data.loans1999$date)
-data.loans1999$date <- gsub('m. gruodis', '12', data.loans1999$date)
+data.loans.deposits <- merge(data.loans2005, data.deposits2005, all = T)
+data.loans.deposits <- merge(data.loans.deposits, data.loans.deposits2015, all = T)
 
-data.loans19992005 <- merge(data.loans1999, data.loans2005, all = T)
-data.deposits19992005 <- merge(data.deposits1999, data.deposits2005, all = T)
-data.loans.deposits1999 <- merge(data.loans19992005, data.deposits19992005, all = T)
-
-data.loans.deposits <- merge(data.loans.deposits1999, data.loans.deposits2015, all = T)
 # remove data up to 2006
 data.loans.deposits <- data.loans.deposits[ , !(colnames(data.loans.deposits) %in% c("loan_interest_not_LTL", "deposit_interest_not_LTL"))] 
 
@@ -183,4 +158,25 @@ names(data.travel.agencies)[names(data.travel.agencies) == "Reikšmė"] <- "trav
 data.travel.agencies <- data.travel.agencies[,names(data.travel.agencies) %in% c('date', 'travel_agencies')] %>% arrange(date)
 data.travel <- merge(data.tourists, data.travel.agencies)
 
+
+## combine all data tables into a list
+all.data.list <- list(
+  data.money,
+  data.tax,
+  data.cpi,
+  data.regulation,
+  data.unemp,
+  data.payments,
+  data.alcohol.consumption,
+  data.alcohol.price,
+  data.bankrupts,
+  data.cards,
+  data.emigrants,
+  data.loans.deposits,
+  data.retail,
+  data.wage,
+  data.travel
+)
+
+all.variables.stat <- statistics(all.data.list)
 
