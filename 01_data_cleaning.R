@@ -180,3 +180,29 @@ all.data.list <- list(
 
 all.variables.stat <- statistics(all.data.list)
 
+
+lt.names.table <- data.frame(variable = c("cash", "deposits", "tax_gpm", "tax_excise", "tax_pelno", "tax_vat", "cpi_alcohol", "cpi", 
+                                           "regulation_employees", "regulation_institutions", "unemp_female", "unemp_male", "payments_in_number", 
+                                           "payments_in_value", "payments_out_number", "payments_out_value", "cash_in_number", "cash_in_value", 
+                                           "cash_out_number", "cash_out_value", "alcohol_consumption", "alcohol_price", "bankrupts", "credit_cards", 
+                                           "debit_cards", "emigrants", "loan_interest_EUR", "loan_value_EUR", "deposit_interest_EUR", "loan_interest_LTL", 
+                                           "loan_value_LTL", "deposit_interest_LTL", "retail_volume", "minimum_wage", "outgoing_tourists", "travel_agencies"), 
+                             kintamasis = c("Grynieji pinigai", "Indėliai", "GPM", "Akcizo mokesčiai", "Pelno mokesčiai", "Pridėtinės vertės mokesčiai", "VKI alkoholiui", "VKI", 
+                                          "Ekonominis reguliavimas: darbuotojų skaičius", "Ekonominis reguliavimas: įstaigų skaičius", "Moterų nedarbas", "Vyrų nedarbas", "Gautų mokėjimų skaičius", 
+                                          "Gautų mokėjimų vertė", "Išeinančių mokėjimų skaičius", "Išeinančių mokėjimų vertė", "Grynųjų įnešimo operacijų skaičius", "Grynųjų įnešimo operacijų vertė", 
+                                          "Grynųjų išėmimo operacijų skaičius", "Grynųjų išėmimo operacijų vertė", "Alkoholio suvartojimas", "Alkoholio kaina", "Bankrotų skaičius", "Kredito kortelių skaičius", 
+                                          "Debeto kortelių skaičius", "Emigrantų skaičius", "Paskolų eurais palūkanų norma", "Paskolų eurais vertė", "Indėlių eurais palūkanų norma", "Paskolų litais palūkanų norma", 
+                                          "Paskolų litais vertė", "Indėlių litais palūkanų norma", "Mažmeninės prekybos apimtis", "Minimalus atlyginimas", "Išvykstančių turistų skaičius", "Kelionių agentūrų skaičius"), 
+                             stringsAsFactors = FALSE)
+
+all.variables.stat <- merge(all.variables.stat, lt.names.table, all.x = T)
+
+all.variables.stat <- all.variables.stat[,c(1,12,2:11)]
+
+
+
+
+
+
+
+

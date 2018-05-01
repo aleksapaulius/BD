@@ -12,6 +12,9 @@ library('forcats')
 library('magrittr')
 library('ggfortify')
 library('forecast')
+library('stargazer')
+library('Cairo')
+library('lubridate')
 
 source('00_functions.R')
 
@@ -36,7 +39,7 @@ all.variables.dates$min_date <- substr(all.variables.dates$min_date, 1, 4)
 all.variables.dates$max_date <- substr(all.variables.dates$max_date, 1, 4)
 all.variables.dates <- melt(all.variables.dates, id=c("variable","frequency_name"))
 
-pdf(file="plots/Turimi duomenys.pdf",width = 14, height = 8)
+cairo_pdf(filename = "plots/Turimi duomenys.pdf",width = 14, height = 8)
 ggplot(all.variables.dates, aes(x = value, y = variable, group = variable)) +
   geom_point(aes(colour = frequency_name)) + geom_line(aes(colour = frequency_name)) +
   ggtitle("Turimi duomenys") +
@@ -424,13 +427,6 @@ lines(predict(m2), col = 'red')
 # PLOTS ------------------------------------------------------------------------
 
 # OUTPUT -----------------------------------------------------------------------
-
-
-
-
-
-
-
 
 
 
