@@ -385,6 +385,9 @@ data.retail               <- data.retail[substr(data.retail$date, 1, 4) %in% mod
 data.wage                 <- data.wage[substr(data.wage$date, 1, 4) %in% modeling.period,]
 data.travel               <- data.travel[substr(data.travel$date, 1, 4) %in% modeling.period,]
 
+
+
+
 # CORRELATION ------------------------------------------------------------------
 
 

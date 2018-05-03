@@ -52,9 +52,13 @@ source('01_data_cleaning.R')
 
 Tekstas tekstas. 
 
+
+\pagebreak
 # Aprašomoji statistika {-}
 
 Laba diena.
+
+## Duomenys {-}
 
 ### Grynieji pinigai ir indėliai {-}
 
@@ -84,7 +88,6 @@ kable(all.variables.stat[all.variables.stat$variable %in% c('cash', 'deposits'),
       format = "latex", caption = var.name, booktabs = T, row.names = FALSE) %>% 
   kable_styling(position = "center", latex_options = c("hold_position", "scale_down"))
 ```
-
 
 ### Įmonių ir gyventojų sumokėti mokesčiai {-} 
 
@@ -120,7 +123,6 @@ kable(all.variables.stat[all.variables.stat$variable %in% c('tax_gpm', 'tax_exci
   kable_styling(position = "center", latex_options = c("hold_position", "scale_down"))
 ```
 
-
 ### Suderinti vartotojų kainų indeksai (2015 m. – 100) {-} 
 
 ```{r include = FALSE}
@@ -150,7 +152,6 @@ kable(all.variables.stat[all.variables.stat$variable %in% c('cpi_alcohol', 'cpi'
       format = "latex", caption = var.name, booktabs = T, row.names = FALSE) %>% 
   kable_styling(position = "center", latex_options = c("hold_position", "scale_down"))
 ```
-
 
 ### Ekonominis reguliavimas {-}
 
@@ -185,7 +186,6 @@ kable(all.variables.stat[all.variables.stat$variable %in% c('regulation_employee
   kable_styling(position = "center", latex_options = c("hold_position", "scale_down"))
 ```
 
-
 ### Nedarbo lygis, pašalinus sezono įtaką {-}
 
 ```{r include = FALSE}
@@ -216,7 +216,6 @@ kable(all.variables.stat[all.variables.stat$variable %in% c('unemp_female', 'une
       format = "latex", caption = var.name, booktabs = T, row.names = FALSE) %>% 
   kable_styling(position = "center", latex_options = c("hold_position", "scale_down"))
 ```
-
 
 ### Gauti mokėjimai iš užsienio negrynaisiais pinigais {-}
 
@@ -254,7 +253,6 @@ kable(all.variables.stat[all.variables.stat$variable %in% c('payments_in_number'
   kable_styling(position = "center", latex_options = c("hold_position", "scale_down"))
 ```
 
-
 ### Visi mokėjimai negrynaisiais pinigais Lietuvoje {-}
 
 ```{r include = FALSE}
@@ -283,7 +281,6 @@ kable(all.variables.stat[all.variables.stat$variable %in% c('payments_out_number
       format = "latex", caption = var.name, booktabs = T, row.names = FALSE) %>% 
   kable_styling(position = "center", latex_options = c("hold_position", "scale_down"))
 ```
-
 
 ### Grynųjų pinigų operacijos {-}
 
@@ -314,7 +311,6 @@ kable(all.variables.stat[all.variables.stat$variable %in% c('cash_in_number', 'c
       format = "latex", caption = var.name, booktabs = T, row.names = FALSE) %>% 
   kable_styling(position = "center", latex_options = c("hold_position", "scale_down"))
 ```
-
 
 ### Alkoholio suvartojimas ir kaina {-}
 
@@ -347,7 +343,6 @@ kable(all.variables.stat[all.variables.stat$variable %in% c('alcohol_consumption
   kable_styling(position = "center", latex_options = c("hold_position", "scale_down"))
 ```
 
-
 ### Atitinkamais metais pradėtų bankroto procesų skaičius {-}
 
 ```{r include = FALSE}
@@ -374,7 +369,6 @@ kable(all.variables.stat[all.variables.stat$variable %in% c('bankrupts'),c(2,6,7
       format = "latex", caption = var.name, booktabs = T, row.names = FALSE) %>% 
   kable_styling(position = "center", latex_options = c("hold_position", "scale_down"))
 ```
-
 
 ### Mokėjimo kortelių skaičius {-}
 
@@ -414,7 +408,6 @@ kable(all.variables.stat[all.variables.stat$variable %in% c('credit_cards', 'deb
   kable_styling(position = "center", latex_options = c("hold_position", "scale_down"))
 ```
 
-
 ### Emigrantų skaičius {-}
 
 ```{r include = FALSE}
@@ -441,7 +434,6 @@ kable(all.variables.stat[all.variables.stat$variable %in% c('emigrants'),c(2,6,7
       format = "latex", caption = var.name, booktabs = T, row.names = FALSE) %>% 
   kable_styling(position = "center", latex_options = c("hold_position", "scale_down"))
 ```
-
 
 ### Paskolos namų ūkių vartojimui {-}
 
@@ -505,7 +497,6 @@ kable(all.variables.stat[all.variables.stat$variable %in% c('loan_interest_EUR',
   kable_styling(position = "center", latex_options = c("hold_position", "scale_down"))
 ```
 
-
 ### Indėliai pinigų finansų įstaigose (palūkanų normos) {-}
 
 ```{r include = FALSE}
@@ -538,7 +529,6 @@ kable(all.variables.stat[all.variables.stat$variable %in% c('deposit_interest_EU
   kable_styling(position = "center", latex_options = c("hold_position", "scale_down"))
 ```
 
-
 ### Mažmeninės prekybos prekybos apimtis (palyginti su 2015 m.) {-}
 
 ```{r include = FALSE}
@@ -565,7 +555,6 @@ kable(all.variables.stat[all.variables.stat$variable %in% c('retail_volume'),c(2
       format = "latex", caption = var.name, booktabs = T, row.names = FALSE) %>% 
   kable_styling(position = "center", latex_options = c("hold_position", "scale_down"))
 ```
-
 
 ### Minimalus mėnesinis atlyginimas {-}
 
@@ -596,7 +585,6 @@ kable(all.variables.stat[all.variables.stat$variable %in% c('minimum_wage'),c(2,
   kable_styling(position = "center", latex_options = c("hold_position", "scale_down"))
 ```
 
-
 ### Kelionių agentūrų ir išvykstančių turistų skaičius {-}
 
 ```{r include = FALSE}
@@ -622,4 +610,5 @@ kable(all.variables.stat[all.variables.stat$variable %in% c('outgoing_tourists',
       format = "latex", caption = var.name, booktabs = T, row.names = FALSE) %>% 
   kable_styling(position = "center", latex_options = c("hold_position", "scale_down"))
 ```
+
 
