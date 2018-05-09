@@ -15,6 +15,7 @@ library('forecast')
 library('stargazer')
 library('Cairo')
 library('lubridate')
+library('urca')
 
 source('00_functions.R')
 
@@ -74,108 +75,17 @@ data.wage                 <- data.wage[substr(data.wage$date, 1, 4) %in% modelin
 data.travel               <- data.travel[substr(data.travel$date, 1, 4) %in% modeling.period,]
 
 
-# CORRELATION ------------------------------------------------------------------
+# STATIONARITY -----------------------------------------------------------------
+
+source('01_stationarity.R')
+
 
 # DATA DISAGGREGATION ----------------------------------------------------------
 
-alldata <- data.money
-
-## mėnesiniai
-
-### "Grynieji pinigai"
-### "VKI"
-### "VKI alkoholiui"               
-### "Indėlių eurais palūkanų norma"
-### "Indėlių litais palūkanų norma"
-### "Indėliai"                     
-### "Emigrantų skaičius"
-### "Paskolų eurais palūkanų norma"
-### "Paskolų litais palūkanų norma"
-### "Paskolų eurais vertė"
-### "Paskolų litais vertė"
-### "Mažmeninės prekybos apimtis"
-### "Moterų nedarbas"
-### "Vyrų nedarbas"
-
-cash.q <- ts(alldata$cash, start = c(2006, 1), frequency = 12)
-deposits.q <- ts(alldata$deposits, start = c(2006, 1), frequency = 12)
+source('01_disaggregation.R')
 
 
-## ketvirtiniai -> mėnesiniai
-
-### "Grynųjų įnešimo operacijų skaičius"
-cash_in_number.q <- ts(data.payments$cash_in_number, start = c(2006, 1), frequency = 4)
-cash_in_number.m <- td(cash_in_number.q ~ cash.q + deposits.q, to = "monthly", method = "litterman-maxlog")
-alldata['cash_in_number'] <- predict(cash_in_number.m)
-
-### "Grynųjų įnešimo operacijų vertė"
-cash_in_value.q <- ts(data.payments$cash_in_value, start = c(2006, 1), frequency = 4)
-cash_in_value.m <- td(cash_in_value.q ~ cash.q + deposits.q, to = "monthly", method = "litterman-maxlog")
-alldata['cash_in_value'] <- predict(cash_in_value.m)
-
-### "Grynųjų išėmimo operacijų skaičius"
-cash_out_number.q <- ts(data.payments$cash_out_number, start = c(2006, 1), frequency = 4)
-cash_out_number.m <- td(cash_out_number.q ~ cash.q + deposits.q, to = "monthly", method = "litterman-maxlog")
-alldata['cash_out_number'] <- predict(cash_out_number.m)
-
-### "Grynųjų išėmimo operacijų vertė"
-cash_out_value.q <- ts(data.payments$cash_out_value, start = c(2006, 1), frequency = 4)
-cash_out_value.m <- td(cash_out_value.q ~ cash.q + deposits.q, to = "monthly", method = "litterman-maxlog")
-alldata['cash_out_value'] <- predict(cash_out_value.m)
-
-### "Kredito kortelių skaičius"
-credit_cards.q <- ts(data.cards$credit_cards, start = c(2006, 1), frequency = 4)
-credit_cards.m <- td(credit_cards.q ~ cash.q + deposits.q, to = "monthly", method = "litterman-maxlog")
-alldata['credit_cards'] <- predict(credit_cards.m)
-
-### "Debeto kortelių skaičius"
-debit_cards.q <- ts(data.cards$debit_cards, start = c(2006, 1), frequency = 4)
-debit_cards.m <- td(debit_cards.q ~ cash.q + deposits.q, to = "monthly", method = "litterman-maxlog")
-alldata['debit_cards'] <- predict(debit_cards.m)
-
-### "Gautų mokėjimų skaičius"
-payments_in_number.q <- ts(data.payments$payments_in_number, start = c(2006, 1), frequency = 4)
-payments_in_number.m <- td(payments_in_number.q ~ cash.q + deposits.q, to = "monthly", method = "litterman-maxlog")
-alldata['payments_in_number'] <- predict(payments_in_number.m)
-
-### "Gautų mokėjimų vertė"
-payments_in_value.q <- ts(data.payments$payments_in_value, start = c(2006, 1), frequency = 4)
-payments_in_value.m <- td(payments_in_value.q ~ cash.q + deposits.q, to = "monthly", method = "litterman-maxlog")
-alldata['payments_in_value'] <- predict(payments_in_value.m)
-
-### "Išeinančių mokėjimų skaičius"
-payments_out_number.q <- ts(data.payments$payments_out_number, start = c(2006, 1), frequency = 4)
-payments_out_number.m <- td(payments_out_number.q ~ cash.q + deposits.q, to = "monthly", method = "litterman-maxlog")
-alldata['payments_out_number'] <- predict(payments_out_number.m)
-
-### "Išeinančių mokėjimų vertė"
-payments_out_value.q <- ts(data.payments$payments_out_value, start = c(2006, 1), frequency = 4)
-payments_out_value.m <- td(payments_out_value.q ~ cash.q + deposits.q, to = "monthly", method = "litterman-maxlog")
-alldata['payments_out_value'] <- predict(payments_out_value.m)
-
-
-## metiniai -> mėnesiniai
-
-### "Alkoholio suvartojimas"
-alcohol_consumption.q <- ts(data.alcohol.consumption$alcohol_consumption, start = c(2006, 1), frequency = 1)
-alcohol_consumption.m <- td(alcohol_consumption.q ~ cash.q + deposits.q, to = "monthly", method = "litterman-maxlog")
-alldata['alcohol_consumption'] <- predict(alcohol_consumption.m)
-
-
-### "Alkoholio kaina"                             
-### "Bankrotų skaičius"                            
-### "Išvykstančių turistų skaičius"               
-### "Ekonominis reguliavimas: darbuotojų skaičius" 
-### "Ekonominis reguliavimas: įstaigų skaičius"   
-### "Akcizo mokesčiai"                             
-### "GPM"                                         
-### "Pelno mokesčiai"                              
-### "Pridėtinės vertės mokesčiai"                 
-### "Kelionių agentūrų skaičius"
-
-## pusmetiniai -> mėnesiniai
-
-### "Minimalus atlyginimas"
+# CORRELATION ------------------------------------------------------------------
 
 # MODEL ------------------------------------------------------------------------
 

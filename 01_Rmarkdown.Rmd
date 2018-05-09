@@ -612,3 +612,13 @@ kable(all.variables.stat[all.variables.stat$variable %in% c('outgoing_tourists',
 ```
 
 
+## Stacionarumo tikrinimas {-}
+
+
+
+
+
+
+
+
+
