@@ -543,7 +543,7 @@ ggplot(df, aes(x=date)) +
   labs(title="Maisto, gėrimų ir tabako mažmeninė prekyba (palyginti su 2015 m.)", 
        subtitle="Mėnesiniai duomenys", 
        caption="Šaltinis: Lietuvos statistikos departamentas", 
-       y="Proc.",
+       y="Indeksas",
        x = 'Metai',
        color=NULL)
 ```

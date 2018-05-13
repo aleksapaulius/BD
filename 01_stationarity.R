@@ -1,163 +1,76 @@
 
 # STATIONARITY -----------------------------------------------------------------
 
-# Phillips-Perron Test
-# H0 - turi unit root, H1 - neturi vienetinės šaknies (stacionaru)
+# Phillips-Perron unit root test
+# H0 - turi unit root, H1 - neturi vienetinės šaknies (galimai stacionaru)
+
+pp.table <- data.frame(variable = all.variables.stat$variable,
+                       kintamasis = all.variables.stat$kintamasis,
+                       statistika = NA, 
+                       kritinė_reikšmė = NA,
+                       nulinė_hipotezė = NA)
+
+for (i in unique(pp.table$variable)) {
+  pp.data <- ur.pp(alldata.m[,i], type="Z-tau", model="trend", lags="short")
+  pp.table[pp.table$variable == i,'statistika'] <- pp.data@teststat
+  pp.table[pp.table$variable == i,'kritinė_reikšmė'] <- pp.data@cval[2]
+  if (pp.data@teststat < pp.data@cval[2]) { # jei TRUE, tai atmetam nulinę hipotezę apie vienetinę šaktį (galimai stacionaru)
+    pp.table[pp.table$variable == i,'nulinė_hipotezė'] <- 'atmetama'
+  } else {
+    pp.table[pp.table$variable == i,'nulinė_hipotezė'] <- 'priimama'
+  }
+}
+
+pp.table <- pp.table[,!(names(pp.table) %in% 'variable')]
 
 
-?ur.pp
+# KPSS unit root test
+# H0 - is stationarity, H1 - unit root
 
-# data.money
-pp.data <- ur.pp(data.money$cash, type="Z-tau", model="trend", lags="short")
-pp.data@teststat < pp.data@cval[2] # jei taip, tai tada stacionaru (atmetam nulinę hipotezę)
+kpss.table <- data.frame(variable = all.variables.stat$variable,
+                       kintamasis = all.variables.stat$kintamasis,
+                       statistika = NA, 
+                       kritinė_reikšmė = NA,
+                       nulinė_hipotezė = NA)
 
-pp.data <- ur.pp(data.money$deposits, type="Z-tau", model="trend", lags="short")
-pp.data@teststat < pp.data@cval[2]
+for (i in unique(kpss.table$variable)) {
+  kpss.data <- ur.kpss(alldata.m[,i], type="tau")
+  kpss.table[kpss.table$variable == i,'statistika'] <- kpss.data@teststat
+  kpss.table[kpss.table$variable == i,'kritinė_reikšmė'] <- kpss.data@cval[2]
+  if (kpss.data@teststat > kpss.data@cval[2]) { # jei TRUE, tai atmetam nulinę hipotezę
+    kpss.table[kpss.table$variable == i,'nulinė_hipotezė'] <- 'atmetama'
+  } else {
+    kpss.table[kpss.table$variable == i,'nulinė_hipotezė'] <- 'priimama'
+  }
+}
 
-# data.tax
-pp.data <- ur.pp(data.tax$tax_gpm, type="Z-tau", model="trend", lags="short")
-pp.data@teststat < pp.data@cval[2]
-
-pp.data <- ur.pp(data.tax$tax_excise, type="Z-tau", model="trend", lags="short")
-pp.data@teststat < pp.data@cval[2]
-
-pp.data <- ur.pp(data.tax$tax_pelno, type="Z-tau", model="trend", lags="short")
-pp.data@teststat < pp.data@cval[2]
-
-pp.data <- ur.pp(data.tax$tax_vat, type="Z-tau", model="trend", lags="short")
-pp.data@teststat < pp.data@cval[2]
-
-# data.cpi
-pp.data <- ur.pp(data.cpi$cpi_alcohol, type="Z-tau", model="trend", lags="short")
-pp.data@teststat < pp.data@cval[2]
-
-pp.data <- ur.pp(data.cpi$cpi, type="Z-tau", model="trend", lags="short")
-pp.data@teststat < pp.data@cval[2]
-
-# data.regulation
-pp.data <- ur.pp(data.regulation$regulation_employees, type="Z-tau", model="trend", lags="short")
-pp.data@teststat < pp.data@cval[2]
-
-pp.data <- ur.pp(data.regulation$regulation_institutions, type="Z-tau", model="trend", lags="short")
-pp.data@teststat < pp.data@cval[2]
-
-# data.unemp
-pp.data <- ur.pp(data.unemp$unemp_female, type="Z-tau", model="trend", lags="short")
-pp.data@teststat < pp.data@cval[2]
-
-pp.data <- ur.pp(data.unemp$unemp_male, type="Z-tau", model="trend", lags="short")
-pp.data@teststat < pp.data@cval[2]
-
-# data.payments
-pp.data <- ur.pp(data.payments$payments_in_number, type="Z-tau", model="trend", lags="short")
-pp.data@teststat < pp.data@cval[2]
-
-pp.data <- ur.pp(data.payments$payments_in_value, type="Z-tau", model="trend", lags="short")
-pp.data@teststat < pp.data@cval[2]
-
-pp.data <- ur.pp(data.payments$payments_out_number, type="Z-tau", model="trend", lags="short")
-pp.data@teststat < pp.data@cval[2]
-
-pp.data <- ur.pp(data.payments$payments_out_value, type="Z-tau", model="trend", lags="short")
-pp.data@teststat < pp.data@cval[2]
-
-pp.data <- ur.pp(data.payments$cash_in_number, type="Z-tau", model="trend", lags="short")
-pp.data@teststat < pp.data@cval[2]
-
-pp.data <- ur.pp(data.payments$cash_in_value, type="Z-tau", model="trend", lags="short")
-pp.data@teststat < pp.data@cval[2]
-
-pp.data <- ur.pp(data.payments$cash_out_number, type="Z-tau", model="trend", lags="short")
-pp.data@teststat < pp.data@cval[2]
-
-pp.data <- ur.pp(data.payments$cash_out_value, type="Z-tau", model="trend", lags="short")
-pp.data@teststat < pp.data@cval[2]
-
-# data.alcohol.consumption
-pp.data <- ur.pp(data.alcohol.consumption$alcohol_consumption, type="Z-tau", model="trend", lags="short")
-pp.data@teststat < pp.data@cval[2]
-
-# data.alcohol.price
-pp.data <- ur.pp(data.alcohol.price$alcohol_price, type="Z-tau", model="trend", lags="short")
-pp.data@teststat < pp.data@cval[2]
-
-# data.bankrupts
-pp.data <- ur.pp(data.bankrupts$bankrupts, type="Z-tau", model="trend", lags="short")
-pp.data@teststat < pp.data@cval[2]
-
-# data.cards
-pp.data <- ur.pp(data.cards$credit_cards, type="Z-tau", model="trend", lags="short")
-pp.data@teststat < pp.data@cval[2]
-
-pp.data <- ur.pp(data.cards$debit_cards, type="Z-tau", model="trend", lags="short")
-pp.data@teststat < pp.data@cval[2]
-
-# data.emigrants
-pp.data <- ur.pp(data.emigrants$emigrants, type="Z-tau", model="trend", lags="short")
-pp.data@teststat < pp.data@cval[2]
-
-# data.loans.deposits
-pp.data <- ur.pp(data.loans.deposits$loan_interest_EUR, type="Z-tau", model="trend", lags="short")
-pp.data@teststat < pp.data@cval[2]
-
-pp.data <- ur.pp(data.loans.deposits$loan_value_EUR, type="Z-tau", model="trend", lags="short")
-pp.data@teststat < pp.data@cval[2]
-
-pp.data <- ur.pp(data.loans.deposits$deposit_interest_EUR, type="Z-tau", model="trend", lags="short")
-pp.data@teststat < pp.data@cval[2]
-
-pp.data <- ur.pp(data.loans.deposits$loan_interest_LTL, type="Z-tau", model="trend", lags="short")
-pp.data@teststat < pp.data@cval[2]
-
-pp.data <- ur.pp(data.loans.deposits$loan_value_LTL, type="Z-tau", model="trend", lags="short")
-pp.data@teststat < pp.data@cval[2]
-
-pp.data <- ur.pp(data.loans.deposits$deposit_interest_LTL, type="Z-tau", model="trend", lags="short")
-pp.data@teststat < pp.data@cval[2]
-
-# data.retail
-pp.data <- ur.pp(data.retail$retail_volume, type="Z-tau", model="trend", lags="short")
-pp.data@teststat < pp.data@cval[2]
-
-# data.wage
-pp.data <- ur.pp(data.wage$minimum_wage, type="Z-tau", model="trend", lags="short")
-pp.data@teststat < pp.data@cval[2]
-
-# data.travel
-pp.data <- ur.pp(data.travel$outgoing_tourists, type="Z-tau", model="trend", lags="short")
-pp.data@teststat < pp.data@cval[2]
-
-pp.data <- ur.pp(data.travel$travel_agencies, type="Z-tau", model="trend", lags="short")
-pp.data@teststat < pp.data@cval[2]
+kpss.table <- kpss.table[,!(names(kpss.table) %in% 'variable')]
 
 
 
-
-# data(nporg)
-# gnp <- na.omit(nporg[, "gnp.r"])
-# pp.gnp <- ur.pp(gnp, type="Z-tau", model="trend", lags="short")
-# pp.gnp
-# pp.gnp@cval
-# pp.gnp@lags
-# 
-# summary(pp.gnp)
+# The null hypothesis of the ADF test is the opposite of the KPSS test. 
+# Thus, a way to proceed is to test first for the null of stationarity: 
+# if the null hypothesis is rejected then conclude that the series is not stationary, 
+# otherwise test for the null of a unit root by means of the ADF test. In the latter case, 
+# if the null of a unit root is rejected then conclude that the series is stationary, 
+# otherwise the data are not informative enough to reach a conclusion since none of the hypotheses could be rejected.
 
 
+# Notice that the KPSS test is a right tailed test (the critical region is in the right tail of the distribution, 
+# i.e., values of the test statistic larger than the tabulated critical value involve rejection of the null hypothesis) 
+# while the ADF test is a left tailed test.
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+# One way to proceed is the following: Start by applying the ADF test.
+# 1. If the null of a unit root is rejected we are done. The trend (if any) can be represented by a deterministic linear trend.
+# 2. If the null of the ADF test is not rejected then we apply the KPSS test (where the null hypothesis is the opposite, 
+# stationarity or stationarity around a linear trend).
+#   a) If the null of the KPSS test is rejected then we conclude that there is a unit root 
+#     and work with the first differences of the data. Upon the first differences of the series 
+#     we can test the significance of other regressors or choose an ARMA model.
+#   b) If the null of the KPSS test is not rejected then we would have to say that the data are 
+#     not much informative because we weren't able to reject none the of the null hypotheses. 
+#     In this case it may be safer to work with the first differences of the series.
 
 
 

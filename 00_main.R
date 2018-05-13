@@ -75,17 +75,20 @@ data.wage                 <- data.wage[substr(data.wage$date, 1, 4) %in% modelin
 data.travel               <- data.travel[substr(data.travel$date, 1, 4) %in% modeling.period,]
 
 
-# STATIONARITY -----------------------------------------------------------------
-
-source('01_stationarity.R')
-
-
 # DATA DISAGGREGATION ----------------------------------------------------------
 
 source('01_disaggregation.R')
 
 
+# STATIONARITY -----------------------------------------------------------------
+
+source('01_stationarity.R')
+
+
 # CORRELATION ------------------------------------------------------------------
+
+source('01_correlation.R')
+
 
 # MODEL ------------------------------------------------------------------------
 
