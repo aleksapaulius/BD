@@ -42,6 +42,9 @@ library('stargazer')
 library('knitr')
 library('kableExtra')
 library('magrittr')
+library('Cairo')
+library('lubridate')
+library('urca')
 
 source('00_functions.R')
 source('00_input.R')
@@ -611,8 +614,44 @@ kable(all.variables.stat[all.variables.stat$variable %in% c('outgoing_tourists',
   kable_styling(position = "center", latex_options = c("hold_position", "scale_down"))
 ```
 
+\pagebreak
+## Duomenų disagregavimas {-}
+```{r include = FALSE}
+source('01_data_manipulation.R')
+source('01_disaggregation.R')
+```
 
-## Stacionarumo tikrinimas {-}
+\pagebreak
+## Vienetinės šaknies tikrinimas {-}
+```{r include = FALSE}
+source('01_stationarity.R')
+```
+
+Taikome vientinės šaknies ir stacionarumo testus. O čia lentelė:
+
+```{r results = "asis", echo=FALSE}
+kable(test.table, 
+      format = "latex", caption = "Statistiniai vienetinės šaknies ir stacionarumo testai", booktabs = T, row.names = FALSE) %>% 
+  kable_styling(position = "center", latex_options = c("hold_position", "scale_down")) %>%
+  add_header_above(c(" ", "PP testas" = 3, "KPSS testas" = 3))
+```
+
+
+\pagebreak
+## Koreliacija {-}
+
+```{r include = FALSE}
+source('01_correlation.R')
+```
+
+Skaičiuojame koreliaciją tarp kintamųjų. Ir parodome grafike.
+
+```{r fig.width=10, fig.height=8, echo=FALSE, include=TRUE, dev='cairo_pdf'}
+plot.cor(highest.cor.spearman, plot.title = "Labiausiai koreliuoti kintamieji (Spearman)")
+plot.cor(highest.cor.pearson, plot.title = "Labiausiai koreliuoti kintamieji (Pearson)")
+plot.cor(lowest.cor.spearman, plot.title = "Mažiausiai koreliuoti kintamieji (Spearman)")
+plot.cor(lowest.cor.pearson, plot.title = "Mažiausiai koreliuoti kintamieji (Pearson)")
+```
 
 
 

@@ -44,6 +44,28 @@ statistics <- function(xlist){
 }
 
 
+# plot correlation
+plot.cor <- function(dd,text=T, plot.title = ""){
+  d <- dd
+  d$Var1<-factor(d$Var1)
+  d$Var2<-factor(d$Var2)
+  
+  fff <- ggplot(d, aes(x=Var2, y=Var1, fill=value,label=round(value,2))) +
+    labs(title = plot.title,
+         color=NULL) +  # title and caption
+    theme_bw()+
+    geom_tile()+
+    theme(axis.title.x = element_blank(),
+          axis.title.y = element_blank(),
+          axis.text.x  = element_text(angle=90, vjust=0.5,hjust=1))
+  
+  if(text){
+    fff <- fff+geom_text()
+  }
+  
+  fff <- fff+scale_fill_gradient2(mid="white", high="#CC0000", low="#0066CC", name = "Koeficientas")
+  print(fff)
+}
 
 
 

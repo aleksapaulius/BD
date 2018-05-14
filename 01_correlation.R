@@ -49,52 +49,9 @@ for (name in unique(lowest.cor.pearson$Var1)) {
 # m.df <- melt(cor(alldata.m[,lowest.cor], use = 'complete.obs'))
 # qplot(x=Var1, y=Var2, data=m.df, fill=value, geom="tile")
 
-
-tileg(waste.cor.all.spearman)
-tileg(waste.cor.all.pearson)
-
-tileg(cor(alldata.m[,highest.cor], use = 'complete.obs'))
+# plot.cor(lowest.cor.spearman)
 
 
-tileg <- function(dd,text=T){
-  dd  <- data.frame(dd)
-  lvl1 <- colnames(dd)
-  
-  lvl2 <- rownames(dd)
-  
-  dd <- cbind(dd,names=lvl2)
-  d <- melt(dd,id.vars="names")
-  colnames(d ) <- c("var1","var2","value")
-  
-  d$var1<-factor(d$var1,levels=rev(lvl2))
-  d$var2<-factor(d$var2,levels=lvl1)
-  
-  if(all(is.na(d$value))){
-    df <- data.frame()
-    print(ggplot(df)+ xlim(-5, 5) + ylim(-5, 5)+theme_bw()+xlab('')+ylab("")+
-            annotate("text", label = "No Data", x = 0, y = 0, size = 8, colour = "Black")+
-            theme(axis.ticks = element_blank(), axis.text = element_blank()))
-    
-  }else{
-    fff <- ggplot(d, aes(x=var2, y=var1, fill=value,label=round(value,2))) +
-      theme_bw()+
-      geom_tile()+
-      theme(axis.title.x = element_blank(),
-            axis.title.y = element_blank(),
-            axis.text.x  = element_text(angle=90, vjust=0.5,hjust=1))
-    
-    if(text){
-      fff <- fff+geom_text()
-    }
-    
-    if(any(sapply(d$value<0,isTRUE))){
-      fff <- fff+scale_fill_gradient2(mid="white", high="#CC0000", low="#0066CC")
-    }else{
-      fff <- fff+scale_fill_gradient2(mid="yellow", high="#FF3333", low="#33CC00",midpoint=mean(range(d$value,na.rm=T),na.rm=T))
-    }
-    print(fff)
-  }
-}
 
 
 

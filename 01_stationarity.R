@@ -6,22 +6,23 @@
 
 pp.table <- data.frame(variable = all.variables.stat$variable,
                        kintamasis = all.variables.stat$kintamasis,
-                       statistika = NA, 
-                       kritinė_reikšmė = NA,
-                       nulinė_hipotezė = NA)
+                       stat1 = NA, 
+                       kr_reikšmė1 = NA,
+                       H01 = NA)
 
 for (i in unique(pp.table$variable)) {
   pp.data <- ur.pp(alldata.m[,i], type="Z-tau", model="trend", lags="short")
-  pp.table[pp.table$variable == i,'statistika'] <- pp.data@teststat
-  pp.table[pp.table$variable == i,'kritinė_reikšmė'] <- pp.data@cval[2]
+  pp.table[pp.table$variable == i,'stat1'] <- pp.data@teststat
+  pp.table[pp.table$variable == i,'kr_reikšmė1'] <- pp.data@cval[2]
   if (pp.data@teststat < pp.data@cval[2]) { # jei TRUE, tai atmetam nulinę hipotezę apie vienetinę šaktį (galimai stacionaru)
-    pp.table[pp.table$variable == i,'nulinė_hipotezė'] <- 'atmetama'
+    pp.table[pp.table$variable == i,'H01'] <- 'atmetama'
   } else {
-    pp.table[pp.table$variable == i,'nulinė_hipotezė'] <- 'priimama'
+    pp.table[pp.table$variable == i,'H01'] <- 'priimama'
   }
 }
 
 pp.table <- pp.table[,!(names(pp.table) %in% 'variable')]
+pp.table[,2:3] <- round(pp.table[,2:3],digits=3)
 
 
 # KPSS unit root test
@@ -29,23 +30,27 @@ pp.table <- pp.table[,!(names(pp.table) %in% 'variable')]
 
 kpss.table <- data.frame(variable = all.variables.stat$variable,
                        kintamasis = all.variables.stat$kintamasis,
-                       statistika = NA, 
-                       kritinė_reikšmė = NA,
-                       nulinė_hipotezė = NA)
+                       stat2 = NA, 
+                       kr_reikšmė2 = NA,
+                       H02 = NA)
 
 for (i in unique(kpss.table$variable)) {
   kpss.data <- ur.kpss(alldata.m[,i], type="tau")
-  kpss.table[kpss.table$variable == i,'statistika'] <- kpss.data@teststat
-  kpss.table[kpss.table$variable == i,'kritinė_reikšmė'] <- kpss.data@cval[2]
+  kpss.table[kpss.table$variable == i,'stat2'] <- kpss.data@teststat
+  kpss.table[kpss.table$variable == i,'kr_reikšmė2'] <- kpss.data@cval[2]
   if (kpss.data@teststat > kpss.data@cval[2]) { # jei TRUE, tai atmetam nulinę hipotezę
-    kpss.table[kpss.table$variable == i,'nulinė_hipotezė'] <- 'atmetama'
+    kpss.table[kpss.table$variable == i,'H02'] <- 'atmetama'
   } else {
-    kpss.table[kpss.table$variable == i,'nulinė_hipotezė'] <- 'priimama'
+    kpss.table[kpss.table$variable == i,'H02'] <- 'priimama'
   }
 }
 
 kpss.table <- kpss.table[,!(names(kpss.table) %in% 'variable')]
+kpss.table[,2:3] <- round(kpss.table[,2:3],digits=3)
 
+
+# merge both test result into one dataframe
+test.table <- merge(pp.table, kpss.table)
 
 
 # The null hypothesis of the ADF test is the opposite of the KPSS test. 
