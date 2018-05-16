@@ -84,7 +84,9 @@ ggplot(df, aes(date, value)) +
   theme(strip.background = element_blank())
 ```
 
-Čia tekstas po grafiku. Toliau seka lentelė su pagrindinėm statistikom.
+Grafike matome struktūrinį lūžį grynųjų pinigų kiekyje dėl matavimo metodikos pasikeitimo įvedus naują valiutą.
+Prisijungus prie euro zonos taikant pasirašytojo kapitalo raktą Lietuvai tenka gerokai didesnė euro banknotų dalis nei buvo išleista litų iki euro įvedimo. Todėl ir yra toks padidėjimas nuo 2015 01.
+Tuo tarpu indėlių skaičius tolygiai augo visą stebimą laikotarpį, išskyrus augimo sustojimą ir indėlių vertės mažėjimą 2008 m. galimai dėl pasaulinės finansų rinkos smukimo, ir šiek tiek spartesnį augimą 2015 metais, kuris tikėtina įvyko dėl valiutos pasikeitimo, kuomet Lietuvos gyventojai iki tol laikytas santaupas grynaisiais pinigais po euro įvedimo pakeitė į indėlius finansų įstaigose.
 
 ```{r results = "asis", echo=FALSE}
 kable(all.variables.stat[all.variables.stat$variable %in% c('cash', 'deposits'),c(2,6,7,8,9,10,11,12)], 
@@ -621,13 +623,16 @@ source('01_data_manipulation.R')
 source('01_disaggregation.R')
 ```
 
+Kadangi turime įvairaus dažnumo duomenis, prieš juos įtraukiant į bendrą modelį, turime suvienodinti jų dažnumą. Tarp mūsų turimų duomenų daugiausiai yra mėnesinių, o taip pat ir modeliuojami kintamieji yra mėnesinio dažnumo. Taigi visus duomenis agreguosime į mėnesinius. 
+Mūsų atveju taikysime disagregavimo metodus siekdami disagreguoti turimus žemo dažnumo duomenis į aukšto dažnumo. Šiam tikslui pasiekti naudosimės R paketu __tempdisagg__ kurimae yra surinka keli disagregavimo metodai.
+
 \pagebreak
 ## Vienetinės šaknies tikrinimas {-}
 ```{r include = FALSE}
 source('01_stationarity.R')
 ```
 
-Taikome vientinės šaknies ir stacionarumo testus. O čia lentelė:
+Siekdami patikrinti ar turimi duomenys yra tinkami modelio sudarymui turime nustatyti ar jie neturi vienetinės šaknies ir yra stacionarūs. Tuo tikslu naudojamės Phillips–Perron (PP) vienetinės šaknies ir Kwiatkowski–Phillips–Schmidt–Shin (KPSS) stacionarumo testais.
 
 ```{r results = "asis", echo=FALSE}
 kable(test.table, 
@@ -635,6 +640,23 @@ kable(test.table,
   kable_styling(position = "center", latex_options = c("hold_position", "scale_down")) %>%
   add_header_above(c(" ", "PP testas" = 3, "KPSS testas" = 3))
 ```
+
+Phillips–Perron testo rezultatai rodo, jog aštuonių iš mūsų turimų kintamųjų atveju nulinė vienetinės šaknies hipotezė nėra staistiškai reikšminga, todėl priimame alternatyvią hipotezę apie duomenų stacionarumą. Šiuos kintamuosius galėsime naudoti modelyje neatlikę jokių transformacijų:
+
+\begin{itemize}
+  \item Alkoholio kaina
+  \item Grynųjų įnešimo operacijų vertė
+  \item Debeto kortelių skaičius
+  \item Emigrantų skaičius
+  \item Paskolų eurais palūkanų norma
+  \item Išvykstančių turistų skaičius
+  \item Pelno mokesčiai
+  \item Kelionių agentūrų skaičius
+\end{itemize}
+
+\
+
+Atsižvelgdami į Phillips–Perron testo rezultatus galime daryti išvadą, kad dauguma mūsų turimų duomenų neatmeta nulinės hipotezės apie vienetinęs šaknies turėjimą. Tačiau pakartoję šį testą kintamųjų pirmos eilės skirtumams matome, kad nulinę vienetinės šaknies hipotezę galime atmesti. Vadinasi dauguma mūsų turimų duomenų yra integruoti pirma eile.
 
 
 \pagebreak
@@ -644,16 +666,39 @@ kable(test.table,
 source('01_correlation.R')
 ```
 
-Skaičiuojame koreliaciją tarp kintamųjų. Ir parodome grafike.
+Kadangi dauguma turimų duomenų netenkina normalumo prielaidos, o ir stebima laiko eilutė yra ganėtinai trumpa, koreliacijai tarp kintamųjų nustatyti vadovausimės Spirmeno (Spearman) ranginės koreliacijos koeficientu. Žemiau pateikiami grafikai tarp penkių labiausiai ir penkių mažiausiai koreliuotų kintamųjų.
 
 ```{r fig.width=10, fig.height=8, echo=FALSE, include=TRUE, dev='cairo_pdf'}
 plot.cor(highest.cor.spearman, plot.title = "Labiausiai koreliuoti kintamieji (Spearman)")
-plot.cor(highest.cor.pearson, plot.title = "Labiausiai koreliuoti kintamieji (Pearson)")
-plot.cor(lowest.cor.spearman, plot.title = "Mažiausiai koreliuoti kintamieji (Spearman)")
-plot.cor(lowest.cor.pearson, plot.title = "Mažiausiai koreliuoti kintamieji (Pearson)")
 ```
 
+Iš lentelės matome, jog labiausiai tarpusavyje koreliuoti kintamieji yra šie:
 
+\begin{itemize}
+  \item Paskolų eurais palūkanų norma
+  \item Minimalus atlyginimas
+  \item Mažmeninės prekybos apimtis
+  \item Išeinančių mokėjimų skaičius
+  \item Akcizo mokesčiai
+\end{itemize}
+
+\
+
+```{r fig.width=10, fig.height=8, echo=FALSE, include=TRUE, dev='cairo_pdf'}
+plot.cor(lowest.cor.spearman, plot.title = "Mažiausiai koreliuoti kintamieji (Spearman)")
+```
+
+O tarpysavyje mažiausia koreliuoti kintamieji yra šie:
+
+\begin{itemize}
+  \item Paskolų litais vertė
+  \item Išeinančių mokėjimų vertė
+  \item Indėlių litais palūkanų norma
+  \item Indėlių eurais palūkanų norma
+  \item Ekonominis reguliavimas: darbuotojų skaičius
+\end{itemize}
+
+\
 
 
 
