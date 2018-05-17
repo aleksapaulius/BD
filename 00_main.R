@@ -75,9 +75,12 @@ source('01_correlation.R')
 
 # MODEL ------------------------------------------------------------------------
 
+# paruosiam duomenis modeliavimui
+alldata.model <- alldata.m
+alldata.model[diff1.variables] <- lapply(alldata.model[diff1.variables], diff)
 
 
-
+df[cols] <- lapply(df[cols], FUN)
 
 
 

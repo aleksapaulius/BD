@@ -103,6 +103,7 @@ for (i in unique(pp.table$variable)) {
   }
 }
 
+diff1.variables <- pp.table$variable
 pp.table <- pp.table[,!(names(pp.table) %in% 'variable')]
 pp.table[,2:3] <- round(pp.table[,2:3],digits=3)
 

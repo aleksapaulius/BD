@@ -26,8 +26,6 @@ output:
 
 
 ```{r include = FALSE}
-library(viridis)
-
 library('readxl')
 library('dplyr')
 library('reshape2')
@@ -84,9 +82,9 @@ ggplot(df, aes(date, value)) +
   theme(strip.background = element_blank())
 ```
 
-Grafike matome struktūrinį lūžį grynųjų pinigų kiekyje dėl matavimo metodikos pasikeitimo įvedus naują valiutą.
-Prisijungus prie euro zonos taikant pasirašytojo kapitalo raktą Lietuvai tenka gerokai didesnė euro banknotų dalis nei buvo išleista litų iki euro įvedimo. Todėl ir yra toks padidėjimas nuo 2015 01.
-Tuo tarpu indėlių skaičius tolygiai augo visą stebimą laikotarpį, išskyrus augimo sustojimą ir indėlių vertės mažėjimą 2008 m. galimai dėl pasaulinės finansų rinkos smukimo, ir šiek tiek spartesnį augimą 2015 metais, kuris tikėtina įvyko dėl valiutos pasikeitimo, kuomet Lietuvos gyventojai iki tol laikytas santaupas grynaisiais pinigais po euro įvedimo pakeitė į indėlius finansų įstaigose.
+\ Grafike matome struktūrinį lūžį grynųjų pinigų kiekyje dėl matavimo metodikos pasikeitimo įvedus naują valiutą.
+Prisijungus prie euro zonos taikant pasirašytojo kapitalo raktą Lietuvai tenka gerokai didesnė euro banknotų dalis nei buvo išleista litų iki euro įvedimo. Todėl ir yra toks padidėjimas nuo 2015 metų pradžios.
+Tuo tarpu indėlių skaičius tolygiai augo visą stebimą laikotarpį, išskyrus augimo sustojimą ir indėlių vertės mažėjimą 2008 metais galimai dėl pasaulinės finansų rinkos smukimo, ir šiek tiek spartesnį augimą 2015 metais, kuris tikėtina įvyko dėl valiutos pasikeitimo, kuomet Lietuvos gyventojai iki tol laikytas santaupas grynaisiais pinigais keičiantis valiutai pakeitė į indėlius finansų įstaigose.
 
 ```{r results = "asis", echo=FALSE}
 kable(all.variables.stat[all.variables.stat$variable %in% c('cash', 'deposits'),c(2,6,7,8,9,10,11,12)], 
@@ -120,7 +118,7 @@ ggplot(df, aes(x=date)) +
                      values = c("tax_gpm" = "#F8766D", "tax_excise" = "#00BFC4", "tax_pelno" = "#7CAE00", "tax_vat" = "#C77CFF"))
 ```
 
-Čia tekstas po grafiku. Toliau seka lentelė su pagrindinėm statistikom.
+Visose stebimose sumokėtų mokesčių laiko eilutėse pastebimas staigus kritimas 2009 metais. Šis kritimas gali būti susietas su finansine krize, kuomet kilo nedarbo lygis ir ko pasekoje buvo surenkama mažiau mokesčių. Tačiau nepaisant to, nuo 2010 metų sumokėtų mokesčių vertė tolygiai kilo iki pat stebimo laikotarpio pabaigos - 2017 metų. 
 
 ```{r results = "asis", echo=FALSE}
 kable(all.variables.stat[all.variables.stat$variable %in% c('tax_gpm', 'tax_excise', 'tax_pelno', 'tax_vat'),c(2,6,7,8,9,10,11,12)], 
@@ -150,7 +148,7 @@ ggplot(df, aes(x=date)) +
                      values = c("cpi_alcohol" = "#F8766D", "cpi" = "#00BFC4"))
 ```
 
-Čia tekstas po grafiku. Toliau seka lentelė su pagrindinėm statistikom.
+Iš grafiko galime pasakyti jog kainų indeksai vartojimo prekėms ir paslaugoms bei alkoholiniams gėrimams, tabakui ir narkotikams yra pakankamai koreliuoti. Pastebime sulėtėjusį augimą nuo 2000 metų kuris tęsėsi iki 2008 metų. Ir po staigesnio šuolio 2009 - 2010 metais toliau tolygiai augo. Taip pat, pastebime staigų šuolį alkoholinių gerimų, tabako ir narkotikų indekse 2017 metais. Šis kilimas pagrinde susijęs su alkoholio kontrolės įstatymų pasikeitimais šiais metais.
 
 ```{r results = "asis", echo=FALSE}
 kable(all.variables.stat[all.variables.stat$variable %in% c('cpi_alcohol', 'cpi'),c(2,6,7,8,9,10,11,12)], 
@@ -171,7 +169,7 @@ brks <- df$date[seq(1, length(df$date), 1)]
 lbls <- lubridate::year(brks)
 ggplot(df, aes(x=date)) + 
   geom_line(aes(y=value, col=variable)) + 
-  labs(title=var.name, 
+  labs(title="Ekonominis reguliavimas", 
        subtitle="Metiniai duomenys", 
        caption="Šaltinis: Valstybės tarnybos departamentas", 
        y="Vienetai",
@@ -183,7 +181,7 @@ ggplot(df, aes(x=date)) +
                      values = c("regulation_employees" = "#F8766D", "regulation_institutions" = "#00BFC4"))
 ```
 
-Čia tekstas po grafiku. Toliau seka lentelė su pagrindinėm statistikom.
+Ekonominio reguliavimo įvertinimui buvo pasirinkti du dydžiai: užimtų vadovaujamų pareigybių valstybinėse institucijose skaičius ir valstybinių institucijų skaičius. Matome jog užimtų pareigybių skaičius visą stebimą laikotarpį tolygiai krito. Tuo tarpu institucijų skaičius šiek tiek išaugęs krizės metu krito iki pradinio lygio per du metus. Ir išlaikė tokį patį iki iki 2017 metų pabaigos - 2018 metų pradžios kuomet krito beveik 40% dėl valstybinių įstaigų reorganizacijos. 
 
 ```{r results = "asis", echo=FALSE}
 kable(all.variables.stat[all.variables.stat$variable %in% c('regulation_employees', 'regulation_institutions'),c(2,6,7,8,9,10,11,12)], 
@@ -209,12 +207,12 @@ ggplot(df, aes(x=date)) +
        y = 'Proc.',
        color=NULL) +  # title and caption
   scale_color_manual(breaks = unique(as.character(df$variable)), 
-                     labels = c("Moterys", "Vyrai"),
+                     labels = c("MOTERYS", "VYRAI"),
                      values = c("unemp_female" = "#F8766D", "unemp_male" = "#00BFC4"))
 
 ```
 
-Čia tekstas po grafiku. Toliau seka lentelė su pagrindinėm statistikom.
+Nors galėtume pasakyti jog visą stebimą laikotarpį vyrų ir moterų nedarbas gana stipriai koreliavo, tačiau pastebime ir tam tikrus skirtumus. Vyrų nedarbas krito smarkiau 2003 - 2004 metais. Tai galima susieti su emigrantų skaičiaus didėjimu Lietuvai prisijungus prie Europos Sąjungos. Didėjant emigrantų skaičiui mažėjo darbo jėga, todėl atitinkamai mažėjo ir nedarbas. Galime daryti išvadą, jog iš šalies emigravo darbo Lietuvoje neturintys asmenys, kurių tarpe didžiają dalį sudaro vyrai. Tiek moterų, tiek vyrų nedarbo lygis mažėjo iki 2008 metų galo - 2009 pradžios. Šis mažėjimas sietinas su gerėjančia ekonomine situacija šalyje. Tačiau prasidėjus pasaulinei finansų krizei nedarbo lygis išaugo drastiskai. Vyrų nedrabo lygis išaugo daugiau. Tikėtina dėl to, jog vyrai noriau rinkosi ir turėjo daugiau galimybių dirbti šešėlyje. Nuo 2010 metų moterų ir vyrų nedarbo lygiai tolygiai mažėja iki pat stebimo laikotarpio pabaigos (2017 metų galo), tačiau vyrų nedarbas išlieka aukštesniame lygyje nei moterų. 
 
 ```{r results = "asis", echo=FALSE}
 kable(all.variables.stat[all.variables.stat$variable %in% c('unemp_female', 'unemp_male'),c(2,6,7,8,9,10,11,12)], 
@@ -656,7 +654,7 @@ Phillips–Perron testo rezultatai rodo, jog aštuonių iš mūsų turimų kinta
 
 \
 
-Atsižvelgdami į Phillips–Perron testo rezultatus galime daryti išvadą, kad dauguma mūsų turimų duomenų neatmeta nulinės hipotezės apie vienetinęs šaknies turėjimą. Tačiau pakartoję šį testą kintamųjų pirmos eilės skirtumams matome, kad nulinę vienetinės šaknies hipotezę galime atmesti. Vadinasi dauguma mūsų turimų duomenų yra integruoti pirma eile.
+Atsižvelgdami į Phillips–Perron testo rezultatus galime daryti išvadą, kad dauguma mūsų turimų duomenų neatmeta nulinės hipotezės apie vienetinės šaknies turėjimą. Tačiau pakartoję šį testą kintamųjų pirmos eilės skirtumams matome, kad nulinę vienetinės šaknies hipotezę galime atmesti. Vadinasi dauguma mūsų turimų duomenų yra integruoti pirma eile. 
 
 
 \pagebreak
@@ -698,7 +696,12 @@ O tarpysavyje mažiausia koreliuoti kintamieji yra šie:
   \item Ekonominis reguliavimas: darbuotojų skaičius
 \end{itemize}
 
-\
+
+
+\pagebreak
+# Pinigų paklausos modelis {-}
+
+\ \ Sudarydami modelį įtrauksime kintamuosius kurie yra intergruoti nuline eile ir kintamųjų intergruotų pirma eile pirmos eilės skirtumus.
 
 
 
