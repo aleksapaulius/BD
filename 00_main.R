@@ -77,10 +77,34 @@ source('01_correlation.R')
 
 # paruosiam duomenis modeliavimui
 alldata.model <- alldata.m
-alldata.model[diff1.variables] <- lapply(alldata.model[diff1.variables], diff)
+alldata.model[1,diff1.variables] <- NA
+alldata.model[2:nrow(alldata.model), diff1.variables] <- lapply(alldata.m[diff1.variables], diff)
+alldata.model['ratio'] <- alldata.model$cash/alldata.model$deposits
+LTL.dates <- c(apply(expand.grid(2006:2014, 1:9),1,paste,collapse=" 0"), apply(expand.grid(2006:2014, 10:12),1,paste,collapse=" "), '2015 01')
+EUR.dates <- c(apply(expand.grid(2015:2017, 1:9),1,paste,collapse=" 0"), apply(expand.grid(2015:2017, 10:12),1,paste,collapse=" ")) %>% setdiff('2015 01')
+
+alldata.model[alldata.model$date %in% LTL.dates, 'dummy_LTL'] <- 1
+alldata.model[alldata.model$date %in% EUR.dates, 'dummy_LTL'] <- 0
+alldata.model[alldata.model$date %in% LTL.dates, 'dummy_EUR'] <- 0
+alldata.model[alldata.model$date %in% EUR.dates, 'dummy_EUR'] <- 1
+
+# creating formula
+lm.regressors <- setdiff(names(alldata.model), c('date', 'cash', 'deposits', 'ratio'))
+f <- as.formula(paste("ratio ~ ", paste(lm.regressors, collapse=" + ")))
+
+# linear model
+fit <- lm(f, data = alldata.model)
+
+# fit <- lm(log(turnover) ~ day.type + month + factor(holiday, exclude=c('12','13')), data = mdata[mdata$date %in% train.range,])
 
 
-df[cols] <- lapply(df[cols], FUN)
+
+
+
+
+
+
+
 
 
 

@@ -22,6 +22,9 @@ output:
     number_sections: yes
     toc: yes
     toc_depth: 2
+# indent: true
+bibliography: references.bib
+biblio-style: apsr
 ---
 
 
@@ -51,13 +54,50 @@ source('01_data_cleaning.R')
 \pagebreak
 # Įvadas {-}
 
-Tekstas tekstas. 
+\ \ \ Visi norime gyventi geriau, tačiau ne visi suprantame, kaip tampriai mūsų gerbūvis bendroje šalies ekonomikoje yra susijęs su kitais žmonėmis. Dėl šio nesupratimo arba vesdini savanaudiškų paskatų kai kurie žmonės yra linkę paaukoti bendrą šalies ekonominę gerovę vardan trumpalaikės savo gyvenimo kokybės pagerinimo. Dėl didesnio darbo užmokesčio jie apeina įstatymus, neapskaito pajamų ir nemoka mokesčių ir taip prisideda prie šėšėlinės ekonomikos. Vyriausybės ekspertų vertinimais Lietuvoje slepiamos ekonominės veiklos pajamos sudaro apie ketvirtį bendro vidaus produkto.[^footnote] Deja naudojami vertinimo būdai nepasižymi savo tikslumu. 
 
+[^footnote]: lrytas.lt - Šešėlinės ekonomikos mastai - stulbinantys, bet tik draudimai čia negelbės
+
+\ \ \ Šiame darbe šešėlinės ekonomikos mastas įvertinamas pinigų paklausos modeliu. Siekiant išsiaiškinti kokie ekonominiai ar socialiniai veiksniai lemia šešėlinės ekonomikos augimą ar susitraukimą, įtraukiami įvairūs kintamieji ir sudaromas tiesinis modelis.
+
+
+\pagebreak
+# Šešėlinė ekonomika {-}
+
+## Samprata {-}
+
+\ \ \ Norėdami tirti ir šiek tiek daugiau sužinoti apie šešėlinę ekonomiką privalome pradėti nuo apibrėžimo. Mokslinėje literatūroje nerasime vieningo šešėlinės ekonomikos apibrėžimo. Apibrėžimai skiriasi priklausomai nuo konteksto ir ketinamo tirti dalyko susijusio su šešėline ekonomika. Su šia tema susijusiuose moksliniuose straipsniuose viena daugiausiai[^googlescholar] cituojamų knygų [@schneider2013shadow] pateikia kelis šešėlinės ekonomikos epibrėžimus ir pabrėžia, kad apibrėžimas gali skirtis ir priklausomai nuo regiono[^regionai], apie kurio oficialiai neapskaitytas pajamas yra kalbama. Kituose darbuose [@schneider2005shadow] kaip dažniausiai vartojamas pateikiamas šis apibrėžimas: *„...tai visos neregistruojamos ekonominės veiklos rūšys, kurios nėra įtraukiamos skaičiuojant šalies bendrąjį vidaus produktą (BVP)“*. Kitas autorius [@smith1994lassessing] naudoja šį apibrėžimą: *„...tai prekių ar paslaugų gamyba rinkos pagrindu, neaptinkama bendrame vidaus produkte (BVP), nepaisant to ar ši gamyba yra legali ar ne“*. Tuo tarpu @tanzi1980underground šį reiškinį apibrėžia taip: *„...tai yra bendras nacionalinis produktas, kuris yra nestebimas oficialioje statistikoje dėl to, kad nepranešama apie jį“.* Plačiau skirtingų autorių pateikti šešėlinės ekonomikos apibrėžimai yra analizuojami @startiene2009oficialiai straipsnyje.  
+
+[^googlescholar]: Remiantis Google Scholar duomenimis 2018 m. gegužės mėn. cituota 1008 kartų.
+
+[^regionai]: Besivystančios šalys arba OECD šalys.
+
+
+## Tyrimo metodai {-}
+
+Asmenys ar ūkio subjektai dalyvaujantys šešėlinėje ekonomikoje yra linkę šią veiklą slėpti. To pasekoje kyla sunkumų norint tiksliai įvertinti šio reiškinio mastus. O taip pat, nėra vieningai sutariama dėl to, kuris tyrimo būdas yra tiksliausias. Tyrimo būdus galima suskirstyti į tris grupes[^grupes]:
+
+\begin{enumerate}
+  \item Tiesioginis. Taikomas imčių metodas ir specialūs statistiniai tyrimai. Šiai grupei priklauso apklausų atlikimas, mokesčių audito rezultatai. Tiesioginiai netodai pasižymi netikslumu dėl galimo respondentų šališkumo siekiant apsaugoti save nuo galimų sankcijų ir išlaikyti savo neoficialią ekonominę veiklą paslaptyje.
+  \item Netiesioginis. Vertinamas skirtumas tarp visuminių pajamų ir visuminių išlaidų bei darbo jėgos svyravimai. Šiai grupei priskiriame tokius vertinimo metodus kaip fizinių sąnaudų ar pinigų paklausos metodas.
+  \item Mišrus. Šiai grupei priklauso tyrimai, kurie remiasi tiesioginiais, netiesioginiais ir
+ekspertiniais vertinimo būdais.
+\end{enumerate}
+
+[^grupes]: LR Statistikos departamento nurodyti trys oficialiai neapskaitytos ekonomikos vertinimo metodai
+
+
+\pagebreak
+# Pinigų paklausos modelis {-}
+
+Pinigų paklausos modelis - tai vienas populiariausių naudojamų metodų siekiant išsiaiškinti šešėlinės ekonomikos dydį. Siekdamas įvertinti pinigų paklausą @tanzi1980underground naudojo regresinę analizę įtraukdamas daug egzogeninių kintamųjų. Tokių būdu įvertinta pinigų paklausa, jo manynu, gali parodyti mokesčių vengimo mastą. 
 
 \pagebreak
 # Aprašomoji statistika {-}
 
-Laba diena.
+Pirmiausia apžvelgiame savo turimus duomenis.
+
+Stebėdami laiko duomenų grafikus galime iš anksto šį tą pasakyti apie laiko eilučių tolydumą, stacionarumą bei galimus struktūrinius lūžius. 
 
 ## Duomenys {-}
 
@@ -82,7 +122,7 @@ ggplot(df, aes(date, value)) +
   theme(strip.background = element_blank())
 ```
 
-\ Grafike matome struktūrinį lūžį grynųjų pinigų kiekyje dėl matavimo metodikos pasikeitimo įvedus naują valiutą.
+\ Grafike matome struktūrinį lūžį grynųjų pinigų kiekyje dėl matavimo metodikos pasikeitimo įvedus naują valiutą. Maždaug nuo 2014 m. vidurio pastebime palaipsnį grynųjų pinigų mažėjimą. Tai įvyko dėl gyventojų noro išvengti valiutos keitimo rūpečių jau atsiradus naujais valiutai ir keičiant valiutą dar galiojant senajai.
 Prisijungus prie euro zonos taikant pasirašytojo kapitalo raktą Lietuvai tenka gerokai didesnė euro banknotų dalis nei buvo išleista litų iki euro įvedimo. Todėl ir yra toks padidėjimas nuo 2015 metų pradžios.
 Tuo tarpu indėlių skaičius tolygiai augo visą stebimą laikotarpį, išskyrus augimo sustojimą ir indėlių vertės mažėjimą 2008 metais galimai dėl pasaulinės finansų rinkos smukimo, ir šiek tiek spartesnį augimą 2015 metais, kuris tikėtina įvyko dėl valiutos pasikeitimo, kuomet Lietuvos gyventojai iki tol laikytas santaupas grynaisiais pinigais keičiantis valiutai pakeitė į indėlius finansų įstaigose.
 
@@ -699,13 +739,23 @@ O tarpysavyje mažiausia koreliuoti kintamieji yra šie:
 
 
 \pagebreak
-# Pinigų paklausos modelis {-}
+# Lietuvos pinigų paklausos modelis {-}
 
-\ \ Sudarydami modelį įtrauksime kintamuosius kurie yra intergruoti nuline eile ir kintamųjų intergruotų pirma eile pirmos eilės skirtumus.
+\ \ 
+Endogeniniu kintamuoju savo modelyje pasirinksime grynųjų pinigų ir indėlių santykį. Egzogeniniais kintamaisiais pasirinksime šiuos duomenis: Alkoholio suvartojimas, Alkoholio kaina, Bankrotų skaičius, Grynieji pinigai, Grynųjų įnešimo operacijų skaičius, Grynųjų įnešimo operacijų vertė, Grynųjų išėmimo operacijų skaičius, Grynųjų išėmimo operacijų vertė, VKI, VKI alkoholiui, Kredito kortelių skaičius, Debeto kortelių skaičius, Indėlių eurais palūkanų norma, Indėlių litais palūkanų norma, Indėliai, Emigrantų skaičius, Paskolų eurais palūkanų norma, Paskolų litais palūkanų norma, Paskolų eurais vertė, Paskolų litais vertė, Minimalus atlyginimas, Išvykstančių turistų skaičius, Gautų mokėjimų skaičius, Gautų mokėjimų vertė, Išeinančių mokėjimų skaičius, Išeinančių mokėjimų vertė, Ekonominis reguliavimas: darbuotojų skaičius, Ekonominis reguliavimas: įstaigų skaičius, Mažmeninės prekybos apimtis, Akcizo mokesčiai, GPM, Pelno mokesčiai, Pridėtinės vertės mokesčiai, Kelionių agentūrų skaičius, Moterų nedarbas, Vyrų nedarbas.
+
+Sudarydami modelį įtrauksime kintamuosius kurie yra intergruoti nuline eile ir kintamųjų intergruotų pirma eile pirmos eilės skirtumus.
 
 
+\pagebreak
+# Rezultatų palyginimas {-}
+
+\pagebreak
+# Išvados {-}
 
 
+\pagebreak
+# Literatūra {-}
 
 
 
