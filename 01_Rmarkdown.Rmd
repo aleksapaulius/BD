@@ -52,8 +52,12 @@ source('00_functions.R')
 source('00_input.R')
 source('01_data_cleaning.R')
 ```
+
 \pagebreak
-# Įvadas {-}
+# Santrauka / Abstract
+
+\pagebreak
+# Įvadas
 
 \ \ \ Visi norime gyventi geriau, tačiau ne visi suprantame, kaip tampriai mūsų gerbūvis bendroje šalies ekonomikoje yra susijęs su kitais žmonėmis. Dėl šio nesupratimo arba vesdini savanaudiškų paskatų kai kurie žmonės yra linkę paaukoti bendrą šalies ekonominę gerovę vardan trumpalaikės savo gyvenimo kokybės pagerinimo. Dėl didesnio darbo užmokesčio jie apeina įstatymus, neapskaito pajamų ir nemoka mokesčių ir taip prisideda prie šėšėlinės ekonomikos. Vyriausybės ekspertų vertinimais Lietuvoje slepiamos ekonominės veiklos pajamos sudaro apie ketvirtį bendro vidaus produkto.[^footnote] Deja naudojami vertinimo būdai nepasižymi savo tikslumu. 
 
@@ -63,9 +67,9 @@ source('01_data_cleaning.R')
 
 
 \pagebreak
-# Šešėlinė ekonomika {-}
+# Šešėlinė ekonomika
 
-## Samprata {-}
+## Samprata
 
 \ \ \ Norėdami tirti ir šiek tiek daugiau sužinoti apie šešėlinę ekonomiką privalome pradėti nuo apibrėžimo. Mokslinėje literatūroje nerasime vieningo šešėlinės ekonomikos apibrėžimo. Apibrėžimai skiriasi priklausomai nuo konteksto ir ketinamo tirti dalyko susijusio su šešėline ekonomika. Su šia tema susijusiuose moksliniuose straipsniuose viena daugiausiai[^googlescholar] cituojamų knygų [@schneider2013shadow] pateikia kelis šešėlinės ekonomikos epibrėžimus ir pabrėžia, kad apibrėžimas gali skirtis ir priklausomai nuo regiono[^regionai], apie kurio oficialiai neapskaitytas pajamas yra kalbama. Kituose darbuose [@schneider2005shadow] kaip dažniausiai vartojamas pateikiamas šis apibrėžimas: *„...tai visos neregistruojamos ekonominės veiklos rūšys, kurios nėra įtraukiamos skaičiuojant šalies bendrąjį vidaus produktą (BVP)“*. Kitas autorius [@smith1994lassessing] naudoja šį apibrėžimą: *„...tai prekių ar paslaugų gamyba rinkos pagrindu, neaptinkama bendrame vidaus produkte (BVP), nepaisant to ar ši gamyba yra legali ar ne“*. Tuo tarpu @tanzi1980underground šį reiškinį apibrėžia taip: *„...tai yra bendras nacionalinis produktas, kuris yra nestebimas oficialioje statistikoje dėl to, kad nepranešama apie jį“.* Plačiau skirtingų autorių pateikti šešėlinės ekonomikos apibrėžimai yra analizuojami @startiene2009oficialiai straipsnyje.  
 
@@ -74,7 +78,7 @@ source('01_data_cleaning.R')
 [^regionai]: Besivystančios šalys arba OECD šalys.
 
 
-## Tyrimo metodai {-}
+## Tyrimo metodai
 
 Asmenys ar ūkio subjektai dalyvaujantys šešėlinėje ekonomikoje yra linkę šią veiklą slėpti. To pasekoje kyla sunkumų norint tiksliai įvertinti šio reiškinio mastus. O taip pat, nėra vieningai sutariama dėl to, kuris tyrimo būdas yra tiksliausias. Tyrimo būdus galima suskirstyti į tris grupes[^grupes]:
 
@@ -89,18 +93,18 @@ ekspertiniais vertinimo būdais.
 
 
 \pagebreak
-# Pinigų paklausos modelis {-}
+# Pinigų paklausos modelis
 
 Pinigų paklausos modelis - tai vienas populiariausių naudojamų metodų siekiant išsiaiškinti šešėlinės ekonomikos dydį. Siekdamas įvertinti pinigų paklausą @tanzi1980underground naudojo regresinę analizę įtraukdamas daug egzogeninių kintamųjų. Tokių būdu įvertinta pinigų paklausa, jo manynu, gali parodyti mokesčių vengimo mastą. 
 
 \pagebreak
-# Aprašomoji statistika {-}
+# Aprašomoji statistika
 
 Pirmiausia apžvelgiame savo turimus duomenis.
 
 Stebėdami laiko duomenų grafikus galime iš anksto šį tą pasakyti apie laiko eilučių tolydumą, stacionarumą bei galimus struktūrinius lūžius. 
 
-## Duomenys {-}
+## Duomenys
 
 ### Grynieji pinigai ir indėliai {-}
 
@@ -289,7 +293,7 @@ ggplot(df1, aes(date, value)) +
   theme(strip.background = element_blank())
 ```
 
-Čia tekstas po grafiku. Toliau seka lentelė su pagrindinėm statistikom.
+Šie duomenys pasirinkti tikintis, kad jie atspindės emigravusių piliečių pinigų perlaidas Lietuvoje likusiems giminaičiams. Vėliau sudarant modelį bus tikrinama ar šie duomenys turi statistiškai reikšmingos įtakos šešėlinės ekonomikos vertinimui. Perlaidų skaičiaus grafikas primena eksponentinio augimo kreivę. Toks augimas sietinas su ženkliai atpigusiais tarptautiniais pavedimais, sutrumpėjusia perlaidų trukme ir padidėjusia konkurencija tarp finansinių įmonių siūlančių tarptautinių pavedimų paslaugas. Tuo tarpu pervedimų vertė visą stebimą laikotarpį svyravo panašiai ir augimo trendo nerodė. Tiesa, duomenyse pastebimas laikinas smukimas 2009 - 2010 m., kuomet, tikėtina, jog užsienyje dirbantys tautiečiai taip pat susidūrė finansų tuo metu vykusia finansų krize. Įdomu tai, jog kritus pervedimų vertei, pervedimų skaičius išliko toks pat. Vadinasi pavedimai vyko mažesnėmis sumomis. Taip pat, pastebime kritimą ir valiutos keitimo metu. Šis kritimas galėtų būti sietinas su noru sutaupyti valiutos konversijos kaštus ir atlikti pavedimą jau kai Lietuvoje buvo įvestas euras.
 
 ```{r results = "asis", echo=FALSE}
 kable(all.variables.stat[all.variables.stat$variable %in% c('payments_in_number', 'payments_in_value'),c(2,6,7,8,9,10,11,12)], 
@@ -297,10 +301,10 @@ kable(all.variables.stat[all.variables.stat$variable %in% c('payments_in_number'
   kable_styling(position = "center", latex_options = c("hold_position", "scale_down"))
 ```
 
-### Visi mokėjimai negrynaisiais pinigais Lietuvoje {-}
+### Visi mokėjimai negrynaisiais pinigais Lietuvoje (išeinantys mokėjimai) {-}
 
 ```{r include = FALSE}
-var.name <- "Visi mokėjimai negrynaisiais pinigais Lietuvoje"
+var.name <- "Visi mokėjimai negrynaisiais pinigais Lietuvoje (išeinantys mokėjimai)"
 ```
 
 ```{r fig.width=13, fig.height=6, echo=FALSE, include=TRUE, dev='cairo_pdf'}
@@ -318,7 +322,7 @@ ggplot(df1, aes(date, value)) +
   theme(strip.background = element_blank())
 ```
 
-Čia tekstas po grafiku. Toliau seka lentelė su pagrindinėm statistikom.
+\ \ \ Siekiant įverti kaip aktyviai gyventojai naudojasi elektroniniais mokėjimais pasirinkti duomenys apie visus mokėjimus negrynaisiais pinigais (išskyrus el. pinigus). Šie mokėjimai apima kredito pervedimus, tiesioginį debetą ir mokėjimus Lietuvoje įsteigtų mokėjimo paslaugų teikėjų išleistomis kortelėmis bei mokėjimus čekiais. Pastebime, kad mokėjimų skaičiaus kreivė visą stebimą laikotarpį tolygiai augo. Šį skaičiaus augimą galima susieti su atpigusiais mokėjimų kaštais. Tuo tarpu mokėjimų vertės grafike matome šuolį žemyn tarp 2008 - 2009 m. Šis šuolis sietimas su tarptautine finansine krize.
 
 ```{r results = "asis", echo=FALSE}
 kable(all.variables.stat[all.variables.stat$variable %in% c('payments_out_number', 'payments_out_value'),c(2,6,7,8,9,10,11,12)], 
@@ -348,7 +352,7 @@ ggplot(df1, aes(date, value)) +
   theme(strip.background = element_blank())
 ```
 
-Čia tekstas po grafiku. Toliau seka lentelė su pagrindinėm statistikom.
+\ \ \ Siekiant įvertinti grynųjų pinigų naudojimo aktyvumą buvo pasirinkti duomenys apie grynųjų pinigų priėmimo ir išdavimo operacijų vertę bei skaičių. Visose laiko eilutėse pastebime staigų kritimą krizės metu ir po to sekantį tolygų mažėjimą iki pat stebimo laikotarpio pabaigos, išskyrus grynųjų priėmimo skaičiaus ir vertės padidėjimą prieš keičiantis valiutai. Tolygus viso laikotarpio grynųjų naudojimo mažėjimas reiškia žmonių įpročių keitimąsi. Žmonės vis labiau pasitiki finansinėmis institucijomis, nebijo jose laikyti savo santaupų ar gauti atlyginimą pavedimu į banko sąskaitą. Tai teigiamai prisideda prie ekonominio šešėlio mažinimo.
 
 ```{r results = "asis", echo=FALSE}
 kable(all.variables.stat[all.variables.stat$variable %in% c('cash_in_number', 'cash_in_value', 'cash_out_number', 'cash_out_value'),c(2,6,7,8,9,10,11,12)], 
@@ -379,7 +383,7 @@ ggplot(df, aes(date, value)) +
   theme(strip.background = element_blank())
 ```
 
-Čia tekstas po grafiku. Toliau seka lentelė su pagrindinėm statistikom.
+\ \ \ Čia tekstas po grafiku. Toliau seka lentelė su pagrindinėm statistikom.
 
 ```{r results = "asis", echo=FALSE}
 kable(all.variables.stat[all.variables.stat$variable %in% c('alcohol_consumption', 'alcohol_price'),c(2,6,7,8,9,10,11,12)], 
@@ -406,7 +410,7 @@ ggplot(df, aes(x=date)) +
        color=NULL)
 ```
 
-Čia tekstas po grafiku. Toliau seka lentelė su pagrindinėm statistikom.
+\ \ \ Čia tekstas po grafiku. Toliau seka lentelė su pagrindinėm statistikom.
 
 ```{r results = "asis", echo=FALSE}
 kable(all.variables.stat[all.variables.stat$variable %in% c('bankrupts'),c(2,6,7,8,9,10,11,12)], 
@@ -444,7 +448,7 @@ ggplot(df, aes(x=date)) +
                      values = c("credit_cards" = "#F8766D", "debit_cards" = "#00BFC4"))
 ```
 
-Čia tekstas po grafiku. Toliau seka lentelė su pagrindinėm statistikom.
+\ \ \ Čia tekstas po grafiku. Toliau seka lentelė su pagrindinėm statistikom.
 
 ```{r results = "asis", echo=FALSE}
 kable(all.variables.stat[all.variables.stat$variable %in% c('credit_cards', 'debit_cards'),c(2,6,7,8,9,10,11,12)], 
@@ -471,7 +475,7 @@ ggplot(df, aes(x=date)) +
        color=NULL)
 ```
 
-Čia tekstas po grafiku. Toliau seka lentelė su pagrindinėm statistikom.
+\ \ \ Čia tekstas po grafiku. Toliau seka lentelė su pagrindinėm statistikom.
 
 ```{r results = "asis", echo=FALSE}
 kable(all.variables.stat[all.variables.stat$variable %in% c('emigrants'),c(2,6,7,8,9,10,11,12)], 
@@ -503,7 +507,7 @@ ggplot(df, aes(x=date)) +
                      values = c("loan_value_EUR" = "#F8766D", "loan_value_LTL" = "#00BFC4"))
 ```
 
-Čia tekstas po grafiku. Toliau seka lentelė su pagrindinėm statistikom.
+\ \ \ Čia tekstas po grafiku. Toliau seka lentelė su pagrindinėm statistikom.
 
 ```{r results = "asis", echo=FALSE}
 kable(all.variables.stat[all.variables.stat$variable %in% c('loan_value_EUR', 'loan_value_LTL'),c(2,6,7,8,9,10,11,12)], 
@@ -533,7 +537,7 @@ ggplot(df, aes(x=date)) +
                      values = c("loan_interest_EUR" = "#F8766D", "loan_interest_LTL" = "#00BFC4"))
 ```
 
-Čia tekstas po grafiku. Toliau seka lentelė su pagrindinėm statistikom.
+\ \ \ Čia tekstas po grafiku. Toliau seka lentelė su pagrindinėm statistikom.
 
 ```{r results = "asis", echo=FALSE}
 kable(all.variables.stat[all.variables.stat$variable %in% c('loan_interest_EUR', 'loan_interest_LTL'),c(2,6,7,8,9,10,11,12)], 
@@ -565,7 +569,7 @@ ggplot(df, aes(x=date)) +
                      values = c("deposit_interest_EUR" = "#F8766D", "deposit_interest_LTL" = "#00BFC4"))
 ```
 
-Čia tekstas po grafiku. Toliau seka lentelė su pagrindinėm statistikom.
+\ \ \ Čia tekstas po grafiku. Toliau seka lentelė su pagrindinėm statistikom.
 
 ```{r results = "asis", echo=FALSE}
 kable(all.variables.stat[all.variables.stat$variable %in% c('deposit_interest_EUR', 'deposit_interest_LTL'),c(2,6,7,8,9,10,11,12)], 
@@ -592,7 +596,7 @@ ggplot(df, aes(x=date)) +
        color=NULL)
 ```
 
-Čia tekstas po grafiku. Toliau seka lentelė su pagrindinėm statistikom.
+\ \ \ Čia tekstas po grafiku. Toliau seka lentelė su pagrindinėm statistikom.
 
 ```{r results = "asis", echo=FALSE}
 kable(all.variables.stat[all.variables.stat$variable %in% c('retail_volume'),c(2,6,7,8,9,10,11,12)], 
@@ -621,7 +625,7 @@ ggplot(df, aes(x=date)) +
        color=NULL)
 ```
 
-Čia tekstas po grafiku. Toliau seka lentelė su pagrindinėm statistikom.
+\ \ \ Čia tekstas po grafiku. Toliau seka lentelė su pagrindinėm statistikom.
 
 ```{r results = "asis", echo=FALSE}
 kable(all.variables.stat[all.variables.stat$variable %in% c('minimum_wage'),c(2,6,7,8,9,10,11,12)], 
@@ -647,7 +651,7 @@ ggplot(df, aes(date, value)) +
   theme(strip.background = element_blank())
 ```
 
-Čia tekstas po grafiku. Toliau seka lentelė su pagrindinėm statistikom.
+\ \ \ Čia tekstas po grafiku. Toliau seka lentelė su pagrindinėm statistikom.
 
 ```{r results = "asis", echo=FALSE}
 kable(all.variables.stat[all.variables.stat$variable %in% c('outgoing_tourists', 'travel_agencies'),c(2,6,7,8,9,10,11,12)], 
@@ -657,7 +661,7 @@ kable(all.variables.stat[all.variables.stat$variable %in% c('outgoing_tourists',
 
 
 \pagebreak
-## Duomenų disagregavimas {-}
+## Duomenų disagregavimas
 ```{r include = FALSE}
 source('01_data_manipulation.R')
 source('01_disaggregation.R')
@@ -670,7 +674,7 @@ source('01_disaggregation.R')
   \item \textbf{Aukšto dažnumo.} Tai dažniau stebimi dydžiai - ketvirtiniai, mėnesiniai, savaitiniai, dieniniai. Dažniausiai tokių dydžių stebėjimas yra automatizuotas ir nereikalauja papildomų resursų jų apdirbimui ar interpretavimui.
 \end{enumerate}
 
-\ \ \ Norint suvienodinti turimų duomenų dažnumą būtina atsižvelgti į tai, ar norėsime keisti aukšto dažnumo duomenis į žemo (agreguoti) ar atvirkščiai (disagreguoti). Lengviau yra pakeisti aukšto dažnumo duomenis į žemo. T.y. Iš turimų duomenų gauti mažesnį kiekį duomenų, kurie atspindėtų tą patį stebimą laikotarpį. Tam pakanka pasitelkti paprastas aritmetines operacijas ir ieškoti duomenų sumos arba jų vidutinės reikšmės. Tačiau kuomet norime žemo dažnumo duomenis paversti aukšto dažnumo duomenimis, pavyzdžiui metinius duomenis paversti į mėnesinius, turime pasitelkti sudėtingesnius metodus. Tokiu atveju iškyla sunkumų norint tinkamai įvertinti galimus duomenų svyravimus stebimu laikotarpiu. Straipsnyje @sax2013temporal pateikiama metodai, kurie padeda išspręsti šiuos iškilusius sunkumus. Tarp pateikimų metodų yra šie:
+\ \ \ Norint suvienodinti turimų duomenų dažnumą būtina atsižvelgti į tai, ar norėsime keisti aukšto dažnumo duomenis į žemo (agreguoti) ar atvirkščiai (disagreguoti). Lengviau yra pakeisti aukšto dažnumo duomenis į žemo. T.y. iš turimų duomenų gauti mažesnį kiekį duomenų, kurie atspindėtų tą patį stebimą laikotarpį. Tam pakanka pasitelkti paprastas aritmetines operacijas ir ieškoti duomenų sumos arba jų vidutinės reikšmės. Tačiau kuomet norime žemo dažnumo duomenis paversti aukšto dažnumo duomenimis, pavyzdžiui metinius duomenis paversti į mėnesinius, turime pasitelkti sudėtingesnius metodus. Tokiu atveju iškyla sunkumų norint tinkamai įvertinti galimus duomenų svyravimus stebimu laikotarpiu. Straipsnyje @sax2013temporal pateikiama metodai, kurie padeda išspręsti šiuos iškilusius sunkumus. Tarp pateikiamų metodų yra šie:
 
 \begin{itemize}
   \item Chow-Lin (max. log)
@@ -685,21 +689,31 @@ source('01_disaggregation.R')
 
 \ \ \ Kaip pažymi autoriai, visi šie disagregavimo metodai užtikrina jog disagreguoti duomenys atitiktų žemo dažnio duomenis kuriuo nors vienu iš šių būdų: suma, vidurkiu, pirma ar paskutine reikšmėmis. Derėtų paminėti jog šie būdai neišsprendžia situacijų kuomet aukštas dažnumas nėra reguliarus (pvz. mėnesinius duomenis keičiant į savaitinius).
 
-\ \ \ Norint praktiškai išbandyti duomenų disagregavimą, visus aukščiau išvardintus metodus galime rasti tų pačių autorių parengtame R pakete __tempdisagg__. Pagrindinė šio paketo funkcija _td()_ leidžia disagreguoti savo turimus duomenis į aukšto dažnumo duomenis. Dėl didesnio disagregavimo tikslumo šioje funkcijoje galime pasirinkti kintamuosius, pagal kuriuos norime agreguoti. Toks pasirinkimas leidžia įvertinti galimus duomenų svyravimus ar sezoninę dalį ir taip disagreguoti duomenys bus tikslesni.
-
-Šiame darbe šešėlinės ekonomikos modeliavimui pasirinkti duomenys yra įvairaus dažnumo: metiniai, pusmetiniai, ketvirtiniai, mėnesiniai. Tačiau įvertinus tai, kad modeliuojami dydžiai yra mėnesiniai ir tai, kad mėnesinių duomenų turime daugiausiai buvo pasirinkta visus duomenis isagreguoti į menesinius. 
+\ \ \ Norint praktiškai išbandyti duomenų disagregavimą, visus aukščiau išvardintus metodus galime rasti tų pačių autorių parengtame R pakete __tempdisagg__. Pagrindinė šio paketo funkcija _td()_ leidžia disagreguoti savo turimus duomenis į aukšto dažnumo duomenis. Funkcija su savo iš anksto numatytais argumentais R programoje atrodo štai taip: 
 
 ```{r eval=FALSE}
-for (i in 2:ncol(alldata.y)) {
-  assign('x.ts', ts(alldata.y[,i], start = c(2006), frequency = 1))
-  assign('m.ts', td(f, to = "monthly", method = "litterman-maxlog"))
-  alldata.m[names(alldata.y[i])] <- predict(m.ts)
-}
+td(formula, conversion = "sum", to = "quarterly",
+  method = "chow-lin-maxlog", truncated.rho = 0, fixed.rho = 0.5,
+  criterion = "proportional", h = 1, start = NULL, end = NULL, ...)
+```
+  
+\ \ \ Dėl didesnio disagregavimo tikslumo šioje funkcijoje galime pasirinkti kintamuosius, pagal kuriuos norime agreguoti ir nos nurodyti formulės formatu. Pateikus daugiau nei vieną kintamajį ši funkcija, priklausomai nuo pasirinkto disagregavimo metodo, gali apskaičiuoti su kuriais kintamaisiais mūsų disagreguojamas dydis labiausiais koreliuoja ir disagreguoti pagal juos. Toks pasirinkimas leidžia įvertinti galimus duomenų svyravimus ar sezoninę dalį, jei jie atsispindi tuose duomenyse pagal kuriuos disagreguojame. Taip disagreguoti duomenys bus tikslesni.
+
+\ \ \ Šiame darbe šešėlinės ekonomikos modeliavimui pasirinkti duomenys yra įvairaus dažnumo: metiniai, pusmetiniai, ketvirtiniai, mėnesiniai. Tačiau įvertinus tai, kad į pinigų paklausos modelį įtraukiami endogeniniai kintamieji yra mėnesiniai ir tai, kad mėnesinių duomenų turime daugiausiai buvo pasirinkta visus duomenis disagreguoti į menesinius. Į disagregavimo lygtį įtraukiame mėnesinius kintamuosius: grynuosius pinigus, indėlius, VKI, VKI alkoholiui, emigrantų skaičių, mažmeninės prekybos apimtį ir nedarbo lygį.
+Ir disagregavimui pasirenkame _litterman-maxlog_ metodą.
+
+```{r eval=FALSE}
+regressors <- c("cash.m", "deposits.m", "cpi_alcohol.m", "cpi.m", 
+                "emigrants.m", "retail_volume.m", "unemp_female.m", "unemp_male.m")
+f <- as.formula(paste("x.ts ~ ", paste(regressors, collapse=" + ")))
+mod1 <- td(f, to = "monthly", method = "litterman-maxlog")
+summary(mod1)
+plot(mod1)
 ```
 
 
 \pagebreak
-## Vienetinės šaknies tikrinimas {-}
+## Vienetinės šaknies tikrinimas
 ```{r include = FALSE}
 source('01_stationarity.R')
 ```
@@ -713,7 +727,7 @@ kable(test.table,
   add_header_above(c(" ", "PP testas" = 3, "KPSS testas" = 3))
 ```
 
-Phillips–Perron testo rezultatai rodo, jog aštuonių iš mūsų turimų kintamųjų atveju nulinė vienetinės šaknies hipotezė nėra staistiškai reikšminga, todėl priimame alternatyvią hipotezę apie duomenų stacionarumą. Šiuos kintamuosius galėsime naudoti modelyje neatlikę jokių transformacijų:
+Phillips–Perron testo rezultatai rodo, jog aštuonių iš mūsų turimų kintamųjų atveju nulinė vienetinės šaknies hipotezė nėra staistiškai reikšminga, todėl priimame alternatyvią hipotezę, kad duomenys stacionarūs. Šiuos kintamuosius galėsime naudoti modelyje neatlikę jokių transformacijų:
 
 \begin{itemize}
   \item Alkoholio kaina
@@ -728,11 +742,11 @@ Phillips–Perron testo rezultatai rodo, jog aštuonių iš mūsų turimų kinta
 
 \
 
-Atsižvelgdami į Phillips–Perron testo rezultatus galime daryti išvadą, kad dauguma mūsų turimų duomenų neatmeta nulinės hipotezės apie vienetinės šaknies turėjimą. Tačiau pakartoję šį testą kintamųjų pirmos eilės skirtumams matome, kad nulinę vienetinės šaknies hipotezę galime atmesti. Vadinasi dauguma mūsų turimų duomenų yra integruoti pirma eile. 
+Atsižvelgdami į Phillips–Perron testo rezultatus galime daryti išvadą, kad dauguma mūsų turimų duomenų neatmeta nulinės hipotezės apie vienetinės šaknies turėjimą. Tačiau pakartoję šį testą kintamųjų pirmos eilės skirtumams matome, kad nulinę vienetinės šaknies hipotezę galime atmesti. Vadinasi dauguma mūsų turimų duomenų yra integruoti pirma eile. Toliau modeliuodami naudosime šių kintamųjų pirmos eilės skirtumus.
 
 
 \pagebreak
-## Koreliacija {-}
+## Koreliacija
 ```{r include = FALSE}
 source('01_correlation.R')
 ```
@@ -772,7 +786,7 @@ O tarpysavyje mažiausia koreliuoti kintamieji yra šie:
 
 
 \pagebreak
-# Lietuvos pinigų paklausos modelis {-}
+# Lietuvos pinigų paklausos modelis
 ```{r include = FALSE}
 source('01_model.R')
 ```
@@ -785,14 +799,16 @@ Sudarydami modelį įtrauksime kintamuosius kurie yra intergruoti nuline eile ir
 
 
 \pagebreak
-# Rezultatų palyginimas {-}
+# Rezultatų palyginimas
+
+
 
 \pagebreak
-# Išvados {-}
+# Išvados
+
 
 
 \pagebreak
 # Literatūra {-}
-
 
 
