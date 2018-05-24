@@ -47,6 +47,7 @@ library('magrittr')
 library('Cairo')
 library('lubridate')
 library('urca')
+library('ggcorrplot')
 
 source('00_functions.R')
 source('00_input.R')
@@ -80,7 +81,7 @@ source('01_data_cleaning.R')
 
 ## Tyrimo metodai
 
-Asmenys ar ūkio subjektai dalyvaujantys šešėlinėje ekonomikoje yra linkę šią veiklą slėpti. To pasekoje kyla sunkumų norint tiksliai įvertinti šio reiškinio mastus. O taip pat, nėra vieningai sutariama dėl to, kuris tyrimo būdas yra tiksliausias. Tyrimo būdus galima suskirstyti į tris grupes[^grupes]:
+\ \ \ Asmenys ar ūkio subjektai dalyvaujantys šešėlinėje ekonomikoje yra linkę šią veiklą slėpti. To pasekoje kyla sunkumų norint tiksliai įvertinti šio reiškinio mastus. O taip pat, nėra vieningai sutariama dėl to, kuris tyrimo būdas yra tiksliausias. Tyrimo būdus galima suskirstyti į tris grupes[^grupes]:
 
 \begin{enumerate}
   \item \textbf{Tiesioginis.} Taikomas imčių metodas ir specialūs statistiniai tyrimai. Šiai grupei priklauso apklausų atlikimas, mokesčių audito rezultatai. Tiesioginiai netodai pasižymi netikslumu dėl galimo respondentų šališkumo siekiant apsaugoti save nuo galimų sankcijų ir išlaikyti savo neoficialią ekonominę veiklą paslaptyje.
@@ -95,14 +96,12 @@ ekspertiniais vertinimo būdais.
 \pagebreak
 # Pinigų paklausos modelis
 
-Pinigų paklausos modelis - tai vienas populiariausių naudojamų metodų siekiant išsiaiškinti šešėlinės ekonomikos dydį. Siekdamas įvertinti pinigų paklausą @tanzi1980underground naudojo regresinę analizę įtraukdamas daug egzogeninių kintamųjų. Tokių būdu įvertinta pinigų paklausa, jo manynu, gali parodyti mokesčių vengimo mastą. 
+\ \ \ Pinigų paklausos modelis - tai vienas populiariausių naudojamų metodų siekiant išsiaiškinti šešėlinės ekonomikos dydį. Siekdamas įvertinti pinigų paklausą @tanzi1980underground naudojo regresinę analizę įtraukdamas daug egzogeninių kintamųjų. Tokių būdu įvertinta pinigų paklausa, jo manynu, gali parodyti mokesčių vengimo mastą. 
 
 \pagebreak
 # Aprašomoji statistika
 
-Pirmiausia apžvelgiame savo turimus duomenis.
-
-Stebėdami laiko duomenų grafikus galime iš anksto šį tą pasakyti apie laiko eilučių tolydumą, stacionarumą bei galimus struktūrinius lūžius. 
+\ \ \ Pirmiausia apžvelgiame savo turimus duomenis. Stebėdami laiko duomenų grafikus galime iš anksto šį tą pasakyti apie laiko eilučių tolydumą, stacionarumą bei galimus struktūrinius lūžius. 
 
 ## Duomenys
 
@@ -127,7 +126,7 @@ ggplot(df, aes(date, value)) +
   theme(strip.background = element_blank())
 ```
 
-\ Grafike matome struktūrinį lūžį grynųjų pinigų kiekyje dėl matavimo metodikos pasikeitimo įvedus naują valiutą. Maždaug nuo 2014 m. vidurio pastebime palaipsnį grynųjų pinigų mažėjimą. Tai įvyko dėl gyventojų noro išvengti valiutos keitimo rūpečių jau atsiradus naujais valiutai ir keičiant valiutą dar galiojant senajai.
+\ \ \ Grafike matome struktūrinį lūžį grynųjų pinigų kiekyje dėl matavimo metodikos pasikeitimo įvedus naują valiutą. Maždaug nuo 2014 m. vidurio pastebime palaipsnį grynųjų pinigų mažėjimą. Tai įvyko dėl gyventojų noro išvengti valiutos keitimo rūpečių jau atsiradus naujais valiutai ir keičiant valiutą dar galiojant senajai.
 Prisijungus prie euro zonos taikant pasirašytojo kapitalo raktą Lietuvai tenka gerokai didesnė euro banknotų dalis nei buvo išleista litų iki euro įvedimo. Todėl ir yra toks padidėjimas nuo 2015 metų pradžios.
 Tuo tarpu indėlių skaičius tolygiai augo visą stebimą laikotarpį, išskyrus augimo sustojimą ir indėlių vertės mažėjimą 2008 metais galimai dėl pasaulinės finansų rinkos smukimo, ir šiek tiek spartesnį augimą 2015 metais, kuris tikėtina įvyko dėl valiutos pasikeitimo, kuomet Lietuvos gyventojai iki tol laikytas santaupas grynaisiais pinigais keičiantis valiutai pakeitė į indėlius finansų įstaigose.
 
@@ -163,7 +162,7 @@ ggplot(df, aes(x=date)) +
                      values = c("tax_gpm" = "#F8766D", "tax_excise" = "#00BFC4", "tax_pelno" = "#7CAE00", "tax_vat" = "#C77CFF"))
 ```
 
-Visose stebimose sumokėtų mokesčių laiko eilutėse pastebimas staigus kritimas 2009 metais. Šis kritimas gali būti susietas su finansine krize, kuomet kilo nedarbo lygis ir ko pasekoje buvo surenkama mažiau mokesčių. Tačiau nepaisant to, nuo 2010 metų sumokėtų mokesčių vertė tolygiai kilo iki pat stebimo laikotarpio pabaigos - 2017 metų. 
+\ \ \ Visose stebimose sumokėtų mokesčių laiko eilutėse pastebimas staigus kritimas 2009 metais. Šis kritimas gali būti susietas su finansine krize, kuomet kilo nedarbo lygis ir ko pasekoje buvo surenkama mažiau mokesčių. Tačiau nepaisant to, nuo 2010 metų sumokėtų mokesčių vertė tolygiai kilo iki pat stebimo laikotarpio pabaigos - 2017 metų. 
 
 ```{r results = "asis", echo=FALSE}
 kable(all.variables.stat[all.variables.stat$variable %in% c('tax_gpm', 'tax_excise', 'tax_pelno', 'tax_vat'),c(2,6,7,8,9,10,11,12)], 
@@ -193,7 +192,7 @@ ggplot(df, aes(x=date)) +
                      values = c("cpi_alcohol" = "#F8766D", "cpi" = "#00BFC4"))
 ```
 
-Iš grafiko galime pasakyti jog kainų indeksai vartojimo prekėms ir paslaugoms bei alkoholiniams gėrimams, tabakui ir narkotikams yra pakankamai koreliuoti. Pastebime sulėtėjusį augimą nuo 2000 metų kuris tęsėsi iki 2008 metų. Ir po staigesnio šuolio 2009 - 2010 metais toliau tolygiai augo. Taip pat, pastebime staigų šuolį alkoholinių gerimų, tabako ir narkotikų indekse 2017 metais. Šis kilimas pagrinde susijęs su alkoholio kontrolės įstatymų pasikeitimais šiais metais.
+\ \ \ Iš grafiko galime pasakyti jog kainų indeksai vartojimo prekėms ir paslaugoms bei alkoholiniams gėrimams, tabakui ir narkotikams yra pakankamai koreliuoti. Pastebime sulėtėjusį augimą nuo 2000 metų kuris tęsėsi iki 2008 metų. Ir po staigesnio šuolio 2009 - 2010 metais toliau tolygiai augo. Taip pat, pastebime staigų šuolį alkoholinių gerimų, tabako ir narkotikų indekse 2017 metais. Šis kilimas pagrinde susijęs su alkoholio kontrolės įstatymų pasikeitimais šiais metais.
 
 ```{r results = "asis", echo=FALSE}
 kable(all.variables.stat[all.variables.stat$variable %in% c('cpi_alcohol', 'cpi'),c(2,6,7,8,9,10,11,12)], 
@@ -226,7 +225,7 @@ ggplot(df, aes(x=date)) +
                      values = c("regulation_employees" = "#F8766D", "regulation_institutions" = "#00BFC4"))
 ```
 
-Ekonominio reguliavimo įvertinimui buvo pasirinkti du dydžiai: užimtų vadovaujamų pareigybių valstybinėse institucijose skaičius ir valstybinių institucijų skaičius. Matome jog užimtų pareigybių skaičius visą stebimą laikotarpį tolygiai krito. Tuo tarpu institucijų skaičius šiek tiek išaugęs krizės metu krito iki pradinio lygio per du metus. Ir išlaikė tokį patį iki iki 2017 metų pabaigos - 2018 metų pradžios kuomet krito beveik 40% dėl valstybinių įstaigų reorganizacijos. 
+\ \ \ Ekonominio reguliavimo įvertinimui buvo pasirinkti du dydžiai: užimtų vadovaujamų pareigybių valstybinėse institucijose skaičius ir valstybinių institucijų skaičius. Matome jog užimtų pareigybių skaičius visą stebimą laikotarpį tolygiai krito. Tuo tarpu institucijų skaičius šiek tiek išaugęs krizės metu krito iki pradinio lygio per du metus. Ir išlaikė tokį patį iki iki 2017 metų pabaigos - 2018 metų pradžios kuomet krito beveik 40% dėl valstybinių įstaigų reorganizacijos. 
 
 ```{r results = "asis", echo=FALSE}
 kable(all.variables.stat[all.variables.stat$variable %in% c('regulation_employees', 'regulation_institutions'),c(2,6,7,8,9,10,11,12)], 
@@ -257,7 +256,7 @@ ggplot(df, aes(x=date)) +
 
 ```
 
-Nors galėtume pasakyti jog visą stebimą laikotarpį vyrų ir moterų nedarbas gana stipriai koreliavo, tačiau pastebime ir tam tikrus skirtumus. Vyrų nedarbas krito smarkiau 2003 - 2004 metais. Tai galima susieti su emigrantų skaičiaus didėjimu Lietuvai prisijungus prie Europos Sąjungos. Didėjant emigrantų skaičiui mažėjo darbo jėga, todėl atitinkamai mažėjo ir nedarbas. Galime daryti išvadą, jog iš šalies emigravo darbo Lietuvoje neturintys asmenys, kurių tarpe didžiają dalį sudaro vyrai. Tiek moterų, tiek vyrų nedarbo lygis mažėjo iki 2008 metų galo - 2009 pradžios. Šis mažėjimas sietinas su gerėjančia ekonomine situacija šalyje. Tačiau prasidėjus pasaulinei finansų krizei nedarbo lygis išaugo drastiskai. Vyrų nedrabo lygis išaugo daugiau. Tikėtina dėl to, jog vyrai noriau rinkosi ir turėjo daugiau galimybių dirbti šešėlyje. Nuo 2010 metų moterų ir vyrų nedarbo lygiai tolygiai mažėja iki pat stebimo laikotarpio pabaigos (2017 metų galo), tačiau vyrų nedarbas išlieka aukštesniame lygyje nei moterų. 
+\ \ \ Nors galėtume pasakyti jog visą stebimą laikotarpį vyrų ir moterų nedarbas gana stipriai koreliavo, tačiau pastebime ir tam tikrus skirtumus. Vyrų nedarbas krito smarkiau 2003 - 2004 metais. Tai galima susieti su emigrantų skaičiaus didėjimu Lietuvai prisijungus prie Europos Sąjungos. Didėjant emigrantų skaičiui mažėjo darbo jėga, todėl atitinkamai mažėjo ir nedarbas. Galime daryti išvadą, jog iš šalies emigravo darbo Lietuvoje neturintys asmenys, kurių tarpe didžiają dalį sudaro vyrai. Tiek moterų, tiek vyrų nedarbo lygis mažėjo iki 2008 metų galo - 2009 pradžios. Šis mažėjimas sietinas su gerėjančia ekonomine situacija šalyje. Tačiau prasidėjus pasaulinei finansų krizei nedarbo lygis išaugo drastiskai. Vyrų nedrabo lygis išaugo daugiau. Tikėtina dėl to, jog vyrai noriau rinkosi ir turėjo daugiau galimybių dirbti šešėlyje. Nuo 2010 metų moterų ir vyrų nedarbo lygiai tolygiai mažėja iki pat stebimo laikotarpio pabaigos (2017 metų galo), tačiau vyrų nedarbas išlieka aukštesniame lygyje nei moterų. 
 
 ```{r results = "asis", echo=FALSE}
 kable(all.variables.stat[all.variables.stat$variable %in% c('unemp_female', 'unemp_male'),c(2,6,7,8,9,10,11,12)], 
@@ -293,7 +292,7 @@ ggplot(df1, aes(date, value)) +
   theme(strip.background = element_blank())
 ```
 
-Šie duomenys pasirinkti tikintis, kad jie atspindės emigravusių piliečių pinigų perlaidas Lietuvoje likusiems giminaičiams. Vėliau sudarant modelį bus tikrinama ar šie duomenys turi statistiškai reikšmingos įtakos šešėlinės ekonomikos vertinimui. Perlaidų skaičiaus grafikas primena eksponentinio augimo kreivę. Toks augimas sietinas su ženkliai atpigusiais tarptautiniais pavedimais, sutrumpėjusia perlaidų trukme ir padidėjusia konkurencija tarp finansinių įmonių siūlančių tarptautinių pavedimų paslaugas. Tuo tarpu pervedimų vertė visą stebimą laikotarpį svyravo panašiai ir augimo trendo nerodė. Tiesa, duomenyse pastebimas laikinas smukimas 2009 - 2010 m., kuomet, tikėtina, jog užsienyje dirbantys tautiečiai taip pat susidūrė finansų tuo metu vykusia finansų krize. Įdomu tai, jog kritus pervedimų vertei, pervedimų skaičius išliko toks pat. Vadinasi pavedimai vyko mažesnėmis sumomis. Taip pat, pastebime kritimą ir valiutos keitimo metu. Šis kritimas galėtų būti sietinas su noru sutaupyti valiutos konversijos kaštus ir atlikti pavedimą jau kai Lietuvoje buvo įvestas euras.
+\ \ \ Šie duomenys pasirinkti tikintis, kad jie atspindės emigravusių piliečių pinigų perlaidas Lietuvoje likusiems giminaičiams. Vėliau sudarant modelį bus tikrinama ar šie duomenys turi statistiškai reikšmingos įtakos šešėlinės ekonomikos vertinimui. Perlaidų skaičiaus grafikas primena eksponentinio augimo kreivę. Toks augimas sietinas su ženkliai atpigusiais tarptautiniais pavedimais, sutrumpėjusia perlaidų trukme ir padidėjusia konkurencija tarp finansinių įmonių siūlančių tarptautinių pavedimų paslaugas. Tuo tarpu pervedimų vertė visą stebimą laikotarpį svyravo panašiai ir augimo trendo nerodė. Tiesa, duomenyse pastebimas laikinas smukimas 2009 - 2010 m., kuomet, tikėtina, jog užsienyje dirbantys tautiečiai taip pat susidūrė finansų tuo metu vykusia finansų krize. Įdomu tai, jog kritus pervedimų vertei, pervedimų skaičius išliko toks pat. Vadinasi pavedimai vyko mažesnėmis sumomis. Taip pat, pastebime kritimą ir valiutos keitimo metu. Šis kritimas galėtų būti sietinas su noru sutaupyti valiutos konversijos kaštus ir atlikti pavedimą jau kai Lietuvoje buvo įvestas euras.
 
 ```{r results = "asis", echo=FALSE}
 kable(all.variables.stat[all.variables.stat$variable %in% c('payments_in_number', 'payments_in_value'),c(2,6,7,8,9,10,11,12)], 
@@ -383,7 +382,7 @@ ggplot(df, aes(date, value)) +
   theme(strip.background = element_blank())
 ```
 
-\ \ \ Čia tekstas po grafiku. Toliau seka lentelė su pagrindinėm statistikom.
+\ \ \ Šie duomenys pasirinkti norint įvertinti ar šešėlinei ekonomikai kiek nors įtakos turi alkoholio suvartojimo kiekiai ir alkoholio kaina. Tikėtina, jog asmenys piknaudžiaujantys alkoholiu darbdaviams nėra patrauklūs, todėl yra priversti pajamų ieškoti šešėlyje. Iš kitos pusės - padidėjusi alkoholio kaina skatina turinčius sugebėjimų patiems pasigaminti alkoholinių gėrimų tuo užsiimti namuose. Per stebimą laikotarpį abiejų stebimųjų grafikai pakilo. Dėrėtų pastebėti, jog suvartojimo kiekis laikinai sumažėjo krizės metais. Tikėtina, kad žmonės pasirinko arba mažinti savo alkoholio suvartojimą, arba pradėti vartoti nelegaliai pagamintus gėrimus.
 
 ```{r results = "asis", echo=FALSE}
 kable(all.variables.stat[all.variables.stat$variable %in% c('alcohol_consumption', 'alcohol_price'),c(2,6,7,8,9,10,11,12)], 
@@ -410,7 +409,7 @@ ggplot(df, aes(x=date)) +
        color=NULL)
 ```
 
-\ \ \ Čia tekstas po grafiku. Toliau seka lentelė su pagrindinėm statistikom.
+\ \ \ Vėliau sudarydami modelį norėsime ištirti ar bankrutavusios įmonės tęsia savo veiklą šešėlyje. bankroto procesų skaičius augo visą stebimą laikotarpį. Tai yra naturalu, nes paprastėjant įmonių steigimo įstatymams padaugėjo steigiamų įmonių. Ir to pasekoje padidėjo ir bankrutavusių įmonių skaičius. Tačiau derėtų atkreipti dėmesį į šuolį 2010 m. kuomet daugiau įmonių pajuto krizės padarinius ir buvo priverstos bankrutuoti.
 
 ```{r results = "asis", echo=FALSE}
 kable(all.variables.stat[all.variables.stat$variable %in% c('bankrupts'),c(2,6,7,8,9,10,11,12)], 
@@ -448,7 +447,7 @@ ggplot(df, aes(x=date)) +
                      values = c("credit_cards" = "#F8766D", "debit_cards" = "#00BFC4"))
 ```
 
-\ \ \ Čia tekstas po grafiku. Toliau seka lentelė su pagrindinėm statistikom.
+\ \ \ Tikėtina jog banko kortelių skaičius turi įtakos grynųjų pinigų vartojimui. Pasirinkome duomenis apie Lietuvoje išduotų debetinių ir kreditinių kortelių skaičių. Grafikuose matome piką finansinės krizės metu ir po to sekantį tolygų mažėjimą iki pat stebimo laikotarpio pabaigos. Tikėtina, jog kortelių skaičiaus mažėjimas siejamas su išaugusiais bankų įkainiais kortelėms.
 
 ```{r results = "asis", echo=FALSE}
 kable(all.variables.stat[all.variables.stat$variable %in% c('credit_cards', 'debit_cards'),c(2,6,7,8,9,10,11,12)], 
@@ -475,7 +474,7 @@ ggplot(df, aes(x=date)) +
        color=NULL)
 ```
 
-\ \ \ Čia tekstas po grafiku. Toliau seka lentelė su pagrindinėm statistikom.
+\ \ \ Stebima emigrantų skaičiaus eilutė pasižymi sezoniškumu. Pastebime šuolį duomenyse nuo 2005 m., kuomet Lietuvai prisijungus prie Europos Sąjungos atsivėrė platesnės galimybės emigruoti. Ir taip pat, stiprų šuolį aukštyn krizės metu, kuomet tautiečiai išvyko ieškoti darbo galimybių svetur.
 
 ```{r results = "asis", echo=FALSE}
 kable(all.variables.stat[all.variables.stat$variable %in% c('emigrants'),c(2,6,7,8,9,10,11,12)], 
@@ -507,7 +506,7 @@ ggplot(df, aes(x=date)) +
                      values = c("loan_value_EUR" = "#F8766D", "loan_value_LTL" = "#00BFC4"))
 ```
 
-\ \ \ Čia tekstas po grafiku. Toliau seka lentelė su pagrindinėm statistikom.
+\ \ \ Pastebime gana staigų didėjimą prieškriziniais metais. Ir paskui staigų šuolį žemyn prasidėjus krizei, kuomet buvo sugriežtinti paskolų išdavimo reikalavimai. Nuo to laikotarpio bendras paskolų lygis išliko toks pat, įvertinus tai jog nuo 2015 m. nebebuvo išduodamos paskolos litais dėl valiutos pasikeitimo, o anksčiau išduotos paskolos konvertuotos oficialiu valiutos keitimo kursu. Palūkanų normų grafike pastebime šuolį aukštyn krizės metu ir staigų laikiną šuolį paskolų eurais palūkano normose prieš įvedant eurą.
 
 ```{r results = "asis", echo=FALSE}
 kable(all.variables.stat[all.variables.stat$variable %in% c('loan_value_EUR', 'loan_value_LTL'),c(2,6,7,8,9,10,11,12)], 
@@ -699,16 +698,31 @@ td(formula, conversion = "sum", to = "quarterly",
   
 \ \ \ Dėl didesnio disagregavimo tikslumo šioje funkcijoje galime pasirinkti kintamuosius, pagal kuriuos norime agreguoti ir nos nurodyti formulės formatu. Pateikus daugiau nei vieną kintamajį ši funkcija, priklausomai nuo pasirinkto disagregavimo metodo, gali apskaičiuoti su kuriais kintamaisiais mūsų disagreguojamas dydis labiausiais koreliuoja ir disagreguoti pagal juos. Toks pasirinkimas leidžia įvertinti galimus duomenų svyravimus ar sezoninę dalį, jei jie atsispindi tuose duomenyse pagal kuriuos disagreguojame. Taip disagreguoti duomenys bus tikslesni.
 
-\ \ \ Šiame darbe šešėlinės ekonomikos modeliavimui pasirinkti duomenys yra įvairaus dažnumo: metiniai, pusmetiniai, ketvirtiniai, mėnesiniai. Tačiau įvertinus tai, kad į pinigų paklausos modelį įtraukiami endogeniniai kintamieji yra mėnesiniai ir tai, kad mėnesinių duomenų turime daugiausiai buvo pasirinkta visus duomenis disagreguoti į menesinius. Į disagregavimo lygtį įtraukiame mėnesinius kintamuosius: grynuosius pinigus, indėlius, VKI, VKI alkoholiui, emigrantų skaičių, mažmeninės prekybos apimtį ir nedarbo lygį.
-Ir disagregavimui pasirenkame _litterman-maxlog_ metodą.
+\ \ \ Šiame darbe šešėlinės ekonomikos modeliavimui pasirinkti duomenys yra įvairaus dažnumo: metiniai, pusmetiniai, ketvirtiniai, mėnesiniai. Dar kartą apžvelgiame turimus duomenis ir kokio jie yra dažnumo:
+
+```{r results = "asis", echo=FALSE}
+kable(freq.table, 
+      format = "latex", caption = 'Pasirinktų duomenų dažnumas', booktabs = T, row.names = FALSE) %>% 
+  kable_styling(position = "center", latex_options = c("hold_position"))
+```
+
+\ \ \ Ir, kad būtų aiškiau kokio laikotarpio duomenis turime, pavaizduojame grafiškai:
+
+```{r fig.width=13, fig.height=10, echo=FALSE, include=TRUE, dev='cairo_pdf'}
+ggplot(all.variables.dates, aes(x = value, y = kintamasis, group = kintamasis)) +
+   geom_point(aes(colour = stebėjimų_dažnumas)) + geom_line(aes(colour = stebėjimų_dažnumas)) +
+   ggtitle("Turimi duomenys") +
+   labs(x = 'Metai', y = 'Duomuo', color = "")
+```
+
+\ \ \ Įvertinus tai, kad į pinigų paklausos modelį įtraukiami endogeniniai kintamieji yra mėnesiniai ir tai, kad mėnesinių duomenų turime daugiausiai buvo pasirinkta visus duomenis disagreguoti į menesinius. Į disagregavimo lygtį įtraukiame tokius mėnesinius kintamuosius: grynuosius pinigus, indėlius, VKI, VKI alkoholiui, emigrantų skaičių, mažmeninės prekybos apimtį ir nedarbo lygį.
+Ir disagregavimui pasirenkame _litterman-maxlog_ metodą. Mūsų disagregavimo lygtis atrodys taip:
 
 ```{r eval=FALSE}
 regressors <- c("cash.m", "deposits.m", "cpi_alcohol.m", "cpi.m", 
                 "emigrants.m", "retail_volume.m", "unemp_female.m", "unemp_male.m")
 f <- as.formula(paste("x.ts ~ ", paste(regressors, collapse=" + ")))
 mod1 <- td(f, to = "monthly", method = "litterman-maxlog")
-summary(mod1)
-plot(mod1)
 ```
 
 
@@ -793,7 +807,7 @@ source('01_model.R')
 
 \ \ \ Endogeniniu kintamuoju savo modelyje pasirinksime grynųjų pinigų ir indėlių santykį. Egzogeniniais kintamaisiais pasirinksime šiuos duomenis: Alkoholio suvartojimas, Alkoholio kaina, Bankrotų skaičius, Grynieji pinigai, Grynųjų įnešimo operacijų skaičius, Grynųjų įnešimo operacijų vertė, Grynųjų išėmimo operacijų skaičius, Grynųjų išėmimo operacijų vertė, VKI, VKI alkoholiui, Kredito kortelių skaičius, Debeto kortelių skaičius, Indėlių eurais palūkanų norma, Indėlių litais palūkanų norma, Indėliai, Emigrantų skaičius, Paskolų eurais palūkanų norma, Paskolų litais palūkanų norma, Paskolų eurais vertė, Paskolų litais vertė, Minimalus atlyginimas, Išvykstančių turistų skaičius, Gautų mokėjimų skaičius, Gautų mokėjimų vertė, Išeinančių mokėjimų skaičius, Išeinančių mokėjimų vertė, Ekonominis reguliavimas: darbuotojų skaičius, Ekonominis reguliavimas: įstaigų skaičius, Mažmeninės prekybos apimtis, Akcizo mokesčiai, GPM, Pelno mokesčiai, Pridėtinės vertės mokesčiai, Kelionių agentūrų skaičius, Moterų nedarbas, Vyrų nedarbas.
 
-Sudarydami modelį įtrauksime kintamuosius kurie yra intergruoti nuline eile ir kintamųjų intergruotų pirma eile pirmos eilės skirtumus.
+\ \ \ Sudarydami modelį įtrauksime kintamuosius kurie yra intergruoti nuline eile ir kintamųjų intergruotų pirma eile pirmos eilės skirtumus.
 
 
 

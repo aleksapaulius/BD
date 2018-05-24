@@ -3,12 +3,17 @@
 
 cor.names <- c("spearman", "pearson")
 
+alldata.m['ratio'] <- alldata.m$cash/alldata.m$deposits
+
+
 # calculating correlation
 for (i in cor.names) {
   all.cor <- cor(alldata.m[,2:ncol(alldata.m)], use = 'complete.obs', method = i)
   
-  highest.cor <- names(rowSums(all.cor)[order(rowSums(all.cor), decreasing = TRUE)][1:5])
-  lowest.cor <- names(rowSums(all.cor)[order(rowSums(all.cor), decreasing = FALSE)][1:5])
+  abs.all.cor <- abs(all.cor)
+  
+  highest.cor <- rowSums(abs.all.cor)[order(rowSums(abs.all.cor), decreasing = TRUE)][1:5] %>% names()
+  lowest.cor <- rowSums(abs.all.cor)[order(rowSums(abs.all.cor), decreasing = FALSE)][1:5] %>% names()
   
   assign(paste0("highest.cor.", i), melt(cor(alldata.m[,highest.cor], use = 'complete.obs'), variable.factor=FALSE))
   assign(paste0("lowest.cor.", i), melt(cor(alldata.m[,lowest.cor], use = 'complete.obs')))
@@ -42,17 +47,59 @@ for (name in unique(lowest.cor.pearson$Var1)) {
 }
 
 
+# correlation test
+test.all.cor <- data.frame(all.cor[,'ratio'])
+names(test.all.cor)[1] <- 'ratio.cor'
+test.all.cor <- test.all.cor %>% t() %>% data.frame()
+for (var.name in unique(names(test.all.cor))) {
+  res <- cor.test(alldata.m$ratio, alldata.m[,var.name], alternative = "two.sided", method = "spearman")
+  test.all.cor[1,var.name] <- res$p.value
+}
 
 
-# m.df <- melt(cor(alldata.m[,highest.cor], use = 'complete.obs'))
-# qplot(x=Var1, y=Var2, data=m.df, fill=value, geom="tile")
-# m.df <- melt(cor(alldata.m[,lowest.cor], use = 'complete.obs'))
-# qplot(x=Var1, y=Var2, data=m.df, fill=value, geom="tile")
-
-# plot.cor(lowest.cor.spearman)
 
 
 
+
+
+
+
+# pagrindiniai 
+ggplot(alldata.m, aes(x=ratio, y=credit_cards)) + geom_point()
+
+ggplot(alldata.m, aes(x=ratio, y=cash_in_number)) + geom_point()
+
+ggplot(alldata.m, aes(x=ratio, y=regulation_institutions)) + geom_point()
+
+ggplot(alldata.m, aes(x=ratio, y=unemp_male)) + geom_point()
+
+
+
+g <- ggplot(alldata.m, aes(ratio, credit_cards))
+g + geom_count(col="tomato3", show.legend=F) +
+  labs(subtitle="Subtitle", 
+       y="ratio", 
+       x="credit_cards", 
+       title="Counts Plot")
+
+g <- ggplot(alldata.m, aes(ratio, credit_cards))
+g + geom_point() +
+  labs(subtitle="Subtitle", 
+       y="ratio", 
+       x="credit_cards", 
+       title="Counts Plot")
+
+
+
+corr <- round(cor(cor(alldata.m[,highest.cor], use = 'complete.obs', method = "spearman")), 1)
+ggcorrplot(corr, hc.order = TRUE, 
+           type = "lower", 
+           lab = TRUE, 
+           lab_size = 3, 
+           method="circle", 
+           colors = c("tomato2", "white", "springgreen3"), 
+           title="Correlogram of mtcars", 
+           ggtheme=theme_bw)
 
 
 
