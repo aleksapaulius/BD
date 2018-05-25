@@ -48,6 +48,7 @@ library('Cairo')
 library('lubridate')
 library('urca')
 library('ggcorrplot')
+library('gridExtra')
 
 source('00_functions.R')
 source('00_input.R')
@@ -192,7 +193,7 @@ ggplot(df, aes(x=date)) +
                      values = c("cpi_alcohol" = "#F8766D", "cpi" = "#00BFC4"))
 ```
 
-\ \ \ Iš grafiko galime pasakyti jog kainų indeksai vartojimo prekėms ir paslaugoms bei alkoholiniams gėrimams, tabakui ir narkotikams yra pakankamai koreliuoti. Pastebime sulėtėjusį augimą nuo 2000 metų kuris tęsėsi iki 2008 metų. Ir po staigesnio šuolio 2009 - 2010 metais toliau tolygiai augo. Taip pat, pastebime staigų šuolį alkoholinių gerimų, tabako ir narkotikų indekse 2017 metais. Šis kilimas pagrinde susijęs su alkoholio kontrolės įstatymų pasikeitimais šiais metais.
+\ \ \ Iš grafiko galime pasakyti jog kainų indeksai vartojimo prekėms ir paslaugoms bei alkoholiniams gėrimams, tabakui ir narkotikams pakankamai koreliuoja. Pastebime sulėtėjusį augimą nuo 2000 metų kuris tęsėsi iki 2008 metų. Ir po staigesnio šuolio 2009 - 2010 metais toliau tolygiai augo. Taip pat, pastebime staigų šuolį alkoholinių gerimų, tabako ir narkotikų indekse 2017 metais. Šis kilimas pagrinde susijęs su alkoholio kontrolės įstatymų pasikeitimais šiais metais.
 
 ```{r results = "asis", echo=FALSE}
 kable(all.variables.stat[all.variables.stat$variable %in% c('cpi_alcohol', 'cpi'),c(2,6,7,8,9,10,11,12)], 
@@ -256,7 +257,7 @@ ggplot(df, aes(x=date)) +
 
 ```
 
-\ \ \ Nors galėtume pasakyti jog visą stebimą laikotarpį vyrų ir moterų nedarbas gana stipriai koreliavo, tačiau pastebime ir tam tikrus skirtumus. Vyrų nedarbas krito smarkiau 2003 - 2004 metais. Tai galima susieti su emigrantų skaičiaus didėjimu Lietuvai prisijungus prie Europos Sąjungos. Didėjant emigrantų skaičiui mažėjo darbo jėga, todėl atitinkamai mažėjo ir nedarbas. Galime daryti išvadą, jog iš šalies emigravo darbo Lietuvoje neturintys asmenys, kurių tarpe didžiają dalį sudaro vyrai. Tiek moterų, tiek vyrų nedarbo lygis mažėjo iki 2008 metų galo - 2009 pradžios. Šis mažėjimas sietinas su gerėjančia ekonomine situacija šalyje. Tačiau prasidėjus pasaulinei finansų krizei nedarbo lygis išaugo drastiskai. Vyrų nedrabo lygis išaugo daugiau. Tikėtina dėl to, jog vyrai noriau rinkosi ir turėjo daugiau galimybių dirbti šešėlyje. Nuo 2010 metų moterų ir vyrų nedarbo lygiai tolygiai mažėja iki pat stebimo laikotarpio pabaigos (2017 metų galo), tačiau vyrų nedarbas išlieka aukštesniame lygyje nei moterų. 
+\ \ \ Nors galėtume pasakyti jog visą stebimą laikotarpį vyrų ir moterų nedarbas gana stipriai koreliavo, tačiau pastebime ir tam tikrus skirtumus. Vyrų nedarbas krito smarkiau 2003 - 2004 metais. Tai galima susieti su emigrantų skaičiaus didėjimu Lietuvai prisijungus prie Europos Sąjungos. Didėjant emigrantų skaičiui mažėjo darbo jėga, todėl atitinkamai mažėjo ir nedarbas. Galime daryti išvadą, jog iš šalies emigravo darbo Lietuvoje neturintys asmenys, kurių tarpe didžiają dalį sudaro vyrai. Tiek moterų, tiek vyrų nedarbo lygis mažėjo iki 2008 metų galo - 2009 pradžios. Šis mažėjimas sietinas su gerėjančia ekonomine situacija šalyje. Tačiau prasidėjus pasaulinei finansų krizei nedarbo lygis išaugo drastiskai. Vyrų nedarbo lygis išaugo daugiau. Tikėtina dėl to, jog vyrai noriau rinkosi ir turėjo daugiau galimybių dirbti šešėlyje. Nuo 2010 metų moterų ir vyrų nedarbo lygiai tolygiai mažėja iki pat stebimo laikotarpio pabaigos (2017 metų galo), tačiau vyrų nedarbas išlieka aukštesniame lygyje nei moterų. 
 
 ```{r results = "asis", echo=FALSE}
 kable(all.variables.stat[all.variables.stat$variable %in% c('unemp_female', 'unemp_male'),c(2,6,7,8,9,10,11,12)], 
@@ -660,7 +661,7 @@ kable(all.variables.stat[all.variables.stat$variable %in% c('outgoing_tourists',
 
 
 \pagebreak
-## Duomenų disagregavimas
+## Duomenų deagregavimas
 ```{r include = FALSE}
 source('01_data_manipulation.R')
 source('01_disaggregation.R')
@@ -673,7 +674,7 @@ source('01_disaggregation.R')
   \item \textbf{Aukšto dažnumo.} Tai dažniau stebimi dydžiai - ketvirtiniai, mėnesiniai, savaitiniai, dieniniai. Dažniausiai tokių dydžių stebėjimas yra automatizuotas ir nereikalauja papildomų resursų jų apdirbimui ar interpretavimui.
 \end{enumerate}
 
-\ \ \ Norint suvienodinti turimų duomenų dažnumą būtina atsižvelgti į tai, ar norėsime keisti aukšto dažnumo duomenis į žemo (agreguoti) ar atvirkščiai (disagreguoti). Lengviau yra pakeisti aukšto dažnumo duomenis į žemo. T.y. iš turimų duomenų gauti mažesnį kiekį duomenų, kurie atspindėtų tą patį stebimą laikotarpį. Tam pakanka pasitelkti paprastas aritmetines operacijas ir ieškoti duomenų sumos arba jų vidutinės reikšmės. Tačiau kuomet norime žemo dažnumo duomenis paversti aukšto dažnumo duomenimis, pavyzdžiui metinius duomenis paversti į mėnesinius, turime pasitelkti sudėtingesnius metodus. Tokiu atveju iškyla sunkumų norint tinkamai įvertinti galimus duomenų svyravimus stebimu laikotarpiu. Straipsnyje @sax2013temporal pateikiama metodai, kurie padeda išspręsti šiuos iškilusius sunkumus. Tarp pateikiamų metodų yra šie:
+\ \ \ Norint suvienodinti turimų duomenų dažnumą būtina atsižvelgti į tai, ar norėsime keisti aukšto dažnumo duomenis į žemo (agreguoti) ar atvirkščiai (deagreguoti). Lengviau yra pakeisti aukšto dažnumo duomenis į žemo. T.y. iš turimų duomenų gauti mažesnį kiekį duomenų, kurie atspindėtų tą patį stebimą laikotarpį. Tam pakanka pasitelkti paprastas aritmetines operacijas ir ieškoti duomenų sumos arba jų vidutinės reikšmės. Tačiau kuomet norime žemo dažnumo duomenis paversti aukšto dažnumo duomenimis, pavyzdžiui metinius duomenis paversti į mėnesinius, turime pasitelkti sudėtingesnius metodus. Tokiu atveju iškyla sunkumų norint tinkamai įvertinti galimus duomenų svyravimus stebimu laikotarpiu. Straipsnyje @sax2013temporal pateikiama metodai, kurie padeda išspręsti šiuos iškilusius sunkumus. Tarp pateikiamų metodų yra šie:
 
 \begin{itemize}
   \item Chow-Lin (max. log)
@@ -686,9 +687,9 @@ source('01_disaggregation.R')
   \item Contemporaneous constraint
 \end{itemize}
 
-\ \ \ Kaip pažymi autoriai, visi šie disagregavimo metodai užtikrina jog disagreguoti duomenys atitiktų žemo dažnio duomenis kuriuo nors vienu iš šių būdų: suma, vidurkiu, pirma ar paskutine reikšmėmis. Derėtų paminėti jog šie būdai neišsprendžia situacijų kuomet aukštas dažnumas nėra reguliarus (pvz. mėnesinius duomenis keičiant į savaitinius).
+\ \ \ Kaip pažymi autoriai, visi šie deagregavimo metodai užtikrina jog deagreguoti duomenys atitiktų žemo dažnio duomenis kuriuo nors vienu iš šių būdų: suma, vidurkiu, pirma ar paskutine reikšmėmis. Derėtų paminėti jog šie būdai neišsprendžia situacijų kuomet aukštas dažnumas nėra reguliarus (pvz. mėnesinius duomenis keičiant į savaitinius).
 
-\ \ \ Norint praktiškai išbandyti duomenų disagregavimą, visus aukščiau išvardintus metodus galime rasti tų pačių autorių parengtame R pakete __tempdisagg__. Pagrindinė šio paketo funkcija _td()_ leidžia disagreguoti savo turimus duomenis į aukšto dažnumo duomenis. Funkcija su savo iš anksto numatytais argumentais R programoje atrodo štai taip: 
+\ \ \ Norint praktiškai išbandyti duomenų deagregavimą, visus aukščiau išvardintus metodus galime rasti tų pačių autorių parengtame R pakete __tempdisagg__. Pagrindinė šio paketo funkcija _td()_ leidžia deagreguoti savo turimus duomenis į aukšto dažnumo duomenis. Funkcija su savo iš anksto numatytais argumentais R programoje atrodo štai taip: 
 
 ```{r eval=FALSE}
 td(formula, conversion = "sum", to = "quarterly",
@@ -696,7 +697,7 @@ td(formula, conversion = "sum", to = "quarterly",
   criterion = "proportional", h = 1, start = NULL, end = NULL, ...)
 ```
   
-\ \ \ Dėl didesnio disagregavimo tikslumo šioje funkcijoje galime pasirinkti kintamuosius, pagal kuriuos norime agreguoti ir nos nurodyti formulės formatu. Pateikus daugiau nei vieną kintamajį ši funkcija, priklausomai nuo pasirinkto disagregavimo metodo, gali apskaičiuoti su kuriais kintamaisiais mūsų disagreguojamas dydis labiausiais koreliuoja ir disagreguoti pagal juos. Toks pasirinkimas leidžia įvertinti galimus duomenų svyravimus ar sezoninę dalį, jei jie atsispindi tuose duomenyse pagal kuriuos disagreguojame. Taip disagreguoti duomenys bus tikslesni.
+\ \ \ Dėl didesnio deagregavimo tikslumo šioje funkcijoje galime pasirinkti kintamuosius, pagal kuriuos norime agreguoti ir juos kartu su deagreguojamu dydžiu nurodyti formulės formatu. Pateikus daugiau nei vieną kintamajį ši funkcija, priklausomai nuo pasirinkto deagregavimo metodo, gali apskaičiuoti su kuriais kintamaisiais mūsų deagreguojamas dydis labiausiais koreliuoja ir deagreguoti pagal juos. Toks pasirinkimas leidžia įvertinti galimus duomenų svyravimus ar sezoninę dalį, jei jie atsispindi tuose duomenyse pagal kuriuos deagreguojame. Taip deagreguoti duomenys bus tikslesni.
 
 \ \ \ Šiame darbe šešėlinės ekonomikos modeliavimui pasirinkti duomenys yra įvairaus dažnumo: metiniai, pusmetiniai, ketvirtiniai, mėnesiniai. Dar kartą apžvelgiame turimus duomenis ir kokio jie yra dažnumo:
 
@@ -715,8 +716,8 @@ ggplot(all.variables.dates, aes(x = value, y = kintamasis, group = kintamasis)) 
    labs(x = 'Metai', y = 'Duomuo', color = "")
 ```
 
-\ \ \ Įvertinus tai, kad į pinigų paklausos modelį įtraukiami endogeniniai kintamieji yra mėnesiniai ir tai, kad mėnesinių duomenų turime daugiausiai buvo pasirinkta visus duomenis disagreguoti į menesinius. Į disagregavimo lygtį įtraukiame tokius mėnesinius kintamuosius: grynuosius pinigus, indėlius, VKI, VKI alkoholiui, emigrantų skaičių, mažmeninės prekybos apimtį ir nedarbo lygį.
-Ir disagregavimui pasirenkame _litterman-maxlog_ metodą. Mūsų disagregavimo lygtis atrodys taip:
+\ \ \ Įvertinus tai, kad į pinigų paklausos modelį įtraukiami endogeniniai kintamieji yra mėnesiniai ir tai, kad mėnesinių duomenų turime daugiausiai buvo pasirinkta visus duomenis deagreguoti į menesinius. Į deagregavimo lygtį įtraukiame tokius mėnesinius kintamuosius: grynuosius pinigus, indėlius, VKI, VKI alkoholiui, emigrantų skaičių, mažmeninės prekybos apimtį ir nedarbo lygį.
+Ir deagregavimui pasirenkame _litterman-maxlog_ metodą. Mūsų deagregavimo lygtis atrodys taip:
 
 ```{r eval=FALSE}
 regressors <- c("cash.m", "deposits.m", "cpi_alcohol.m", "cpi.m", 
@@ -768,10 +769,10 @@ source('01_correlation.R')
 Kadangi dauguma turimų duomenų netenkina normalumo prielaidos, o ir stebima laiko eilutė yra ganėtinai trumpa, koreliacijai tarp kintamųjų nustatyti vadovausimės Spirmeno (Spearman) ranginės koreliacijos koeficientu. Žemiau pateikiami grafikai tarp penkių labiausiai ir penkių mažiausiai koreliuotų kintamųjų.
 
 ```{r fig.width=10, fig.height=8, echo=FALSE, include=TRUE, dev='cairo_pdf'}
-plot.cor(highest.cor.spearman, plot.title = "Labiausiai koreliuoti kintamieji (Spearman)")
+plot.cor(highest.cor.spearman, plot.title = "Labiausiai tarpsusavyje koreliuojantys kintamieji (Spearman)")
 ```
 
-Iš lentelės matome, jog labiausiai tarpusavyje koreliuoti kintamieji yra šie:
+Iš lentelės matome, jog labiausiai tarpusavyje koreliuoja kintamieji yra šie:
 
 \begin{itemize}
   \item Paskolų eurais palūkanų norma
@@ -784,10 +785,10 @@ Iš lentelės matome, jog labiausiai tarpusavyje koreliuoti kintamieji yra šie:
 \
 
 ```{r fig.width=10, fig.height=8, echo=FALSE, include=TRUE, dev='cairo_pdf'}
-plot.cor(lowest.cor.spearman, plot.title = "Mažiausiai koreliuoti kintamieji (Spearman)")
+plot.cor(lowest.cor.spearman, plot.title = "Mažiausiai tarpsusavyje koreliuojantys kintamieji (Spearman)")
 ```
 
-O tarpysavyje mažiausia koreliuoti kintamieji yra šie:
+O tarpysavyje mažiausia koreliuoja šie kintamieji:
 
 \begin{itemize}
   \item Paskolų litais vertė
@@ -796,6 +797,36 @@ O tarpysavyje mažiausia koreliuoti kintamieji yra šie:
   \item Indėlių eurais palūkanų norma
   \item Ekonominis reguliavimas: darbuotojų skaičius
 \end{itemize}
+
+Kadangi modeliuosime grynųjų pinigų ir indėlių santykį, patikriname, kaip atrodo sklaidos diagramos su dydžiais, su kuriais šis santykis labiausiai koreliuoja:
+
+```{r fig.width=10, fig.height=8, echo=FALSE, include=TRUE, dev='cairo_pdf'}
+grid.arrange(plot1, plot2, plot3, plot4, ncol=2, nrow=2)
+```
+
+\ \ \ Vien žiūrėdami į šiais sklaidos diagramas negalėtume teigti, kad stebima tikrai koreliuotus dydžius.
+
+
+\ \ \ Patikriname ar tarp šių dydžių koreliacijos statistiškai reikšmingos
+
+```{r results = "asis", echo=FALSE}
+kable(test.all.cor,
+     format = "latex", caption = "Statistiškai nereiksmingai su santykiu koreliuoti dydžiai ir statistinės tikimybės", booktabs = T, row.names = FALSE) %>%
+  kable_styling(position = "center", latex_options = c("hold_position"))
+```
+
+\ \ \ Taigi dar kartą ibrėžiame korelogramą, kuri padėtų labiau įverti dydžius, su kuriais mūsų modeliuojamas santykis koreliuoja labiausiai. 
+
+```{r fig.width=10, fig.height=8, echo=FALSE, include=TRUE, dev='cairo_pdf'}
+ggcorrplot(corr, hc.order = TRUE, 
+           type = "lower", 
+           lab = TRUE, 
+           lab_size = 3, 
+           method="circle", 
+           colors = c("tomato2", "white", "springgreen3"), 
+           title="Korelograma tarp labiausiai koreliuojančių su santykiu", 
+           ggtheme=theme_bw)
+```
 
 
 
