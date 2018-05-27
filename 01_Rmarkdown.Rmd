@@ -16,6 +16,7 @@ header-includes:
   - \usepackage{threeparttablex}
   - \usepackage[normalem]{ulem}
   - \usepackage{makecell}
+  - \usepackage{dcolumn}
 output: 
   pdf_document:
     latex_engine: xelatex
@@ -49,6 +50,7 @@ library('lubridate')
 library('urca')
 library('ggcorrplot')
 library('gridExtra')
+library('DescTools')
 
 source('00_functions.R')
 source('00_input.R')
@@ -569,7 +571,9 @@ ggplot(df, aes(x=date)) +
                      values = c("deposit_interest_EUR" = "#F8766D", "deposit_interest_LTL" = "#00BFC4"))
 ```
 
-\ \ \ Čia tekstas po grafiku. Toliau seka lentelė su pagrindinėm statistikom.
+\ \ \ Stebėdami kaip kito palūkanų normos indėliams tiek litais, tiek eurais matome gana staigų kilimą ikikriziniais metais (2005 - 2009 m.) ir po to sekusį staigų lūžį žemyn. Šį kritimą galima būtų aiškinti dviem būdais: pirmasis - stengiantis suvaldyti krizę buvo sugriežtinti reikalavimai paskolų išdavimui. To pasekoje finansų įstaigos išduodamos mažiau paskolų sumažino savo poreikį indėliams. Kitas būdas - palūkanų normos buvo sumažintos stengiantis paskatinti ir taip sulėtėjusį vartojimą[^economicshelp]. Palūkanų normos turėtų teigiamai koreliuoti su indėlių skaičiumi ir taip paveikti mūsų modeliuojamą grynųjų pinigų ir indėlių santykį.
+
+[^economicshelp]: Straipsnis portale economicshelp.org - „Effect of lower interest rates“
 
 ```{r results = "asis", echo=FALSE}
 kable(all.variables.stat[all.variables.stat$variable %in% c('deposit_interest_EUR', 'deposit_interest_LTL'),c(2,6,7,8,9,10,11,12)], 
@@ -577,7 +581,7 @@ kable(all.variables.stat[all.variables.stat$variable %in% c('deposit_interest_EU
   kable_styling(position = "center", latex_options = c("hold_position", "scale_down"))
 ```
 
-### Mažmeninės prekybos prekybos apimtis (palyginti su 2015 m.) {-}
+### Mažmeninės prekybos apimtis (palyginti su 2015 m.) {-}
 
 ```{r include = FALSE}
 var.name <- "Indėliai pinigų finansų įstaigose (palūkanų normos)"
@@ -596,7 +600,7 @@ ggplot(df, aes(x=date)) +
        color=NULL)
 ```
 
-\ \ \ Čia tekstas po grafiku. Toliau seka lentelė su pagrindinėm statistikom.
+\ \ \ Nuo stebimo laikotarpio pradžios iki pabaigos mažmeninės prekybos apimtis paaugo beveik 3,5 kartų. Stebint duomenis labiausiai išsiskiria šuolis aukštyn ikikriziniais metais ir korekcija krizės metu. Nuo to laiko stebimas kintamasis tolygiai, su nežymiais svyravimais, augo iki stebimo laikotarpio pabaigos.
 
 ```{r results = "asis", echo=FALSE}
 kable(all.variables.stat[all.variables.stat$variable %in% c('retail_volume'),c(2,6,7,8,9,10,11,12)], 
@@ -836,9 +840,53 @@ ggcorrplot(corr, hc.order = TRUE,
 source('01_model.R')
 ```
 
-\ \ \ Endogeniniu kintamuoju savo modelyje pasirinksime grynųjų pinigų ir indėlių santykį. Egzogeniniais kintamaisiais pasirinksime šiuos duomenis: Alkoholio suvartojimas, Alkoholio kaina, Bankrotų skaičius, Grynieji pinigai, Grynųjų įnešimo operacijų skaičius, Grynųjų įnešimo operacijų vertė, Grynųjų išėmimo operacijų skaičius, Grynųjų išėmimo operacijų vertė, VKI, VKI alkoholiui, Kredito kortelių skaičius, Debeto kortelių skaičius, Indėlių eurais palūkanų norma, Indėlių litais palūkanų norma, Indėliai, Emigrantų skaičius, Paskolų eurais palūkanų norma, Paskolų litais palūkanų norma, Paskolų eurais vertė, Paskolų litais vertė, Minimalus atlyginimas, Išvykstančių turistų skaičius, Gautų mokėjimų skaičius, Gautų mokėjimų vertė, Išeinančių mokėjimų skaičius, Išeinančių mokėjimų vertė, Ekonominis reguliavimas: darbuotojų skaičius, Ekonominis reguliavimas: įstaigų skaičius, Mažmeninės prekybos apimtis, Akcizo mokesčiai, GPM, Pelno mokesčiai, Pridėtinės vertės mokesčiai, Kelionių agentūrų skaičius, Moterų nedarbas, Vyrų nedarbas.
+\ \ \ Endogeniniu kintamuoju savo modelyje pasirinksime grynųjų pinigų ir indėlių santykį. Egzogeniniais kintamaisiais pasirinksime šiuos duomenis: Alkoholio suvartojimas, Alkoholio kaina, Bankrotų skaičius, Grynųjų įnešimo operacijų skaičius, Grynųjų įnešimo operacijų vertė, Grynųjų išėmimo operacijų skaičius, Grynųjų išėmimo operacijų vertė, VKI, VKI alkoholiui, Kredito kortelių skaičius, Debeto kortelių skaičius, Indėlių eurais palūkanų norma, Indėliai, Paskolų eurais palūkanų norma, Paskolų eurais vertė, Minimalus atlyginimas, Išvykstančių turistų skaičius, Gautų mokėjimų skaičius, Gautų mokėjimų vertė, Išeinančių mokėjimų vertė, Ekonominis reguliavimas: darbuotojų skaičius, Ekonominis reguliavimas: įstaigų skaičius, Mažmeninės prekybos apimtis, Akcizo mokesčiai, GPM, Pelno mokesčiai, Pridėtinės vertės mokesčiai, Moterų nedarbas, Vyrų nedarbas.
+
+\ \ \ Primename, kad tris kintamuosius[^excluded] išmetėme anksčiau, nes jie nebuvo statistiškai reikšmingai koreliuoti su mūsų modelio endogeniniu kintamuoju. Taip pat išmetėme ir šiuos kintamamuosius dėl per mažo stebinių skaičiaus (duomenys buvo tik iki 2014 m. 12 mėn.): Indėlių litais palūkanų norma, Paskolų litais palūkanų norma. Paskolų litais vertė.
+
+[^excluded]: Trys išmesti kintamieji: Emigrantų skaičius, Kelionių agentūrų skaičius, Išeinančių mokėjimų skaičius.
 
 \ \ \ Sudarydami modelį įtrauksime kintamuosius kurie yra intergruoti nuline eile ir kintamųjų intergruotų pirma eile pirmos eilės skirtumus.
+
+Pirmasis modelis[^nulls]:
+
+[^nulls]: Pažymėtina, kad lentelėje pateikti koeicientai 0.00000 nenurodo, kad koeficientas nulinis. Tai parodo, kad reikšmė labai maža, todėl nebuvo atvaizduota lentelėje. 
+
+```{r results = "asis", echo=FALSE}
+stargazer(fit1, title="Pirmasis modelis", align=TRUE, single.row = TRUE, column.sep.width = "1pt", 
+          header=FALSE)
+```
+
+\ \ \ Apžvelgdami pirmąjį sudarytą modelį matome, kad pagal visus vertinimo kriterijus (koreguotas determinacijos koeficientas[^Rsq], standartizuotoji liekamoji paklaida[^RSE], F-statistika) modelis galėtų būti geras: 
+
+\begin{itemize}
+  \item Didelis koreguotas determinacijos koeficientas (0,96) rodo, kad modelis, greičiausiai, gana tiksliai aprašo duomenis.  
+  \item Maža standartizuotoji liekamoji paklaida (0,01) rodo mažą vidutinį atstumą tarp modelio kreivės ir tikrųjų duomenų.
+  \item Didelė F-statistika (118,92) rodo stiprų sąryšį tarp endogeninio ir egzogeninių kintamųjų.
+\end{itemize}
+
+[^Rsq]: Angl. adjusted R square.
+[^RSE]: Angl. Residual Std. Error
+
+\ \ \ Tačiau prieš priimdami geriausia modelį turime patikrinti ar yra taikomos regresijos modelio prielaidos ir patikrinti dispersijos mažėjimo daugiklį[^VIF] (toliau VIF) [@vcekanavivcius2011taikomoji]. Kadangi į savo lygtį įtraukėmė daug kintamųjų, šis daugiklis padės mums patikrinti, ar regresoriai nėra stipriai tarpusavyje koreliuojantys (galima multikolinearumo problema). 
+
+\ \ \ Patikrinę VIF visiems kintamiesiems matome, kad daugumos jų daugiklis viršiją rekomenduotiną reikšmę 4. Pažingsniui pašaliname po vieną kintamąjį ir perskaičiuojame VIF. Tęsiame šį ciklą, kol tarp kintamųjų neliks nei vieno, kuris turėtų VIF reikšmę didesnę už 4. Ir su likusiais kintamaisiais sudarome antrąjį modelį:
+
+[^VIF]: Angl. variance inflation factor.
+
+```{r results = "asis", echo=FALSE}
+stargazer(fit2, title="Antrasis modelis", align=TRUE, single.row = TRUE, column.sep.width = "1pt", 
+          header=FALSE)
+```
+
+\ \ \ Matome, kad nors ir visi vertinimo kriterijai šį modelį įvertina prasčiau nei pirmąjį, tačiau šiuo atveju galime būti tikri, jog nesusidursime su multikolinearumo problema. Pastebime, jog šiame modelyje vis dar daug statistiškai nereikšmingų egzogeninių kintamųjų. Juos išmetę sudarome trečiajį modelį:
+
+```{r results = "asis", echo=FALSE}
+stargazer(fit3, title="Trečiasis modelis", align=TRUE, single.row = TRUE, column.sep.width = "1pt", 
+          header=FALSE)
+```
+
+\ \ \ Dabar matome, kad visi regresoriai yra statistiškai reikšmingi ir pagal vertinimo kriterijus modelis taip pat yra geresnis už antrajį. 
 
 
 
