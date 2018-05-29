@@ -99,7 +99,7 @@ ekspertiniais vertinimo būdais.
 \pagebreak
 # Pinigų paklausos modelis
 
-\ \ \ Pinigų paklausos modelis - tai vienas populiariausių naudojamų metodų siekiant išsiaiškinti šešėlinės ekonomikos dydį. @tanzi1980underground norėdamas ištirti mokesčių vengimo mąstą panaudojo daugianarę regresiją tam kad įvertintų pinigų paklausą. Šiam modeliui galioja prielaida, kad „pinigų santykis C/M2[^m2] yra veikiamas legaliais ir nelegaliais faktoriais“. Čia legaliais faktoriais laikomi tokie, kurie veikia pinigų paklausą ilguoju arba trumpuoju laikotarpiu: kreditinių kortelių skaičius, pajamų sudėtis, indėlių palūkanų normos, kelionių skaičius vienam asmeniui, finansinių įstaigų skačius. O nelegaliais - mokesčių moketojų pasitikėjimas valstybe, mokestinių įstatymų teisingumas, valdžios skaidrumo indeksas, ekonominis reguliavimas.
+\ \ \ Pinigų paklausos modelis - tai vienas populiariausių naudojamų metodų siekiant išsiaiškinti šešėlinės ekonomikos dydį. @tanzi1980underground norėdamas ištirti mokesčių vengimo mąstą panaudojo daugianarę regresiją tam kad įvertintų pinigų paklausą. Šiam modeliui galioja prielaida, kad „pinigų santykis C/M2[^m2] yra veikiamas legaliais ir nelegaliais faktoriais“. Legaliais faktoriais čia laikomi tokie, kurie veikia pinigų paklausą ilguoju arba trumpuoju laikotarpiu: kreditinių kortelių skaičius, pajamų sudėtis, indėlių palūkanų normos, kelionių skaičius vienam asmeniui, finansinių įstaigų skačius. O nelegaliais - mokesčių moketojų pasitikėjimas valstybe, mokestinių įstatymų teisingumas, valdžios skaidrumo indeksas, ekonominis reguliavimas.
 
 [^m2]: Čia C - grynieji pinigai, o M2 – grynieji pinigai apyvartoje, vienadieniai indėliai bankuose ir kiti trumpalaikiai indėliai šalies ir užsienio valiuta.
 
@@ -109,43 +109,43 @@ ekspertiniais vertinimo būdais.
 \ln\left(\frac{C}{k}\right)_t = \alpha^{\prime}Z_t + \beta T_t \label{eq:e1}
 \end{equation}
 
-kur \(\alpha\) ir \(\beta\) yra parametrų vektoriai, _T_ - mokesčiai, o _Z_ - aiškinantieji kintamieji. Pinigų kiekio įvertinį pažymime \(\hat{C}_t\), tuomet lygtį \eqref{eq:e1} galime perrašyti taip:
+čia \(\alpha\) ir \(\beta\) - parametrų vektoriai, _T_ - mokesčiai, _Z_ - aiškinantieji kintamieji. Pažymėkime pinigų kiekio įvertinį \(\hat{C}_t\). Tuomet perrašome \eqref{eq:e1} lygtį:
 
 \begin{equation}
 \ln(\hat{C})_t = \hat{\alpha}^{\prime}Z_t + \ln k_t + \hat{\beta} T_t \label{eq:e2}
 \end{equation}
 
-\ \ \ Eliminavus logaritminę transformaciją, gaunamas įvertintas grynųjų pinigų kiekis laiko momentu _t_:
+\ \ \ Eliminuojame logaritminę transformaciją ir gauname įvertintą grynųjų pinigų kiekį laiko momentu _t_:
 
 \begin{equation}
 \hat{C}_t = e^{\hat{\alpha}^{\prime}Z_t + \ln k_t + \hat{\beta} T_t} \label{eq:e3}
 \end{equation}
 
-\ \ \ Toliau tariama, kad jei šešėlinė ekonomika ir mokesčiai išlieka tame pačiame bazinių metų lygyje \(T_{t_0}\), tuomet pinigų kiekis apyvartoje laikotarpiu _t_ apskaičiuojamas:
+\ \ \ Toliau darome prielaidą, kad šešėlinė ekonomika ir mokesčiai išlieka tame pačiame bazinių metų lygyje \(T_{t_0}\). Taigi pinigų kiekis apyvartoje laikotarpiu _t_ apskaičiuojamas:
 
 \begin{equation}
 \hat{C}_t^{T_{t_0}} = e^{\hat{\alpha}^{\prime}Z_t + \ln k_t + \hat{\beta} T_t^{T_{t_0}}} \label{eq:e4}
 \end{equation}
 
-\ \ \ Tuomet galima apskaičiuoti pinigų paklausos skirtumą esant žemiausiai mo- kesčių reikšmei ir mokesčių naštai keičiantis kasmet.
+\ \ \ Jau galima apskaičiuoti pinigų paklausos skirtumą esant žemiausiai mokesčių reikšmei ir mokesčių naštai keičiantis kasmet:
 
 \begin{equation}
 C_t^U = \hat{C_t} - \hat{C}_t ^{T_{t_0}} \label{eq:e5}
 \end{equation}
 
-\ \ \ Čia \(C_t^U\) yrapinigųpaklausosaugimasšešėlinėjeekonomikojelyginantsuba- ziniais metais. Jei piniginių pajamų kintamumas šešėlinėje ekonomikoje yra \(V_t^U\), tai bendros pajamos šešėlinėje ekonomikoje:
+\ \ \ Kur \(C_t^U\) žymi pinigų paklausos augimą šešėlyje lyginant su baziniais metais. Jei piniginių pajamų kintamumas šešėlinėje ekonomikoje yra \(V_t^U\), apskaičiuojame bendras pajamas šešėlinėje ekonomikoje:
 
 \begin{equation}
 Y_t^U = C_t^U \cdot V_t^U \label{eq:e6}
 \end{equation}
 
-\ \ \ Darant prielaidą, analogišką @tanzi1980underground, kad pinigų kintamumas šešėlinėje ekonomikoje yra toks pats kaip ir oficialioje, tuomet kintamumas abejuose sektoriuose gali būti apskaičiuojamas:
+\ \ \ Tuomet kaip ir @tanzi1980underground tariame, kad pinigų kintamumas šešėlyje yra toks pats kaip ir oficialioje ekonomikoje. Tuomet kintamumas abiejuose sektoriuose apskaičiuojamas taip:
 
 \begin{equation}
 V_t = \frac{Y_t}{M2_t - C_t^U} \label{eq:e7}
 \end{equation}
 
-\ \ \ Čia \(V_t\) yra kintamumo norma, \(Y_t\) - oficialusis BVP, \(M2_t\) - P2[^p2money] pinigai, o \(C_t^U\) - šešėlinėje ekonomikoje esančių grynųjų pinigų kiekis. Bendrosios pajamos, esančios šešėlinėje ekonomikoje apskaičiuojamos:
+\ \ \ Čia \(V_t\) žymi kintamumo normą, \(Y_t\) - oficialųjį BVP, \(M2_t\) - P2[^p2money] pinigus, o \(C_t^U\) - šešėlyje esančių grynųjų pinigų kiekį. Tuomet bendrosios pajamos, esančios šešėlinėje ekonomikoje apskaičiuojamos taip:
 
 [^p2money]: P1 ir kiti trumpalaikiai indėliai šalies ir užsienio valiuta
 
@@ -153,14 +153,14 @@ V_t = \frac{Y_t}{M2_t - C_t^U} \label{eq:e7}
 Y_t^U = V_t \cdot C_t^U \label{eq:e8}
 \end{equation}
 
-\ \ \ Iš \eqref{eq:e7} ir \eqref{eq:e8} lygčių gaunamas šešėlinės ekonomikos mastas, išreikštas kaip
-procentinė dalis nuo stebimo BVP:
+\ \ \ Iš \eqref{eq:e7} ir \eqref{eq:e8} lygčių gauname šešėlinės ekonomikos dydį, kurį išreiškiame kaip
+procentinę dalį nuo stebimo BVP:
 
 \begin{equation}
 \frac{Y_t^U}{Y_t} = \frac{Y_t \cdot C_t^U}{(M2_t - C_t^U) \cdot Y_t} = \frac{C_t^U}{M2_t - C_t^U} \label{eq:e9}
 \end{equation}
 
-\ \ \ Reikėtų pastebėti, jog šiuo atveju taip pat daroma prielaida, kad baziniais metais nėra šešėlinės ekonomikos. Tokios prielaidos atlaisvinimas kiek padidintų gautus įverčius.
+\ \ \ Tačiau pastebėsime, kad šiuo atveju darome prielaidą, jog baziniais metais šešėlinės ekonomikos dydis yra nulinis. Atlaisvinus šią prielaidą gautume kiek padidintus įverčius.
 
 
 
