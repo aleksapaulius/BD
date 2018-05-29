@@ -63,6 +63,10 @@ source('01_correlation.R')
 source('01_model.R')
 
 
+# COMPARE ----------------------------------------------------------------------
+
+source('01_compare.R')
+
 
 
 

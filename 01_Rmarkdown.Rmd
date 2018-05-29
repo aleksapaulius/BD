@@ -60,15 +60,32 @@ source('01_data_cleaning.R')
 \pagebreak
 # Santrauka / Abstract
 
+\ \ \ Šio bakalaurinio darbo tikslas – įvertinti Lietuvos šešėlinę ekonomiką ir nustatyti pagrindinius jos mastą lemiančius veiksnius. Šiam tikslui buvo sudarytas pinigų paklausos modelis. Įtraukti įvairūs kintamieji, kurie tikėtina vienaip ar kitaip veikia šešėlinę ekonomiką. Gauta, kad reikšmingiausią įtaką šešėlinei ekonomikai Lietuvoje turi paskolų palūkanos, vyrų nedarbo lygis, debeto kortelių skaičius, pelno mokesčiai, minimalus atlyginimas bei grynųjų pinigų įnešimo į bankomatą operacijų skaičius.
+
+\ 
+
+\ \ \ The aim of this bachelor's thesis was to estimate shadow economy of Lithuania and to identify its main causing factors. For this purpose currency demand model was used. Various exogenous factors were taken into modeling. And the result is that most influential factors for the shadow economy of Lithuania are: loans‘ interest rates, male unemployment, debit cards quantity, income tax, minimum wage and the number of ATM cash-in transactions.
+
 \pagebreak
 # Įvadas
 
-\ \ \ Visi norime gyventi geriau, tačiau ne visi suprantame, kaip tampriai mūsų gerbūvis bendroje šalies ekonomikoje yra susijęs su kitais žmonėmis. Dėl šio nesupratimo arba vesdini savanaudiškų paskatų kai kurie žmonės yra linkę paaukoti bendrą šalies ekonominę gerovę vardan trumpalaikės savo gyvenimo kokybės pagerinimo. Dėl didesnio darbo užmokesčio jie apeina įstatymus, neapskaito pajamų ir nemoka mokesčių ir taip prisideda prie šėšėlinės ekonomikos. Vyriausybės ekspertų vertinimais Lietuvoje slepiamos ekonominės veiklos pajamos sudaro apie ketvirtį bendro vidaus produkto.[^footnote] Deja naudojami vertinimo būdai nepasižymi savo tikslumu. 
+\ \ \ Visi norime gyventi geriau, tačiau ne visi suprantame, kaip tampriai mūsų gerbūvis bendroje šalies ekonomikoje yra susijęs su kitais žmonėmis. Dėl šio nesupratimo arba vesdini savanaudiškų paskatų kai kurie žmonės yra linkę paaukoti bendrą šalies ekonominę gerovę vardan trumpalaikės savo gyvenimo kokybės pagerinimo. Dėl didesnio darbo užmokesčio jie apeina įstatymus, neapskaito pajamų ir nemoka mokesčių ir taip prisideda prie šešėlinės ekonomikos kūrimo.
+ 
+\ \ \ Šešėlinės ekonomikos klausimais nacionaliniu, Europos Sąjungos ir tarptautiniu lygiais diskutuoja plačioji visuomenė, mokslininkai, politikai, kontrolės institucijos. Tačiau, nepaisant didelio susidomėjimo, iki šiol nei nacionaliniu, nei tarptautiniu mastu nėra sutarta dėl bendros šio reiškinio terminologijos, turinio ir struktūros, taip pat dėl šį reiškinį lemiančių priežasčių[^pokyciai10].   
+ 
+\ \ \ Nepaisant ekonominio šešėlio abstraktumo, su juo yra kovojama įvairiais būdais. Kaip antai:
+2017 m. gale startavo nacionalinė kvitų loterija[^vminaujienos], kurioje ne jaunesni nei 14 metų šalies gyventojai gali dalyvauti nacionalinėje kvitų loterijoje, registruodami gautus kasos aparato kvitus, ir laimėti savaitinius bei mėnesinius piniginius prizus. Kvitų loterija inicijuota kaip viena iš plačiajai visuomenei patrauklių šešėlinės ekonomikos mažinimo priemonių. Deja, Ekonomikos ekspertai abejoja dėl tokio kvitų loterijos efekto[^kritika]. LR vyriausybės ekspertų vertinimais[^ketvirtadalisBVP] Lietuvoje slepiamos ekonominės veiklos pajamos sudaro apie ketvirtį bendro vidaus produkto.
+ 
+\ \ \ Taigi prieš pasirenkant efektyviausią kovos su šešėlių būdą, būtini išsamesni tyrimai šia tema, kurie padėtų įvertinti šešėlio mastą ar raidą laike. Deja dauguma šiuo metu naudojamų vertinimo būdų nepasižymi savo tikslumu. Šiame darbe šešėlinės ekonomikos mastas įvertinamas pinigų paklausos modeliu. Siekiant išsiaiškinti kokie ekonominiai ar socialiniai veiksniai lemia šešėlinės ekonomikos augimą ar susitraukimą, įtraukiami įvairūs kintamieji ir sudaromas daugianarės regresijos modelis.
 
-[^footnote]: lrytas.lt - Šešėlinės ekonomikos mastai - stulbinantys, bet tik draudimai čia negelbės
 
-\ \ \ Šiame darbe šešėlinės ekonomikos mastas įvertinamas pinigų paklausos modeliu. Siekiant išsiaiškinti kokie ekonominiai ar socialiniai veiksniai lemia šešėlinės ekonomikos augimą ar susitraukimą, įtraukiami įvairūs kintamieji ir sudaromas tiesinis modelis.
+[^pokyciai10]: Lietuvos Respublikos Vyriausybės kanceliarija - „Šešėlinė ekonomika. Pokyčiai per dešimtmetį", 2016 m.
 
+[^vminaujienos]: vmi.lt straipsnis „Ilgai laukta kvitų loterija startavo – VMI linki sėkmės!"
+
+[^kritika]: delfi.lt straipsnis „Čekių loterija sulaukia kritikos"
+
+[^ketvirtadalisBVP]: lrytas.lt straipsnis „Šešėlinės ekonomikos mastai - stulbinantys, bet tik draudimai čia negelbės"
 
 \pagebreak
 # Šešėlinė ekonomika
@@ -99,65 +116,65 @@ ekspertiniais vertinimo būdais.
 \pagebreak
 # Pinigų paklausos modelis
 
-\ \ \ Pinigų paklausos modelis - tai vienas populiariausių naudojamų metodų siekiant išsiaiškinti šešėlinės ekonomikos dydį. @tanzi1980underground norėdamas ištirti mokesčių vengimo mąstą panaudojo daugianarę regresiją tam kad įvertintų pinigų paklausą. Šiam modeliui galioja prielaida, kad „pinigų santykis C/M2[^m2] yra veikiamas legaliais ir nelegaliais faktoriais“. Legaliais faktoriais čia laikomi tokie, kurie veikia pinigų paklausą ilguoju arba trumpuoju laikotarpiu: kreditinių kortelių skaičius, pajamų sudėtis, indėlių palūkanų normos, kelionių skaičius vienam asmeniui, finansinių įstaigų skačius. O nelegaliais - mokesčių moketojų pasitikėjimas valstybe, mokestinių įstatymų teisingumas, valdžios skaidrumo indeksas, ekonominis reguliavimas.
+\ \ \ Pinigų paklausos modelis - tai vienas populiariausių naudojamų metodų siekiant išsiaiškinti šešėlinės ekonomikos dydį. @tanzi1980underground norėdamas ištirti mokesčių vengimo mastą panaudojo daugianarę regresiją tam kad įvertintų pinigų paklausą. Šiam modeliui galioja prielaida, kad „pinigų santykis C/M2[^m2] yra veikiamas legaliais ir nelegaliais faktoriais“. Legaliais faktoriais čia laikomi tokie, kurie veikia pinigų paklausą ilguoju arba trumpuoju laikotarpiu: kreditinių kortelių skaičius, pajamų sudėtis, indėlių palūkanų normos, kelionių skaičius vienam asmeniui, finansinių įstaigų skačius. O nelegaliais - mokesčių mokėtojų pasitikėjimas valstybe, mokestinių įstatymų teisingumas, valdžios skaidrumo indeksas, ekonominis reguliavimas.
 
 [^m2]: Čia C - grynieji pinigai, o M2 – grynieji pinigai apyvartoje, vienadieniai indėliai bankuose ir kiti trumpalaikiai indėliai šalies ir užsienio valiuta.
 
 \ \ \ Su prielaida, kad pajamos šešėlinėje ekonomikoje kinta taip pat kaip ir oficialioje, šešėlinė ekonomika bei jos mastas ir raida įvertinama apskaičiavus pinigų paklausos skirtumą žemiausiame ir aukštesniame mokesčių taške. Taigi grynųjų pinigų ir indėlių santykio kitimas laike gali būti aprašomas taip: 
 
 \begin{equation}
-\ln\left(\frac{C}{k}\right)_t = \alpha^{\prime}Z_t + \beta T_t \label{eq:e1}
+\ln\left(\frac{C}{k}\right)_t = \alpha^{\prime}Z_t + \beta T_t \label{eq:e1} ,
 \end{equation}
 
 čia \(\alpha\) ir \(\beta\) - parametrų vektoriai, _T_ - mokesčiai, _Z_ - aiškinantieji kintamieji. Pažymėkime pinigų kiekio įvertinį \(\hat{C}_t\). Tuomet perrašome \eqref{eq:e1} lygtį:
 
 \begin{equation}
-\ln(\hat{C})_t = \hat{\alpha}^{\prime}Z_t + \ln k_t + \hat{\beta} T_t \label{eq:e2}
+\ln(\hat{C})_t = \hat{\alpha}^{\prime}Z_t + \ln k_t + \hat{\beta} T_t \label{eq:e2} .
 \end{equation}
 
 \ \ \ Eliminuojame logaritminę transformaciją ir gauname įvertintą grynųjų pinigų kiekį laiko momentu _t_:
 
 \begin{equation}
-\hat{C}_t = e^{\hat{\alpha}^{\prime}Z_t + \ln k_t + \hat{\beta} T_t} \label{eq:e3}
+\hat{C}_t = e^{\hat{\alpha}^{\prime}Z_t + \ln k_t + \hat{\beta} T_t} \label{eq:e3} .
 \end{equation}
 
 \ \ \ Toliau darome prielaidą, kad šešėlinė ekonomika ir mokesčiai išlieka tame pačiame bazinių metų lygyje \(T_{t_0}\). Taigi pinigų kiekis apyvartoje laikotarpiu _t_ apskaičiuojamas:
 
 \begin{equation}
-\hat{C}_t^{T_{t_0}} = e^{\hat{\alpha}^{\prime}Z_t + \ln k_t + \hat{\beta} T_t^{T_{t_0}}} \label{eq:e4}
+\hat{C}_t^{T_{t_0}} = e^{\hat{\alpha}^{\prime}Z_t + \ln k_t + \hat{\beta} T_t^{T_{t_0}}} \label{eq:e4} .
 \end{equation}
 
 \ \ \ Jau galima apskaičiuoti pinigų paklausos skirtumą esant žemiausiai mokesčių reikšmei ir mokesčių naštai keičiantis kasmet:
 
 \begin{equation}
-C_t^U = \hat{C_t} - \hat{C}_t ^{T_{t_0}} \label{eq:e5}
+C_t^U = \hat{C_t} - \hat{C}_t ^{T_{t_0}} \label{eq:e5} ,
 \end{equation}
 
-\ \ \ Kur \(C_t^U\) žymi pinigų paklausos augimą šešėlyje lyginant su baziniais metais. Jei piniginių pajamų kintamumas šešėlinėje ekonomikoje yra \(V_t^U\), apskaičiuojame bendras pajamas šešėlinėje ekonomikoje:
+\ \ \ čia \(C_t^U\) žymi pinigų paklausos augimą šešėlyje lyginant su baziniais metais. Jei piniginių pajamų kintamumas šešėlinėje ekonomikoje yra \(V_t^U\), apskaičiuojame bendras pajamas šešėlinėje ekonomikoje:
 
 \begin{equation}
-Y_t^U = C_t^U \cdot V_t^U \label{eq:e6}
+Y_t^U = C_t^U \cdot V_t^U \label{eq:e6} .
 \end{equation}
 
 \ \ \ Tuomet kaip ir @tanzi1980underground tariame, kad pinigų kintamumas šešėlyje yra toks pats kaip ir oficialioje ekonomikoje. Tuomet kintamumas abiejuose sektoriuose apskaičiuojamas taip:
 
 \begin{equation}
-V_t = \frac{Y_t}{M2_t - C_t^U} \label{eq:e7}
+V_t = \frac{Y_t}{M2_t - C_t^U} \label{eq:e7} ,
 \end{equation}
 
-\ \ \ Čia \(V_t\) žymi kintamumo normą, \(Y_t\) - oficialųjį BVP, \(M2_t\) - P2[^p2money] pinigus, o \(C_t^U\) - šešėlyje esančių grynųjų pinigų kiekį. Tuomet bendrosios pajamos, esančios šešėlinėje ekonomikoje apskaičiuojamos taip:
+\ \ \ čia \(V_t\) žymi kintamumo normą, \(Y_t\) - oficialųjį BVP, \(M2_t\) - P2[^p2money] pinigus, o \(C_t^U\) - šešėlyje esančių grynųjų pinigų kiekį. Tuomet bendrosios pajamos, esančios šešėlinėje ekonomikoje apskaičiuojamos taip:
 
 [^p2money]: P1 ir kiti trumpalaikiai indėliai šalies ir užsienio valiuta
 
 \begin{equation}
-Y_t^U = V_t \cdot C_t^U \label{eq:e8}
+Y_t^U = V_t \cdot C_t^U \label{eq:e8} .
 \end{equation}
 
 \ \ \ Iš \eqref{eq:e7} ir \eqref{eq:e8} lygčių gauname šešėlinės ekonomikos dydį, kurį išreiškiame kaip
 procentinę dalį nuo stebimo BVP:
 
 \begin{equation}
-\frac{Y_t^U}{Y_t} = \frac{Y_t \cdot C_t^U}{(M2_t - C_t^U) \cdot Y_t} = \frac{C_t^U}{M2_t - C_t^U} \label{eq:e9}
+\frac{Y_t^U}{Y_t} = \frac{Y_t \cdot C_t^U}{(M2_t - C_t^U) \cdot Y_t} = \frac{C_t^U}{M2_t - C_t^U} \label{eq:e9} .
 \end{equation}
 
 \ \ \ Tačiau pastebėsime, kad šiuo atveju darome prielaidą, jog baziniais metais šešėlinės ekonomikos dydis yra nulinis. Atlaisvinus šią prielaidą gautume kiek padidintus įverčius.
@@ -784,12 +801,12 @@ ggplot(all.variables.dates, aes(x = value, y = kintamasis, group = kintamasis)) 
    labs(x = 'Metai', y = 'Duomuo', color = "")
 ```
 
-\ \ \ Įvertinus tai, kad į pinigų paklausos modelį įtraukiami endogeniniai kintamieji yra mėnesiniai ir tai, kad mėnesinių duomenų turime daugiausiai buvo pasirinkta visus duomenis deagreguoti į menesinius. Į deagregavimo lygtį įtraukiame tokius mėnesinius kintamuosius: grynuosius pinigus, indėlius, VKI, VKI alkoholiui, emigrantų skaičių, mažmeninės prekybos apimtį ir nedarbo lygį.
-Ir deagregavimui pasirenkame _litterman-maxlog_ metodą. Mūsų deagregavimo lygtis atrodys taip:
+\ \ \ Įvertinus tai, kad į pinigų paklausos modelį įtraukiami endogeniniai kintamieji yra mėnesiniai ir tai, kad mėnesinių duomenų turime daugiausiai buvo pasirinkta visus duomenis deagreguoti į menesinius. Į deagregavimo lygtį įtraukiame tokius mėnesinius kintamuosius: grynuosius pinigus, indėlius, VKI, VKI alkoholiui, emigrantų skaičių, mažmeninės prekybos apimtį ir nedarbo lygį. Ir deagregavimui pasirenkame _litterman-maxlog_ metodą. Mūsų deagregavimo lygtis R programoje atrodys taip:
 
 ```{r eval=FALSE}
-regressors <- c("cash.m", "deposits.m", "cpi_alcohol.m", "cpi.m", 
-                "emigrants.m", "retail_volume.m", "unemp_female.m", "unemp_male.m")
+regressors <- c("cash.m", "deposits.m", "cpi_alcohol.m", 
+                "cpi.m", "emigrants.m", "retail_volume.m", 
+                "unemp_female.m", "unemp_male.m")
 f <- as.formula(paste("x.ts ~ ", paste(regressors, collapse=" + ")))
 mod1 <- td(f, to = "monthly", method = "litterman-maxlog")
 ```
@@ -810,7 +827,7 @@ kable(test.table,
   add_header_above(c(" ", "PP testas" = 3, "KPSS testas" = 3))
 ```
 
-\ \ \ Phillips–Perron testo rezultatai rodo, jog aštuonių iš mūsų turimų kintamųjų atveju nulinė vienetinės šaknies hipotezė nėra staistiškai reikšminga, todėl priimame alternatyvią hipotezę, kad duomenys stacionarūs. Šiuos kintamuosius galėsime naudoti modelyje neatlikę jokių transformacijų:
+\ \ \ Phillips–Perron testo rezultatai rodo, jog aštuonių iš mūsų turimų kintamųjų atveju nulinė vienetinės šaknies hipotezė nėra statistiškai reikšminga, todėl priimame alternatyvią hipotezę, kad duomenys stacionarūs. Šiuos kintamuosius galėsime naudoti modelyje neatlikę jokių transformacijų:
 
 \begin{itemize}
   \item Alkoholio kaina
@@ -879,7 +896,7 @@ grid.arrange(plot1, plot2, plot3, plot4, ncol=2, nrow=2)
 
 ```{r results = "asis", echo=FALSE}
 kable(test.all.cor,
-     format = "latex", caption = "Statistiškai nereikšmingai su santykiu koreliuojantys dydžiai ir statistinės tikimybės", booktabs = T, row.names = FALSE) %>%
+     format = "latex", caption = "Statistiškai nereikšmingai su santykiu koreliuojantys dydžiai ir koreliacijos reikšmingumo testo p-reikšmės", booktabs = T, row.names = FALSE) %>%
   kable_styling(position = "center", latex_options = c("hold_position"))
 ```
 
@@ -907,22 +924,35 @@ source('01_model.R')
 
 \ \ \ Endogeniniu kintamuoju savo modelyje pasirinksime grynųjų pinigų ir indėlių santykį. Egzogeniniais kintamaisiais pasirinksime šiuos duomenis: Alkoholio suvartojimas, Alkoholio kaina, Bankrotų skaičius, Grynųjų įnešimo operacijų skaičius, Grynųjų įnešimo operacijų vertė, Grynųjų išėmimo operacijų skaičius, Grynųjų išėmimo operacijų vertė, VKI, VKI alkoholiui, Kredito kortelių skaičius, Debeto kortelių skaičius, Indėlių eurais palūkanų norma, Indėliai, Paskolų eurais palūkanų norma, Paskolų eurais vertė, Minimalus atlyginimas, Išvykstančių turistų skaičius, Gautų mokėjimų skaičius, Gautų mokėjimų vertė, Išeinančių mokėjimų vertė, Ekonominis reguliavimas: darbuotojų skaičius, Ekonominis reguliavimas: įstaigų skaičius, Mažmeninės prekybos apimtis, Akcizo mokesčiai, GPM, Pelno mokesčiai, Pridėtinės vertės mokesčiai, Moterų nedarbas, Vyrų nedarbas.
 
+\
+
 \ \ \ Primename, kad tris kintamuosius[^excluded] išmetėme anksčiau, nes jie nebuvo statistiškai reikšmingai koreliuoti su mūsų modelio endogeniniu kintamuoju. Taip pat išmetėme ir šiuos kintamamuosius dėl per mažo stebinių skaičiaus (duomenys buvo tik iki 2014 m. 12 mėn.): Indėlių litais palūkanų norma, Paskolų litais palūkanų norma. Paskolų litais vertė.
 
 [^excluded]: Trys išmesti kintamieji: Emigrantų skaičius, Kelionių agentūrų skaičius, Išeinančių mokėjimų skaičius.
 
+\
+
 \ \ \ Sudarydami modelį įtrauksime kintamuosius kurie yra intergruoti nuline eile ir kintamųjų intergruotų pirma eile pirmos eilės skirtumus.
+
+\
 
 Pirmasis modelis[^nulls]:
 
 [^nulls]: Pažymėtina, kad lentelėje pateikti koeicientai 0.00000 nenurodo, kad koeficientas nulinis. Tai parodo, kad reikšmė labai maža, todėl nebuvo atvaizduota lentelėje. 
+
+\
 
 ```{r results = "asis", echo=FALSE}
 stargazer(fit1, title="Pirmasis modelis", align=TRUE, single.row = TRUE, column.sep.width = "1pt", 
           header=FALSE)
 ```
 
+\
+
+\pagebreak
 \ \ \ Apžvelgdami pirmąjį sudarytą modelį matome, kad pagal visus vertinimo kriterijus (koreguotas determinacijos koeficientas[^Rsq], standartizuotoji liekamoji paklaida[^RSE], F-statistika) modelis galėtų būti geras: 
+
+\
 
 \begin{itemize}
   \item Didelis koreguotas determinacijos koeficientas (0,96) rodo, kad modelis, greičiausiai, gana tiksliai aprašo duomenis.  
@@ -933,31 +963,75 @@ stargazer(fit1, title="Pirmasis modelis", align=TRUE, single.row = TRUE, column.
 [^Rsq]: Angl. adjusted R square.
 [^RSE]: Angl. Residual Std. Error
 
+\
+
 \ \ \ Tačiau prieš priimdami geriausia modelį turime patikrinti ar yra taikomos regresijos modelio prielaidos ir patikrinti dispersijos mažėjimo daugiklį[^VIF] (toliau VIF) [@vcekanavivcius2011taikomoji]. Kadangi į savo lygtį įtraukėmė daug kintamųjų, šis daugiklis padės mums patikrinti, ar regresoriai nėra stipriai tarpusavyje koreliuojantys (galima multikolinearumo problema). 
+
+\
 
 \ \ \ Patikrinę VIF visiems kintamiesiems matome, kad daugumos jų daugiklis viršiją rekomenduotiną reikšmę 4. Pažingsniui pašaliname po vieną kintamąjį ir perskaičiuojame VIF. Tęsiame šį ciklą, kol tarp kintamųjų neliks nei vieno, kuris turėtų VIF reikšmę didesnę už 4. Ir su likusiais kintamaisiais sudarome antrąjį modelį:
 
 [^VIF]: Angl. variance inflation factor.
+
+\
 
 ```{r results = "asis", echo=FALSE}
 stargazer(fit2, title="Antrasis modelis", align=TRUE, single.row = TRUE, column.sep.width = "1pt", 
           header=FALSE)
 ```
 
+\
+
+\pagebreak
 \ \ \ Matome, kad nors ir visi vertinimo kriterijai šį modelį įvertina prasčiau nei pirmąjį, tačiau šiuo atveju galime būti tikri, jog nesusidursime su multikolinearumo problema. Pastebime, jog šiame modelyje vis dar daug statistiškai nereikšmingų egzogeninių kintamųjų. Juos išmetę sudarome trečiajį modelį:
+
+\
 
 ```{r results = "asis", echo=FALSE}
 stargazer(fit3, title="Trečiasis modelis", align=TRUE, single.row = TRUE, column.sep.width = "1pt", 
           header=FALSE)
 ```
 
-\ \ \ Dabar matome, kad visi regresoriai yra statistiškai reikšmingi ir pagal vertinimo kriterijus modelis taip pat yra geresnis už antrajį. 
+\
+
+\pagebreak
+\ \ \ Dabar matome, kad visi regresoriai yra statistiškai reikšmingi ir pagal vertinimo kriterijus modelis taip pat yra geresnis už antrajį. Taigi pasirenkame šį modelį kaip geriausiai tinkantį mūsų duomenims. Gavome, kad reikšmingiausią įtaką šešėlinei ekonomikai Lietuvoje turi paskolų palūkanos, vyrų nedarbo lygis, debeto kortelių skaičius, pelno mokesčiai, minimalus atlyginimas bei grynųjų pinigų įnešimo į bankomatą operacijų skaičius.
 
 
 
 
 \pagebreak
 # Rezultatų palyginimas
+```{r include = FALSE}
+source('01_compare.R')
+```
+
+\ \ \ Pritaikę pinigų paklausos modėlį rezultatus galime palyginti dvejopai - 
+
+\ \ \ Savo modelyje gavome, kad reikšmingiausiai šešėlinę ekonomiką veikia šie kintamieji: paskolų palūkanos, vyrų nedarbo lygis, debeto kortelių skaičius, pelno mokesčiai, minimalus atlyginimas bei grynųjų pinigų įnešimo į bankomatą operacijų skaičius. Tuo tarpu @schneider2005shadow darbe, kaip šešėlinę ekonomiką lemiantys veiksniai yra pateikiami šie: mokesčių ir socialinio draudimo įmokų našta, ekonominis reguliavimas (dažnai matuojamas įstatymų ir reglamentų skaičiumi), pabrangusios viešojo sektoriaus paslaugos. 
+Taigi mūsų sudarytas Lietuvos pinigų paklausos modelis patvirtino, jog vienas iš @schneider2005shadow darbe pateiktų kintamųjų yra reikšmingas ir mūsų atveju - tai pelno mokesčiai. 
+
+
+
+```{r fig.width=13, fig.height=8, echo=FALSE, include=TRUE, dev='cairo_pdf'}
+df <- melt(ratio.stat, id='date')
+df$date <- as.Date(as.yearmon(df$date) + 11/12, frac = 1)
+brks <- df$date[seq(1, length(df$date), 1)]
+lbls <- lubridate::year(brks)
+ggplot(df, aes(x=date)) + 
+  geom_line(aes(y=value, col=variable), na.rm = T) + 
+  labs(title='Skirtingų institucijų apskaičiuota šešėlinė ekonomika', 
+       subtitle="Metiniai duomenys", 
+       caption="Šaltinis: Lietuvos Respublikos Vyriausybės kanceliarija - Šešėlinė ekonomika. Pokyčiai per dešimtmetį, 2016 m.", 
+       y="proc.",
+       x = 'Metai',
+       color=NULL) +  # title and caption
+  scale_x_date(labels = lbls, breaks = brks) +
+  scale_color_manual(breaks = unique(as.character(df$variable)), 
+                     labels = c("Statistikos departamento duomenys", "LLRI tyrimo duomenys", 'F. Schneider tyrimas', 'Pinigų paklausos modelis'),
+                     values = c("LSD" = "#F8766D", "LLRI" = "#00BFC4", "FS" = "#7CAE00", "PPM" = "#C77CFF")) +
+  theme(legend.text=element_text(size=11))
+```
 
 
 
