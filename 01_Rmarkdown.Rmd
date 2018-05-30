@@ -1006,14 +1006,14 @@ stargazer(fit3, title="Trečiasis modelis", align=TRUE, single.row = TRUE, colum
 source('01_compare.R')
 ```
 
-\ \ \ Pritaikę pinigų paklausos modėlį rezultatus galime palyginti dvejopai - 
+\ \ \ Palyginkime savo šešėlinės ekonomikos išraišką procentais nuo bendrojo vidaus produkto su kitų institucijų įvertintu šešėlinės ekonomikos mastu. Palyginimui pasirinkome LLRI[^LLRI] tyrimu įvertintus, F. Schneider tyrimu įvertintus ir Lietuvos statistiko departamento duomenis. Duomenų laikotarpis apimą šešėlinės ekonomikos raidą nuo 2005 m. iki 2015 m. Pavaizduojame duomenis kartu su savo įvertintu mastu:
 
-\ \ \ Savo modelyje gavome, kad reikšmingiausiai šešėlinę ekonomiką veikia šie kintamieji: paskolų palūkanos, vyrų nedarbo lygis, debeto kortelių skaičius, pelno mokesčiai, minimalus atlyginimas bei grynųjų pinigų įnešimo į bankomatą operacijų skaičius. Tuo tarpu @schneider2005shadow darbe, kaip šešėlinę ekonomiką lemiantys veiksniai yra pateikiami šie: mokesčių ir socialinio draudimo įmokų našta, ekonominis reguliavimas (dažnai matuojamas įstatymų ir reglamentų skaičiumi), pabrangusios viešojo sektoriaus paslaugos. 
-Taigi mūsų sudarytas Lietuvos pinigų paklausos modelis patvirtino, jog vienas iš @schneider2005shadow darbe pateiktų kintamųjų yra reikšmingas ir mūsų atveju - tai pelno mokesčiai. 
+[^LLRI]: LLRI - Lietuvos laisvosios rinkos institutas
+
+\ 
 
 
-
-```{r fig.width=13, fig.height=8, echo=FALSE, include=TRUE, dev='cairo_pdf'}
+```{r fig.width=13, fig.height=7, echo=FALSE, include=TRUE, dev='cairo_pdf'}
 df <- melt(ratio.stat, id='date')
 df$date <- as.Date(as.yearmon(df$date) + 11/12, frac = 1)
 brks <- df$date[seq(1, length(df$date), 1)]
@@ -1033,12 +1033,18 @@ ggplot(df, aes(x=date)) +
   theme(legend.text=element_text(size=11))
 ```
 
+\ \ \ Grafike matome, jog optimistiškiausiai šešėlinės ekonomikos mastą Lietuvoje įvertino F. Schneider - vidutinė reikšmė stebimu laikotarpiu yra 14,21 %. Tuo tarpu LLRI mano, kad šešėlinės ekonomikos mastas kiek didesnis - vidutinė reikšmė 23,45 %. Didžiausią BVP dalį šešėlinei ekonomikai priskyrė Lietuvos statistikos departamentas - vidutinė reiškmė stebimu laikotarpiu 28,92 %. Mūsų atveju skaičiuodami grynųjų pinigų ir indėlių santykį, gavome jog šešėlinės ekonomikas mastas yra vidutiniskai 25,42 % nuo bendrojo vidaus produkto. Derėtų pastebėti, jog šį vertinimą šiek tiek iškreipia struktūrinis lūžis grynųjų pinigų esančių apyvartoje kiekyje kuomet valiuta keitėsi iš litų į eurus. Todėl matome šuolį aukštyn ties 2015 m.
 
+\
+
+\ \ \ Taip pat galėtume pastebėti, jog vienas iš mūsų modelyje gautų reikšmingiausiai šešėlinę ekonomiką veikiančių veiksnių (pelno mokesčiai) yra paminėtas ir @schneider2005shadow darbe[^factors].
+
+[^factors]: F. Schneider savo darbe kaip didžiausią įtaką turinčius veiksnius mini šiuos: mokesčių ir socialinio draudimo įmokų našta, ekonominis reguliavimas (dažnai matuojamas įstatymų ir reglamentų skaičiumi), pabrangusios viešojo sektoriaus paslaugos. 
 
 \pagebreak
 # Išvados
 
-
+\ \ \ Šiame darbe įvertinome Lietuvos šešėlinės ekonomikos mastą ir jį labiausiai sąlygojančius veiksnius. Pritaikę pinigų paklausos modelį gavome, jog reikšmingiausi faktoriai, lemiantys šešėlinės ekonomikos mastą yra šie: paskolų palūkanos, vyrų nedarbo lygis, debeto kortelių skaičius, pelno mokesčiai, minimalus atlyginimas bei grynųjų pinigų įnešimo į bankomatą operacijų skaičius. Šie rezultatai galėtų būti naudingi tolimesniuose tyrimuose šešėlinės ekonomikos tema bei priimant sprendimus kovoje su šešėline ekonomika. 
 
 \pagebreak
 # Literatūra {-}
