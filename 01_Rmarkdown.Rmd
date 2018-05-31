@@ -1,5 +1,5 @@
 ---
-title: "Lietuvos šešėlinės ekonomikos vertinimas pinigų paklausos metodu"
+title: ""
 header-includes:
   - \usepackage[lithuanian]{babel}
   - \usepackage{booktabs}
@@ -995,7 +995,7 @@ stargazer(fit3, title="Trečiasis modelis", align=TRUE, single.row = TRUE, colum
 \
 
 \pagebreak
-\ \ \ Dabar matome, kad visi regresoriai yra statistiškai reikšmingi ir pagal vertinimo kriterijus modelis taip pat yra geresnis už antrajį. Taigi pasirenkame šį modelį kaip geriausiai tinkantį mūsų duomenims. Gavome, kad reikšmingiausią įtaką šešėlinei ekonomikai Lietuvoje turi paskolų palūkanos, vyrų nedarbo lygis, debeto kortelių skaičius, pelno mokesčiai, minimalus atlyginimas bei grynųjų pinigų įnešimo į bankomatą operacijų skaičius.
+\ \ \ Dabar matome, kad visi regresoriai yra statistiškai reikšmingi ir pagal vertinimo kriterijus modelis taip pat yra geresnis už antrajį. Taigi pasirenkame šį modelį kaip geriausiai tinkantį mūsų duomenims. Gavome, kad reikšmingiausią įtaką šešėlinei ekonomikai Lietuvoje turi paskolų palūkanų pokytis, vyrų nedarbo lygio pokytis, debeto kortelių skaičius, pelno mokesčiai, minimalus atlyginimo pokytis bei grynųjų pinigų įnešimo į bankomatą operacijų skaičius pokytis.
 
 
 
@@ -1044,7 +1044,7 @@ ggplot(df, aes(x=date)) +
 \pagebreak
 # Išvados
 
-\ \ \ Šiame darbe įvertinome Lietuvos šešėlinės ekonomikos mastą ir jį labiausiai sąlygojančius veiksnius. Pritaikę pinigų paklausos modelį gavome, jog reikšmingiausi faktoriai, lemiantys šešėlinės ekonomikos mastą yra šie: paskolų palūkanos, vyrų nedarbo lygis, debeto kortelių skaičius, pelno mokesčiai, minimalus atlyginimas bei grynųjų pinigų įnešimo į bankomatą operacijų skaičius. Šie rezultatai galėtų būti naudingi tolimesniuose tyrimuose šešėlinės ekonomikos tema bei priimant sprendimus kovoje su šešėline ekonomika. 
+\ \ \ Šiame darbe įvertinome Lietuvos šešėlinės ekonomikos mastą ir jį labiausiai sąlygojančius veiksnius. Pritaikę pinigų paklausos modelį gavome, jog reikšmingiausi faktoriai, lemiantys šešėlinės ekonomikos mastą yra šie: paskolų palūkanų pokytis, vyrų nedarbo lygio pokytis, debeto kortelių skaičius, pelno mokesčiai, minimalus atlyginimo pokytis bei grynųjų pinigų įnešimo į bankomatą operacijų skaičius pokytis. Šie rezultatai galėtų būti naudingi tolimesniuose tyrimuose šešėlinės ekonomikos tema bei priimant sprendimus kovoje su šešėline ekonomika. 
 
 \pagebreak
 # Literatūra {-}
