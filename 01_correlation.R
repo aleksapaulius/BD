@@ -45,16 +45,16 @@ for (name in unique(lowest.cor.spearman$Var1)) {
 
 plot1 <- ggplot(cor.df, aes(x=santykis, y=cash_in_number)) + 
   geom_point() + geom_smooth(method = "loess") +
-  labs(subtitle="Subtitle", y="Grynųjų įnešimo operacijų skaičius", x="santykis", title="Counts Plot")
+  labs(subtitle="", y="Grynųjų įnešimo operacijų skaičius", x="santykis", title="Sklaidos diagramos")
 plot2 <- ggplot(cor.df, aes(x=santykis, y=credit_cards)) + 
   geom_point() +  geom_smooth(method = "loess") +
-  labs(subtitle="Subtitle", y="Kredito kortelių skaičius", x="santykis", title="Counts Plot")
+  labs(subtitle="", y="Kredito kortelių skaičius", x="santykis", title="")
 plot3 <- ggplot(cor.df, aes(x=santykis, y=debit_cards)) + 
   geom_point() +  geom_smooth(method = "loess") +
-  labs(subtitle="Subtitle", y="Debeto kortelių skaičius", x="santykis", title="Counts Plot")
+  labs(subtitle="", y="Debeto kortelių skaičius", x="santykis", title="")
 plot4 <- ggplot(cor.df, aes(x=santykis, y=unemp_male)) + 
   geom_point() +  geom_smooth(method = "loess") +
-  labs(subtitle="Subtitle", y="Vyrų nedarbas", x="santykis", title="Counts Plot")
+  labs(subtitle="", y="Vyrų nedarbas", x="santykis", title="")
 
 
 

@@ -60,7 +60,7 @@ source('01_data_cleaning.R')
 \pagebreak
 # Santrauka / Abstract
 
-\ \ \ Šio bakalaurinio darbo tikslas – įvertinti Lietuvos šešėlinę ekonomiką ir nustatyti pagrindinius jos mastą lemiančius veiksnius. Šiam tikslui buvo sudarytas pinigų paklausos modelis. Įtraukti įvairūs kintamieji, kurie tikėtina vienaip ar kitaip veikia šešėlinę ekonomiką. Gauta, kad reikšmingiausią įtaką šešėlinei ekonomikai Lietuvoje turi paskolų palūkanos, vyrų nedarbo lygis, debeto kortelių skaičius, pelno mokesčiai, minimalus atlyginimas bei grynųjų pinigų įnešimo į bankomatą operacijų skaičius.
+\ \ \ Šio bakalaurinio darbo tikslas – įvertinti Lietuvos šešėlinę ekonomiką ir nustatyti pagrindinius jos mastą lemiančius veiksnius. Šiam tikslui buvo sudarytas pinigų paklausos modelis. Įtraukti įvairūs kintamieji, kurie tikėtina vienaip ar kitaip veikia šešėlinę ekonomiką. Sudarytas modelis parodė, kad reikšmingiausią įtaką šešėlinei ekonomikai Lietuvoje turi paskolų palūkanos, vyrų nedarbo lygis, debeto kortelių skaičius, pelno mokesčiai, minimalus atlyginimas bei grynųjų pinigų įnešimo į bankomatą operacijų skaičius.
 
 \ 
 
@@ -74,7 +74,7 @@ source('01_data_cleaning.R')
 \ \ \ Šešėlinės ekonomikos klausimais nacionaliniu, Europos Sąjungos ir tarptautiniu lygiais diskutuoja plačioji visuomenė, mokslininkai, politikai, kontrolės institucijos. Tačiau, nepaisant didelio susidomėjimo, iki šiol nei nacionaliniu, nei tarptautiniu mastu nėra sutarta dėl bendros šio reiškinio terminologijos, turinio ir struktūros, taip pat dėl šį reiškinį lemiančių priežasčių[^pokyciai10].   
  
 \ \ \ Nepaisant ekonominio šešėlio abstraktumo, su juo yra kovojama įvairiais būdais. Kaip antai:
-2017 m. gale startavo nacionalinė kvitų loterija[^vminaujienos], kurioje ne jaunesni nei 14 metų šalies gyventojai gali dalyvauti nacionalinėje kvitų loterijoje, registruodami gautus kasos aparato kvitus, ir laimėti savaitinius bei mėnesinius piniginius prizus. Kvitų loterija inicijuota kaip viena iš plačiajai visuomenei patrauklių šešėlinės ekonomikos mažinimo priemonių. Deja, Ekonomikos ekspertai abejoja dėl tokio kvitų loterijos efekto[^kritika]. LR vyriausybės ekspertų vertinimais[^ketvirtadalisBVP] Lietuvoje slepiamos ekonominės veiklos pajamos sudaro apie ketvirtį bendro vidaus produkto.
+2017 m. gale startavo nacionalinė kvitų loterija[^vminaujienos], kurioje ne jaunesni nei 14 metų šalies gyventojai gali dalyvauti nacionalinėje kvitų loterijoje, registruodami gautus kasos aparato kvitus, ir laimėti savaitinius bei mėnesinius piniginius prizus. Kvitų loterija inicijuota kaip viena iš plačiajai visuomenei patrauklių šešėlinės ekonomikos mažinimo priemonių. Deja, Ekonomikos ekspertai abejoja dėl tokio kvitų loterijos efekto[^kritika]. LR Vyriausybės ekspertų vertinimais[^ketvirtadalisBVP] Lietuvoje slepiamos ekonominės veiklos pajamos sudaro apie ketvirtį bendro vidaus produkto.
  
 \ \ \ Taigi prieš pasirenkant efektyviausią kovos su šešėlių būdą, būtini išsamesni tyrimai šia tema, kurie padėtų įvertinti šešėlio mastą ar raidą laike. Deja dauguma šiuo metu naudojamų vertinimo būdų nepasižymi savo tikslumu. Šiame darbe šešėlinės ekonomikos mastas įvertinamas pinigų paklausos modeliu. Siekiant išsiaiškinti kokie ekonominiai ar socialiniai veiksniai lemia šešėlinės ekonomikos augimą ar susitraukimą, įtraukiami įvairūs kintamieji ir sudaromas daugianarės regresijos modelis.
 
@@ -92,7 +92,7 @@ source('01_data_cleaning.R')
 
 ## Samprata
 
-\ \ \ Norėdami tirti ir šiek tiek daugiau sužinoti apie šešėlinę ekonomiką privalome pradėti nuo apibrėžimo. Mokslinėje literatūroje nerasime vieningo šešėlinės ekonomikos apibrėžimo. Apibrėžimai skiriasi priklausomai nuo konteksto ir ketinamo tirti dalyko susijusio su šešėline ekonomika. Su šia tema susijusiuose moksliniuose straipsniuose viena daugiausiai[^googlescholar] cituojamų knygų [@schneider2013shadow] pateikia kelis šešėlinės ekonomikos epibrėžimus ir pabrėžia, kad apibrėžimas gali skirtis ir priklausomai nuo regiono[^regionai], apie kurio oficialiai neapskaitytas pajamas yra kalbama. Kituose darbuose [@schneider2005shadow] kaip dažniausiai vartojamas pateikiamas šis apibrėžimas: *„...tai visos neregistruojamos ekonominės veiklos rūšys, kurios nėra įtraukiamos skaičiuojant šalies bendrąjį vidaus produktą (BVP)“*. Kitas autorius [@smith1994lassessing] naudoja šį apibrėžimą: *„...tai prekių ar paslaugų gamyba rinkos pagrindu, neaptinkama bendrame vidaus produkte (BVP), nepaisant to ar ši gamyba yra legali ar ne“*. Tuo tarpu @tanzi1980underground šį reiškinį apibrėžia taip: *„...tai yra bendras nacionalinis produktas, kuris yra nestebimas oficialioje statistikoje dėl to, kad nepranešama apie jį“.* Plačiau skirtingų autorių pateikti šešėlinės ekonomikos apibrėžimai yra analizuojami @startiene2009oficialiai straipsnyje.  
+\ \ \ Norėdami tirti ir šiek tiek daugiau sužinoti apie šešėlinę ekonomiką privalome pradėti nuo apibrėžimo. Mokslinėje literatūroje nerasime vieningo šešėlinės ekonomikos apibrėžimo. Apibrėžimai skiriasi priklausomai nuo konteksto ir ketinamo tirti dalyko susijusio su šešėline ekonomika. Su šia tema susijusiuose moksliniuose straipsniuose viena daugiausiai[^googlescholar] cituojamų knygų [@schneider2013shadow] pateikia kelis šešėlinės ekonomikos apibrėžimus ir pabrėžia, kad apibrėžimas gali skirtis ir priklausomai nuo regiono[^regionai], apie kurio oficialiai neapskaitytas pajamas yra kalbama. Kituose darbuose [@schneider2005shadow] kaip dažniausiai vartojamas pateikiamas šis apibrėžimas: *„...tai visos neregistruojamos ekonominės veiklos rūšys, kurios nėra įtraukiamos skaičiuojant šalies bendrąjį vidaus produktą (BVP)“*. Kitas autorius [@smith1994lassessing] naudoja šį apibrėžimą: *„...tai prekių ar paslaugų gamyba rinkos pagrindu, neaptinkama bendrame vidaus produkte (BVP), nepaisant to ar ši gamyba yra legali ar ne“*. Tuo tarpu @tanzi1980underground šį reiškinį apibrėžia taip: *„...tai yra bendras nacionalinis produktas, kuris yra nestebimas oficialioje statistikoje dėl to, kad nepranešama apie jį“.* Plačiau skirtingų autorių pateikti šešėlinės ekonomikos apibrėžimai yra analizuojami @startiene2009oficialiai straipsnyje.  
 
 [^googlescholar]: Remiantis Google Scholar duomenimis 2018 m. gegužės mėn. cituota 1008 kartų.
 
@@ -116,7 +116,7 @@ ekspertiniais vertinimo būdais.
 \pagebreak
 # Pinigų paklausos modelis
 
-\ \ \ Pinigų paklausos modelis - tai vienas populiariausių naudojamų metodų siekiant išsiaiškinti šešėlinės ekonomikos dydį. @tanzi1980underground norėdamas ištirti mokesčių vengimo mastą panaudojo daugianarę regresiją tam kad įvertintų pinigų paklausą. Šiam modeliui galioja prielaida, kad „pinigų santykis C/M2[^m2] yra veikiamas legaliais ir nelegaliais faktoriais“. Legaliais faktoriais čia laikomi tokie, kurie veikia pinigų paklausą ilguoju arba trumpuoju laikotarpiu: kreditinių kortelių skaičius, pajamų sudėtis, indėlių palūkanų normos, kelionių skaičius vienam asmeniui, finansinių įstaigų skačius. O nelegaliais - mokesčių mokėtojų pasitikėjimas valstybe, mokestinių įstatymų teisingumas, valdžios skaidrumo indeksas, ekonominis reguliavimas.
+\ \ \ Pinigų paklausos modelis - tai vienas populiariausių naudojamų metodų siekiant išsiaiškinti šešėlinės ekonomikos dydį. @tanzi1980underground norėdamas ištirti mokesčių vengimo mastą panaudojo daugianarę regresiją tam, kad įvertintų pinigų paklausą. Šiam modeliui galioja prielaida, kad „pinigų santykis C/M2[^m2] yra veikiamas legaliais ir nelegaliais faktoriais“. Legaliais faktoriais čia laikomi tokie, kurie veikia pinigų paklausą ilguoju arba trumpuoju laikotarpiu: kreditinių kortelių skaičius, pajamų sudėtis, indėlių palūkanų normos, kelionių skaičius vienam asmeniui, finansinių įstaigų skačius. Tuo tarpu nelegaliais - mokesčių mokėtojų pasitikėjimas valstybe, mokestinių įstatymų teisingumas, valdžios skaidrumo indeksas, ekonominis reguliavimas.
 
 [^m2]: Čia C - grynieji pinigai, o M2 – grynieji pinigai apyvartoje, vienadieniai indėliai bankuose ir kiti trumpalaikiai indėliai šalies ir užsienio valiuta.
 
@@ -210,8 +210,8 @@ ggplot(df, aes(date, value)) +
   theme(strip.background = element_blank())
 ```
 
-\ \ \ Grafike matome struktūrinį lūžį grynųjų pinigų kiekyje dėl matavimo metodikos pasikeitimo įvedus naują valiutą. Maždaug nuo 2014 m. vidurio pastebime palaipsnį grynųjų pinigų mažėjimą. Tai įvyko dėl gyventojų noro išvengti valiutos keitimo rūpečių jau atsiradus naujais valiutai ir keičiant valiutą dar galiojant senajai.
-Prisijungus prie euro zonos taikant pasirašytojo kapitalo raktą Lietuvai tenka gerokai didesnė euro banknotų dalis nei buvo išleista litų iki euro įvedimo. Todėl ir yra toks padidėjimas nuo 2015 metų pradžios.
+\ \ \ Grafike matome struktūrinį lūžį grynųjų pinigų kiekyje dėl matavimo metodikos pasikeitimo įvedus naują valiutą. Maždaug nuo 2014 m. vidurio pastebime palaipsnį grynųjų pinigų mažėjimą. Tai įvyko dėl gyventojų noro išvengti valiutos keitimo rūpečių jau atsiradus naujai valiutai ir keičiant valiutą dar galiojant senajai.
+Prisijungus prie euro zonos, taikant pasirašytojo kapitalo raktą, Lietuvai tenka gerokai didesnė euro banknotų dalis nei buvo išleista litų iki euro įvedimo. Todėl ir yra toks padidėjimas nuo 2015 metų pradžios.
 Tuo tarpu indėlių skaičius tolygiai augo visą stebimą laikotarpį, išskyrus augimo sustojimą ir indėlių vertės mažėjimą 2008 metais galimai dėl pasaulinės finansų rinkos smukimo, ir šiek tiek spartesnį augimą 2015 metais, kuris tikėtina įvyko dėl valiutos pasikeitimo, kuomet Lietuvos gyventojai iki tol laikytas santaupas grynaisiais pinigais keičiantis valiutai pakeitė į indėlius finansų įstaigose.
 
 ```{r results = "asis", echo=FALSE}
@@ -276,7 +276,7 @@ ggplot(df, aes(x=date)) +
                      values = c("cpi_alcohol" = "#F8766D", "cpi" = "#00BFC4"))
 ```
 
-\ \ \ Iš grafiko galime pasakyti jog kainų indeksai vartojimo prekėms ir paslaugoms bei alkoholiniams gėrimams, tabakui ir narkotikams pakankamai koreliuoja. Pastebime sulėtėjusį augimą nuo 2000 metų kuris tęsėsi iki 2008 metų. Ir po staigesnio šuolio 2009 - 2010 metais toliau tolygiai augo. Taip pat, pastebime staigų šuolį alkoholinių gerimų, tabako ir narkotikų indekse 2017 metais. Šis kilimas pagrinde susijęs su alkoholio kontrolės įstatymų pasikeitimais šiais metais.
+\ \ \ Iš grafiko galime pasakyti, jog kainų indeksai vartojimo prekėms ir paslaugoms bei alkoholiniams gėrimams, tabakui ir narkotikams pakankamai koreliuoja. Pastebime sulėtėjusį augimą nuo 2000 metų, kuris tęsėsi iki 2008 metų ir po staigesnio šuolio 2009 - 2010 metais toliau tolygiai augo. Taip pat, pastebime staigų šuolį alkoholinių gerimų, tabako ir narkotikų indekse 2017 metais. Šis kilimas pagrinde susijęs su alkoholio kontrolės įstatymų pasikeitimais šiais metais.
 
 ```{r results = "asis", echo=FALSE}
 kable(all.variables.stat[all.variables.stat$variable %in% c('cpi_alcohol', 'cpi'),c(2,6,7,8,9,10,11,12)], 
@@ -309,7 +309,7 @@ ggplot(df, aes(x=date)) +
                      values = c("regulation_employees" = "#F8766D", "regulation_institutions" = "#00BFC4"))
 ```
 
-\ \ \ Ekonominio reguliavimo įvertinimui buvo pasirinkti du dydžiai: užimtų vadovaujamų pareigybių valstybinėse institucijose skaičius ir valstybinių institucijų skaičius. Matome jog užimtų pareigybių skaičius visą stebimą laikotarpį tolygiai krito. Tuo tarpu institucijų skaičius šiek tiek išaugęs krizės metu krito iki pradinio lygio per du metus. Ir išlaikė tokį patį iki iki 2017 metų pabaigos - 2018 metų pradžios kuomet krito beveik 40% dėl valstybinių įstaigų reorganizacijos. 
+\ \ \ Ekonominio reguliavimo įvertinimui buvo pasirinkti du dydžiai: užimtų vadovaujamų pareigybių valstybinėse institucijose skaičius ir valstybinių institucijų skaičius. Matome, jog užimtų pareigybių skaičius visą stebimą laikotarpį tolygiai krito. Tuo tarpu institucijų skaičius, šiek tiek išaugęs krizės metu, krito iki pradinio lygio per du metus ir išlaikė tokį patį iki 2017 metų pabaigos - 2018 metų pradžios, kuomet krito beveik 40% dėl valstybinių įstaigų reorganizacijos. 
 
 ```{r results = "asis", echo=FALSE}
 kable(all.variables.stat[all.variables.stat$variable %in% c('regulation_employees', 'regulation_institutions'),c(2,6,7,8,9,10,11,12)], 
@@ -340,7 +340,7 @@ ggplot(df, aes(x=date)) +
 
 ```
 
-\ \ \ Nors galėtume pasakyti jog visą stebimą laikotarpį vyrų ir moterų nedarbas gana stipriai koreliavo, tačiau pastebime ir tam tikrus skirtumus. Vyrų nedarbas krito smarkiau 2003 - 2004 metais. Tai galima susieti su emigrantų skaičiaus didėjimu Lietuvai prisijungus prie Europos Sąjungos. Didėjant emigrantų skaičiui mažėjo darbo jėga, todėl atitinkamai mažėjo ir nedarbas. Galime daryti išvadą, jog iš šalies emigravo darbo Lietuvoje neturintys asmenys, kurių tarpe didžiają dalį sudaro vyrai. Tiek moterų, tiek vyrų nedarbo lygis mažėjo iki 2008 metų galo - 2009 pradžios. Šis mažėjimas sietinas su gerėjančia ekonomine situacija šalyje. Tačiau prasidėjus pasaulinei finansų krizei nedarbo lygis išaugo drastiskai. Vyrų nedarbo lygis išaugo daugiau. Tikėtina dėl to, jog vyrai noriau rinkosi ir turėjo daugiau galimybių dirbti šešėlyje. Nuo 2010 metų moterų ir vyrų nedarbo lygiai tolygiai mažėja iki pat stebimo laikotarpio pabaigos (2017 metų galo), tačiau vyrų nedarbas išlieka aukštesniame lygyje nei moterų. 
+\ \ \ Nors galėtume pasakyti, jog visą stebimą laikotarpį vyrų ir moterų nedarbas gana stipriai koreliavo, tačiau pastebime ir tam tikrus skirtumus. Vyrų nedarbas krito smarkiau 2003 - 2004 metais. Tai galima susieti su emigrantų skaičiaus didėjimu Lietuvai prisijungus prie Europos Sąjungos. Didėjant emigrantų skaičiui mažėjo darbo jėga, todėl atitinkamai mažėjo ir nedarbas. Galime daryti išvadą, jog iš šalies emigravo darbo Lietuvoje neturintys asmenys, kurių tarpe didžiają dalį sudaro vyrai. Tiek moterų, tiek vyrų nedarbo lygis mažėjo iki 2008 metų galo - 2009 pradžios. Šis mažėjimas sietinas su gerėjančia ekonomine situacija šalyje. Tačiau prasidėjus pasaulinei finansų krizei nedarbo lygis išaugo drastiskai. Vyrų nedarbo lygis išaugo daugiau. Tikėtina dėl to, jog vyrai noriau rinkosi ir turėjo daugiau galimybių dirbti šešėlyje. Nuo 2010 metų moterų ir vyrų nedarbo lygiai tolygiai mažėja iki pat stebimo laikotarpio pabaigos (2017 metų galo), tačiau vyrų nedarbas išlieka aukštesniame lygyje nei moterų. 
 
 ```{r results = "asis", echo=FALSE}
 kable(all.variables.stat[all.variables.stat$variable %in% c('unemp_female', 'unemp_male'),c(2,6,7,8,9,10,11,12)], 
@@ -376,7 +376,7 @@ ggplot(df1, aes(date, value)) +
   theme(strip.background = element_blank())
 ```
 
-\ \ \ Šie duomenys pasirinkti tikintis, kad jie atspindės emigravusių piliečių pinigų perlaidas Lietuvoje likusiems giminaičiams. Vėliau sudarant modelį bus tikrinama ar šie duomenys turi statistiškai reikšmingos įtakos šešėlinės ekonomikos vertinimui. Perlaidų skaičiaus grafikas primena eksponentinio augimo kreivę. Toks augimas sietinas su ženkliai atpigusiais tarptautiniais pavedimais, sutrumpėjusia perlaidų trukme ir padidėjusia konkurencija tarp finansinių įmonių siūlančių tarptautinių pavedimų paslaugas. Tuo tarpu pervedimų vertė visą stebimą laikotarpį svyravo panašiai ir augimo trendo nerodė. Tiesa, duomenyse pastebimas laikinas smukimas 2009 - 2010 m., kuomet, tikėtina, jog užsienyje dirbantys tautiečiai taip pat susidūrė finansų tuo metu vykusia finansų krize. Įdomu tai, jog kritus pervedimų vertei, pervedimų skaičius išliko toks pat. Vadinasi pavedimai vyko mažesnėmis sumomis. Taip pat, pastebime kritimą ir valiutos keitimo metu. Šis kritimas galėtų būti sietinas su noru sutaupyti valiutos konversijos kaštus ir atlikti pavedimą jau kai Lietuvoje buvo įvestas euras.
+\ \ \ Šie duomenys pasirinkti tikintis, kad jie atspindės emigravusių piliečių pinigų perlaidas Lietuvoje likusiems giminaičiams. Vėliau sudarant modelį bus tikrinama ar šie duomenys turi statistiškai reikšmingos įtakos šešėlinės ekonomikos vertinimui. Perlaidų skaičiaus grafikas primena eksponentinio augimo kreivę. Toks augimas sietinas su ženkliai atpigusiais tarptautiniais pavedimais, sutrumpėjusia perlaidų trukme ir padidėjusia konkurencija tarp finansinių įmonių siūlančių tarptautinių pavedimų paslaugas. Tuo tarpu pervedimų vertė visą stebimą laikotarpį svyravo panašiai ir augimo trendo nerodė. Tiesa, duomenyse pastebimas laikinas smukimas 2009 - 2010 m., kuomet, tikėtina, jog užsienyje dirbantys tautiečiai taip pat susidūrė su tuo metu vykusia finansų krize. Įdomu tai, jog kritus pervedimų vertei, pervedimų skaičius išliko toks pat. Vadinasi pavedimai vyko mažesnėmis sumomis. Taip pat, pastebime kritimą ir valiutos keitimo metu. Šis kritimas galėtų būti sietinas su noru sutaupyti valiutos konversijos kaštus ir atlikti pavedimą jau kai Lietuvoje buvo įvestas euras.
 
 ```{r results = "asis", echo=FALSE}
 kable(all.variables.stat[all.variables.stat$variable %in% c('payments_in_number', 'payments_in_value'),c(2,6,7,8,9,10,11,12)], 
@@ -466,7 +466,7 @@ ggplot(df, aes(date, value)) +
   theme(strip.background = element_blank())
 ```
 
-\ \ \ Šie duomenys pasirinkti norint įvertinti ar šešėlinei ekonomikai kiek nors įtakos turi alkoholio suvartojimo kiekiai ir alkoholio kaina. Tikėtina, jog asmenys piknaudžiaujantys alkoholiu darbdaviams nėra patrauklūs, todėl yra priversti pajamų ieškoti šešėlyje. Iš kitos pusės - padidėjusi alkoholio kaina skatina turinčius sugebėjimų patiems pasigaminti alkoholinių gėrimų tuo užsiimti namuose. Per stebimą laikotarpį abiejų stebimųjų grafikai pakilo. Dėrėtų pastebėti, jog suvartojimo kiekis laikinai sumažėjo krizės metais. Tikėtina, kad žmonės pasirinko arba mažinti savo alkoholio suvartojimą, arba pradėti vartoti nelegaliai pagamintus gėrimus.
+\ \ \ Šie duomenys pasirinkti norint įvertinti ar šešėlinei ekonomikai kiek nors įtakos turi alkoholio suvartojimo kiekiai ir alkoholio kaina. Tikėtina, jog asmenys piknaudžiaujantys alkoholiu darbdaviams nėra patrauklūs, todėl yra priversti pajamų ieškoti šešėlyje. Iš kitos pusės - padidėjusi alkoholio kaina skatina turinčius sugebėjimų patiems pasigaminti alkoholinių gėrimų tuo užsiimti namuose. Per stebimą laikotarpį abiejų stebimųjų grafikai pakilo. Derėtų pastebėti, jog suvartojimo kiekis laikinai sumažėjo krizės metais. Tikėtina, kad žmonės pasirinko arba mažinti savo alkoholio suvartojimą, arba pradėti vartoti nelegaliai pagamintus gėrimus.
 
 ```{r results = "asis", echo=FALSE}
 kable(all.variables.stat[all.variables.stat$variable %in% c('alcohol_consumption', 'alcohol_price'),c(2,6,7,8,9,10,11,12)], 
@@ -493,7 +493,7 @@ ggplot(df, aes(x=date)) +
        color=NULL)
 ```
 
-\ \ \ Vėliau sudarydami modelį norėsime ištirti ar bankrutavusios įmonės tęsia savo veiklą šešėlyje. bankroto procesų skaičius augo visą stebimą laikotarpį. Tai yra naturalu, nes paprastėjant įmonių steigimo įstatymams padaugėjo steigiamų įmonių. Ir to pasekoje padidėjo ir bankrutavusių įmonių skaičius. Tačiau derėtų atkreipti dėmesį į šuolį 2010 m. kuomet daugiau įmonių pajuto krizės padarinius ir buvo priverstos bankrutuoti.
+\ \ \ Vėliau sudarydami modelį norėsime ištirti ar bankrutavusios įmonės tęsia savo veiklą šešėlyje. Bankroto procesų skaičius augo visą stebimą laikotarpį. Tai yra naturalu, nes paprastėjant įmonių steigimo įstatymams padaugėjo steigiamų įmonių. Ir to pasekoje padidėjo ir bankrutavusių įmonių skaičius. Tačiau derėtų atkreipti dėmesį į šuolį 2010 m. kuomet daugiau įmonių pajuto krizės padarinius ir buvo priverstos bankrutuoti.
 
 ```{r results = "asis", echo=FALSE}
 kable(all.variables.stat[all.variables.stat$variable %in% c('bankrupts'),c(2,6,7,8,9,10,11,12)], 
@@ -531,7 +531,7 @@ ggplot(df, aes(x=date)) +
                      values = c("credit_cards" = "#F8766D", "debit_cards" = "#00BFC4"))
 ```
 
-\ \ \ Tikėtina jog banko kortelių skaičius turi įtakos grynųjų pinigų vartojimui. Pasirinkome duomenis apie Lietuvoje išduotų debetinių ir kreditinių kortelių skaičių. Grafikuose matome piką finansinės krizės metu ir po to sekantį tolygų mažėjimą iki pat stebimo laikotarpio pabaigos. Tikėtina, jog kortelių skaičiaus mažėjimas siejamas su išaugusiais bankų įkainiais kortelėms.
+\ \ \ Tikėtina, jog banko kortelių skaičius turi įtakos grynųjų pinigų vartojimui. Pasirinkome duomenis apie Lietuvoje išduotų debetinių ir kreditinių kortelių skaičių. Grafikuose matome piką finansinės krizės metu ir po to sekantį tolygų mažėjimą iki pat stebimo laikotarpio pabaigos. Tikėtina, jog kortelių skaičiaus mažėjimas siejamas su išaugusiais bankų įkainiais kortelėms.
 
 ```{r results = "asis", echo=FALSE}
 kable(all.variables.stat[all.variables.stat$variable %in% c('credit_cards', 'debit_cards'),c(2,6,7,8,9,10,11,12)], 
@@ -590,7 +590,7 @@ ggplot(df, aes(x=date)) +
                      values = c("loan_value_EUR" = "#F8766D", "loan_value_LTL" = "#00BFC4"))
 ```
 
-\ \ \ Pastebime gana staigų didėjimą prieškriziniais metais. Ir paskui staigų šuolį žemyn prasidėjus krizei, kuomet buvo sugriežtinti paskolų išdavimo reikalavimai. Nuo to laikotarpio bendras paskolų lygis išliko toks pat, įvertinus tai jog nuo 2015 m. nebebuvo išduodamos paskolos litais dėl valiutos pasikeitimo, o anksčiau išduotos paskolos konvertuotos oficialiu valiutos keitimo kursu. Palūkanų normų grafike pastebime šuolį aukštyn krizės metu ir staigų laikiną šuolį paskolų eurais palūkano normose prieš įvedant eurą.
+\ \ \ Pastebime gana staigų didėjimą prieškriziniais metais. Ir paskui staigų šuolį žemyn prasidėjus krizei, kuomet buvo sugriežtinti paskolų išdavimo reikalavimai. Nuo to laikotarpio bendras paskolų lygis išliko toks pat, įvertinus tai, jog nuo 2015 m. nebebuvo išduodamos paskolos litais dėl valiutos pasikeitimo, o anksčiau išduotos paskolos konvertuotos oficialiu valiutos keitimo kursu. Palūkanų normų grafike pastebime šuolį aukštyn krizės metu ir staigų laikiną šuolį paskolų eurais palūkano normose prieš įvedant eurą.
 
 ```{r results = "asis", echo=FALSE}
 kable(all.variables.stat[all.variables.stat$variable %in% c('loan_value_EUR', 'loan_value_LTL'),c(2,6,7,8,9,10,11,12)], 
@@ -620,7 +620,7 @@ ggplot(df, aes(x=date)) +
                      values = c("loan_interest_EUR" = "#F8766D", "loan_interest_LTL" = "#00BFC4"))
 ```
 
-\ \ \ Čia tekstas po grafiku. Toliau seka lentelė su pagrindinėm statistikom.
+\
 
 ```{r results = "asis", echo=FALSE}
 kable(all.variables.stat[all.variables.stat$variable %in% c('loan_interest_EUR', 'loan_interest_LTL'),c(2,6,7,8,9,10,11,12)], 
@@ -654,7 +654,7 @@ ggplot(df, aes(x=date)) +
 
 \ \ \ Stebėdami kaip kito palūkanų normos indėliams tiek litais, tiek eurais matome gana staigų kilimą ikikriziniais metais (2005 - 2009 m.) ir po to sekusį staigų lūžį žemyn. Šį kritimą galima būtų aiškinti dviem būdais: pirmasis - stengiantis suvaldyti krizę buvo sugriežtinti reikalavimai paskolų išdavimui. To pasekoje finansų įstaigos išduodamos mažiau paskolų sumažino savo poreikį indėliams. Kitas būdas - palūkanų normos buvo sumažintos stengiantis paskatinti ir taip sulėtėjusį vartojimą[^economicshelp]. Palūkanų normos turėtų teigiamai koreliuoti su indėlių skaičiumi ir taip paveikti mūsų modeliuojamą grynųjų pinigų ir indėlių santykį.
 
-[^economicshelp]: Straipsnis portale economicshelp.org - „Effect of lower interest rates“
+[^economicshelp]: Straipsnis portale economicshelp.org - „Effect of lower interest rates“, 2016 m.
 
 ```{r results = "asis", echo=FALSE}
 kable(all.variables.stat[all.variables.stat$variable %in% c('deposit_interest_EUR', 'deposit_interest_LTL'),c(2,6,7,8,9,10,11,12)], 
@@ -736,7 +736,7 @@ ggplot(df, aes(date, value)) +
   theme(strip.background = element_blank())
 ```
 
-\ \ \ Stebint kelionių agentūrų bei išvykstančių turistų skaičių pirmiausiai pastebime, kad krizės metais turistų skaičius ženkliai sumažėjo, tačiau agentų skaičius išlaikė augimą. Tai galėtų sufleruoti apie galimą kelionių agentūrų krypčių keitimą iš užsienio į maršrutus po Lietuvą. Pasirinkome šiuos duomenis dėl galimos įtakos šešėlinei ekonomikai.
+\ \ \ Stebint kelionių agentūrų bei išvykstančių turistų skaičių pirmiausiai pastebime, kad krizės metais turistų skaičius ženkliai sumažėjo, tačiau agentūrų skaičius išlaikė augimą. Tai galėtų sufleruoti apie galimą kelionių agentūrų krypčių keitimą iš užsienio į maršrutus po Lietuvą. Pasirinkome šiuos duomenis dėl galimos įtakos šešėlinei ekonomikai.
 
 ```{r results = "asis", echo=FALSE}
 kable(all.variables.stat[all.variables.stat$variable %in% c('outgoing_tourists', 'travel_agencies'),c(2,6,7,8,9,10,11,12)], 
@@ -759,7 +759,7 @@ source('01_disaggregation.R')
   \item \textbf{Aukšto dažnumo.} Tai dažniau stebimi dydžiai - ketvirtiniai, mėnesiniai, savaitiniai, dieniniai. Dažniausiai tokių dydžių stebėjimas yra automatizuotas ir nereikalauja papildomų resursų jų apdirbimui ar interpretavimui.
 \end{enumerate}
 
-\ \ \ Norint suvienodinti turimų duomenų dažnumą būtina atsižvelgti į tai, ar norėsime keisti aukšto dažnumo duomenis į žemo (agreguoti) ar atvirkščiai (deagreguoti). Lengviau yra pakeisti aukšto dažnumo duomenis į žemo. T.y. iš turimų duomenų gauti mažesnį kiekį duomenų, kurie atspindėtų tą patį stebimą laikotarpį. Tam pakanka pasitelkti paprastas aritmetines operacijas ir ieškoti duomenų sumos arba jų vidutinės reikšmės. Tačiau kuomet norime žemo dažnumo duomenis paversti aukšto dažnumo duomenimis, pavyzdžiui metinius duomenis paversti į mėnesinius, turime pasitelkti sudėtingesnius metodus. Tokiu atveju iškyla sunkumų norint tinkamai įvertinti galimus duomenų svyravimus stebimu laikotarpiu. Straipsnyje @sax2013temporal pateikiama metodai, kurie padeda išspręsti šiuos iškilusius sunkumus. Tarp pateikiamų metodų yra šie:
+\ \ \ Norint suvienodinti turimų duomenų dažnumą būtina atsižvelgti į tai, ar norėsime keisti aukšto dažnumo duomenis į žemo (agreguoti) ar atvirkščiai (deagreguoti). Lengviau yra pakeisti aukšto dažnumo duomenis į žemo. T.y. iš turimų duomenų gauti mažesnį kiekį duomenų, kurie atspindėtų tą patį stebimą laikotarpį. Tam pakanka pasitelkti paprastas aritmetines operacijas ir ieškoti duomenų sumos arba jų vidutinės reikšmės. Tačiau kuomet norime žemo dažnumo duomenis paversti aukšto dažnumo duomenimis, pavyzdžiui metinius duomenis paversti į mėnesinius, turime pasitelkti sudėtingesnius metodus. Tokiu atveju iškyla sunkumų norint tinkamai įvertinti galimus duomenų svyravimus stebimu laikotarpiu. Straipsnyje @sax2013temporal pateikiami metodai, kurie padeda išspręsti šiuos iškilusius sunkumus. Tarp pateikiamų metodų yra šie:
 
 \begin{itemize}
   \item Chow-Lin (max. log)
@@ -772,7 +772,7 @@ source('01_disaggregation.R')
   \item Contemporaneous constraint
 \end{itemize}
 
-\ \ \ Kaip pažymi autoriai, visi šie deagregavimo metodai užtikrina jog deagreguoti duomenys atitiktų žemo dažnio duomenis kuriuo nors vienu iš šių būdų: suma, vidurkiu, pirma ar paskutine reikšmėmis. Derėtų paminėti jog šie būdai neišsprendžia situacijų kuomet aukštas dažnumas nėra reguliarus (pvz. mėnesinius duomenis keičiant į savaitinius).
+\ \ \ Kaip pažymi autoriai, visi šie deagregavimo metodai užtikrina, jog deagreguoti duomenys atitiktų žemo dažnio duomenis, kuriuo nors vienu iš šių būdų: suma, vidurkiu, pirma ar paskutine reikšmėmis. Derėtų paminėti, jog šie būdai neišsprendžia situacijų, kuomet aukštas dažnumas nėra reguliarus (pvz. mėnesinius duomenis keičiant į savaitinius).
 
 \ \ \ Norint praktiškai išbandyti duomenų deagregavimą, visus aukščiau išvardintus metodus galime rasti tų pačių autorių parengtame R pakete __tempdisagg__. Pagrindinė šio paketo funkcija _td()_ leidžia deagreguoti savo turimus duomenis į aukšto dažnumo duomenis. Funkcija su savo iš anksto numatytais argumentais R programoje atrodo štai taip: 
 
@@ -801,7 +801,9 @@ ggplot(all.variables.dates, aes(x = value, y = kintamasis, group = kintamasis)) 
    labs(x = 'Metai', y = 'Duomuo', color = "")
 ```
 
-\ \ \ Įvertinus tai, kad į pinigų paklausos modelį įtraukiami endogeniniai kintamieji yra mėnesiniai ir tai, kad mėnesinių duomenų turime daugiausiai buvo pasirinkta visus duomenis deagreguoti į menesinius. Į deagregavimo lygtį įtraukiame tokius mėnesinius kintamuosius: grynuosius pinigus, indėlius, VKI, VKI alkoholiui, emigrantų skaičių, mažmeninės prekybos apimtį ir nedarbo lygį. Ir deagregavimui pasirenkame _litterman-maxlog_ metodą. Mūsų deagregavimo lygtis R programoje atrodys taip:
+\ \ \ Įvertinus tai, kad į pinigų paklausos modelį įtraukiami endogeniniai kintamieji yra mėnesiniai ir tai, kad mėnesinių duomenų turime daugiausiai, buvo pasirinkta visus duomenis deagreguoti į menesinius. Į deagregavimo lygtį įtraukiame tokius mėnesinius kintamuosius: grynuosius pinigus, indėlius, VKI[^vki], VKI alkoholiui, emigrantų skaičių, mažmeninės prekybos apimtį ir nedarbo lygį. Ir deagregavimui pasirenkame _litterman-maxlog_ metodą. Mūsų deagregavimo lygtis R programoje atrodys taip:
+
+[^vki]: VKI - Vartotojų kainų indeksas.
 
 ```{r eval=FALSE}
 regressors <- c("cash.m", "deposits.m", "cpi_alcohol.m", 
@@ -889,7 +891,7 @@ plot.cor(lowest.cor.spearman, plot.title = "Mažiausiai tarpsusavyje koreliuojan
 grid.arrange(plot1, plot2, plot3, plot4, ncol=2, nrow=2)
 ```
 
-\ \ \ Vien žiūrėdami į šiais sklaidos diagramas negalėtume teigti, kad stebima tikrai koreliuotus dydžius.
+\ \ \ Vien žiūrėdami į šias sklaidos diagramas negalėtume teigti, kad stebima tikrai koreliuotus dydžius.
 
 
 \ \ \ Patikriname ar tarp šių dydžių koreliacijos statistiškai reikšmingos. Randame, jog trys kintamieji nėra statistiškai reikšmingai koreliuojantys. Šiuos kintamuosius vėliau išmesime iš sudaromo modelio.
@@ -900,7 +902,7 @@ kable(test.all.cor,
   kable_styling(position = "center", latex_options = c("hold_position"))
 ```
 
-\ \ \ Dar kartą ižbrėžiame korelogramą, kuri padėtų labiau įverti dydžius, su kuriais mūsų modeliuojamas santykis koreliuoja labiausiai. 
+\ \ \ Dar kartą išbrėžiame kiek kitokią korelogramą, kuri padėtų aiškiau įverti dydžius, su kuriais mūsų modeliuojamas santykis koreliuoja labiausiai. Tam panaudojame R pakete __ggcorrplot__ esančią funkciją _ggcorrplot()_.
 
 ```{r fig.width=10, fig.height=8, echo=FALSE, include=TRUE, dev='cairo_pdf'}
 ggcorrplot(corr, hc.order = TRUE, 
@@ -932,13 +934,13 @@ source('01_model.R')
 
 \
 
-\ \ \ Sudarydami modelį įtrauksime kintamuosius kurie yra intergruoti nuline eile ir kintamųjų intergruotų pirma eile pirmos eilės skirtumus.
+\ \ \ Sudarydami modelį įtrauksime kintamuosius, kurie yra intergruoti nuline eile ir kintamųjų intergruotų pirma eile pirmos eilės skirtumus.
 
 \
 
 Pirmasis modelis[^nulls]:
 
-[^nulls]: Pažymėtina, kad lentelėje pateikti koeicientai 0.00000 nenurodo, kad koeficientas nulinis. Tai parodo, kad reikšmė labai maža, todėl nebuvo atvaizduota lentelėje. 
+[^nulls]: Pažymėtina, kad atvejais, kai lentelėje pateikti koeficientai yra 0.00000 nenurodo, kad koeficientas nulinis. Tai parodo, kad reikšmė labai maža, todėl nebuvo atvaizduota lentelėje. 
 
 \
 
@@ -965,11 +967,11 @@ stargazer(fit1, title="Pirmasis modelis", align=TRUE, single.row = TRUE, column.
 
 \
 
-\ \ \ Tačiau prieš priimdami geriausia modelį turime patikrinti ar yra taikomos regresijos modelio prielaidos ir patikrinti dispersijos mažėjimo daugiklį[^VIF] (toliau VIF) [@vcekanavivcius2011taikomoji]. Kadangi į savo lygtį įtraukėmė daug kintamųjų, šis daugiklis padės mums patikrinti, ar regresoriai nėra stipriai tarpusavyje koreliuojantys (galima multikolinearumo problema). 
+\ \ \ Tačiau prieš priimdami geriausią modelį turime patikrinti ar yra taikomos regresijos modelio prielaidos ir patikrinti dispersijos mažėjimo daugiklį[^VIF] (toliau VIF) [@vcekanavivcius2011taikomoji]. Kadangi į savo lygtį įtraukėmė daug kintamųjų, šis daugiklis padės mums patikrinti, ar regresoriai nėra stipriai tarpusavyje koreliuojantys (galima multikolinearumo problema). 
 
 \
 
-\ \ \ Patikrinę VIF visiems kintamiesiems matome, kad daugumos jų daugiklis viršiją rekomenduotiną reikšmę 4. Pažingsniui pašaliname po vieną kintamąjį ir perskaičiuojame VIF. Tęsiame šį ciklą, kol tarp kintamųjų neliks nei vieno, kuris turėtų VIF reikšmę didesnę už 4. Ir su likusiais kintamaisiais sudarome antrąjį modelį:
+\ \ \ Patikrinę VIF visiems kintamiesiems matome, kad daugumos jų daugiklis viršija rekomenduotiną reikšmę 4. Pažingsniui pašaliname po vieną kintamąjį ir perskaičiuojame VIF. Tęsiame šį ciklą, kol tarp kintamųjų neliks nei vieno, kuris turėtų VIF reikšmę didesnę už 4. Ir su likusiais kintamaisiais sudarome antrąjį modelį:
 
 [^VIF]: Angl. variance inflation factor.
 
@@ -1033,7 +1035,7 @@ ggplot(df, aes(x=date)) +
   theme(legend.text=element_text(size=11))
 ```
 
-\ \ \ Grafike matome, jog optimistiškiausiai šešėlinės ekonomikos mastą Lietuvoje įvertino F. Schneider - vidutinė reikšmė stebimu laikotarpiu yra 14,21 %. Tuo tarpu LLRI mano, kad šešėlinės ekonomikos mastas kiek didesnis - vidutinė reikšmė 23,45 %. Didžiausią BVP dalį šešėlinei ekonomikai priskyrė Lietuvos statistikos departamentas - vidutinė reiškmė stebimu laikotarpiu 28,92 %. Mūsų atveju skaičiuodami grynųjų pinigų ir indėlių santykį, gavome jog šešėlinės ekonomikas mastas yra vidutiniskai 25,42 % nuo bendrojo vidaus produkto. Derėtų pastebėti, jog šį vertinimą šiek tiek iškreipia struktūrinis lūžis grynųjų pinigų esančių apyvartoje kiekyje kuomet valiuta keitėsi iš litų į eurus. Todėl matome šuolį aukštyn ties 2015 m.
+\ \ \ Grafike matome, jog optimistiškiausiai šešėlinės ekonomikos mastą Lietuvoje įvertino F. Schneider - vidutinė reikšmė stebimu laikotarpiu yra 14,21 %. Tuo tarpu LLRI mano, kad šešėlinės ekonomikos mastas kiek didesnis - vidutinė reikšmė 23,45 %. Didžiausią BVP dalį šešėlinei ekonomikai priskyrė Lietuvos statistikos departamentas - vidutinė reiškmė stebimu laikotarpiu 28,92 %. Mūsų atveju skaičiuodami grynųjų pinigų ir indėlių santykį, gavome, jog šešėlinės ekonomikas mastas yra vidutiniskai 25,42 % nuo bendrojo vidaus produkto. Derėtų pastebėti, jog šį vertinimą šiek tiek iškreipia struktūrinis lūžis grynųjų pinigų esančių apyvartoje kiekyje kuomet valiuta keitėsi iš litų į eurus. Todėl matome šuolį aukštyn ties 2015 m.
 
 \
 
